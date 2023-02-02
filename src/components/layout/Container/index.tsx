@@ -6,8 +6,8 @@ interface IProps {
   children: React.ReactNode | React.ReactNode[]
 }
 
-export const RootLayout: FC<IProps> = ({ children }): JSX.Element => {
+export const Container: FC<IProps> = ({ children }): JSX.Element => {
   const classes = useStyles()
 
-  return <div className={classes.rootLayout}>{children}</div>
+  return <div className={classes.container}>{children}</div>
 }
