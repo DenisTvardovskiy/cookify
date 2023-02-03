@@ -1,5 +1,5 @@
 import { createUseStyles } from 'react-jss'
-import { theme } from '../../../theme'
+import { theme } from '../../theme'
 
 export default createUseStyles(() => ({
   container: {
