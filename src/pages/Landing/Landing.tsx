@@ -1,11 +1,9 @@
 import React, { FC } from 'react'
-
-import { Container, Footer, RecipesList, Navigation } from '../../components'
-
-import useStyles from './styles'
-import { useGlobalElements } from '../../theme/globalElements'
 import { Sort } from '@mui/icons-material'
 import { Button } from '@mui/material'
+
+import { Container, Footer, RecipesList, Navigation } from '../../components'
+import useStyles from './styles'
 
 interface IProps {}
 
