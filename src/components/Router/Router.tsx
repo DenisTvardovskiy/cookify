@@ -6,7 +6,7 @@ import * as Page from '../../pages';
 interface IProps {}
 
 const PageProfileWithCheckAuthorization = withCheckAuthorization(Page.Profile);
-const PageMainWithCheckAuthorization = withCheckAuthorization(Page.Home);
+const PageMainWithCheckAuthorization = withCheckAuthorization(Page.Account);
 
 export const Router: FC<IProps> = (props: IProps): JSX.Element => {
   return (

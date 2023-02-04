@@ -1,4 +1,4 @@
-import { createUseStyles } from 'react-jss'
+import { createUseStyles } from 'react-jss';
 
 export default createUseStyles(() => ({
   authLayout: {
@@ -6,4 +6,4 @@ export default createUseStyles(() => ({
     display: 'flex',
     flexWrap: 'wrap',
   },
-}))
+}));

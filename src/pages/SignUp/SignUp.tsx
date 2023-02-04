@@ -1,12 +1,11 @@
 import React, { FC } from 'react';
-import { Link } from 'react-router-dom';
 import { FormikProvider, useFormik } from 'formik';
 import { Button, TextField } from '@mui/material';
 import * as Yup from 'yup';
 
-import { ImageContainer, Logo } from '../../components';
+import { ImageContainer, Logo, AuthorizedMessage } from '../../components';
 import { useApi, useAuthorization } from '../../hooks';
-import { AuthLayout } from '../../layouts';
+import { AuthLayout, ServerResponseLayout } from '../../layouts';
 import useStyles from './styles';
 
 interface IProps {}
@@ -90,14 +89,13 @@ export const SignUp: FC<IProps> = (props: IProps): JSX.Element => {
       </div>
       <div className={classes.authWrap}>
         <ImageContainer>
-          <img src='images/auth1.jpg' alt='Cookify' />
+          <img src='images/auth2.jpg' alt='Cookify' />
         </ImageContainer>
       </div>
     </AuthLayout>
   ) : (
-    <AuthLayout>
-      <h1>You are authorized</h1>
-      <Link to='/home'>Go Home</Link>
-    </AuthLayout>
+    <ServerResponseLayout>
+      <AuthorizedMessage />
+    </ServerResponseLayout>
   );
 };

@@ -6,6 +6,7 @@ import { Footer } from './Footer';
 import { ImageContainer } from './ImageContainer';
 import { Root } from './Root';
 import { Router } from './Router';
+import { AuthorizedMessage } from './AuthorizedMessage';
 import { Logo } from './Logo';
 
 export type { ILoaderContext };
@@ -19,6 +20,7 @@ export {
   Footer,
   Logo,
   LoaderContext,
+  AuthorizedMessage,
   Root,
   Router,
 };
