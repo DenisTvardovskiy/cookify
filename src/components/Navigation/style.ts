@@ -1,5 +1,5 @@
-import { createUseStyles } from 'react-jss'
-import { theme } from '../../theme'
+import { createUseStyles } from 'react-jss';
+import { theme } from '../../theme';
 
 export default createUseStyles(() => ({
   navigation: {
@@ -41,7 +41,6 @@ export default createUseStyles(() => ({
       width: '100%',
       height: 'auto',
       padding: 0,
-      border: '1px solid red',
     },
   },
-}))
+}));
