@@ -53,14 +53,12 @@ export const Navigation: FC = (props: IProps): JSX.Element => {
               />
             )}
           />
-          <div className={globalElements.primaryButton}>
+          <Button variant='outlined'>
             <Sort /> Ingredients
-          </div>
+          </Button>
         </div>
 
-        <a href='#' className={globalElements.primaryButton}>
-          Sign up
-        </a>
+        <Button variant='outlined'>Sign up</Button>
       </nav>
     </Container>
   )
