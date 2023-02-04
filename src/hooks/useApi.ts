@@ -1,5 +1,5 @@
 import { useMemo } from "react";
-import { ResponseHeaders, useHTTP } from "./useHTTP";
+import { useHTTP } from "./useHTTP";
 import { useAuthorization } from "./useAuthorization";
 import { AxiosRequestHeaders } from "axios";
 import { ICategory } from "../models";
@@ -59,23 +59,23 @@ interface IApiMealCategoriesInfoListConfig extends IApiConfig {
 
 export interface IUseApi {
   authorization: {
-    signUp: (config: IApiAuthorizationSignUpConfig) => Promise<{ data: void; headers: ResponseHeaders; }>;
+    signUp: (config: IApiAuthorizationSignUpConfig) => Promise<void>;
     signIn: (config: IApiAuthorizationSignInConfig) => Promise<{ accessToken: string, jsonWebToken: string }>;
-    signOut: (config: IApiAuthorizationSignOutConfig) => Promise<{ data: void; headers: ResponseHeaders; }>;
+    signOut: (config: IApiAuthorizationSignOutConfig) => Promise<void>;
   };
   account: {
     avatar: {
-      get: (config: IApiAccountAvatarGetConfig) => Promise<{ data: void; headers: ResponseHeaders; }>;
-      update: (config: IApiAccountAvatarUpdateConfig) => Promise<{ data: void; headers: ResponseHeaders; }>;
-      delete: (config: IApiAccountAvatarDeleteConfig) => Promise<{ data: void; headers: ResponseHeaders; }>;
+      get: (config: IApiAccountAvatarGetConfig) => Promise<void>;
+      update: (config: IApiAccountAvatarUpdateConfig) => Promise<void>;
+      delete: (config: IApiAccountAvatarDeleteConfig) => Promise<void>;
     };
   };
   meal: {
     categories: {
-      one: (config: IApiMealCategoriesOneConfig) => Promise<{ data: ICategory; headers: ResponseHeaders; }>;
-      info: (config: IApiMealCategoriesInfoConfig) => Promise<{ data: { id: string, name: string, imageLink: string }; headers: ResponseHeaders; }>;
-      paginatedList: (config: IApiMealCategoriesInfoPaginatedListConfig) => Promise<{ data: { totalCount: number, count: number, items: { id: string, name: string, imageLink: string }[] }; headers: ResponseHeaders; }>;
-      list: (config: IApiMealCategoriesInfoListConfig) => Promise<{ data: { id: string, name: string, imageLink: string }[]; headers: ResponseHeaders; }>;
+      one: (config: IApiMealCategoriesOneConfig) => Promise<ICategory>;
+      info: (config: IApiMealCategoriesInfoConfig) => Promise<{ id: string, name: string, imageLink: string }>;
+      paginatedList: (config: IApiMealCategoriesInfoPaginatedListConfig) => Promise<{ totalCount: number, count: number, items: { id: string, name: string, imageLink: string }[] }>;
+      list: (config: IApiMealCategoriesInfoListConfig) => Promise<{ id: string, name: string, imageLink: string }[]>;
     }
   };
 }
@@ -129,7 +129,7 @@ export const useApi: TUseApi = (): IUseApi => {
             loader: !!loader ? loader : "Processing sign in...",
             debug,
           })
-            .then(({ data }) => resolve(data))
+            .then(resolve)
             .catch(reject);
         });
       },

@@ -4,7 +4,7 @@ import * as Yup from "yup";
 
 import { useApi } from "../../hooks";
 import { AuthLayout } from "../../layouts";
-import { TextField } from "@mui/material";
+import { Button, TextField } from "@mui/material";
 
 interface IProps {}
 
@@ -27,7 +27,7 @@ export const SignIn: FC<IProps> = (props: IProps): JSX.Element => {
   return (
     <AuthLayout>
       <FormikProvider value={formik}>
-        <form onSubmit={handleSubmit}>
+        <form noValidate onSubmit={handleSubmit}>
           <div>
             <TextField
               error={!!errors.username}
@@ -52,9 +52,9 @@ export const SignIn: FC<IProps> = (props: IProps): JSX.Element => {
               helperText={errors.password}
             />
           </div>
-          <button type="submit" disabled={!isValid}>
+          <Button variant="outlined" type="submit" disabled={!isValid}>
             log in
-          </button>
+          </Button>
         </form>
       </FormikProvider>
     </AuthLayout>

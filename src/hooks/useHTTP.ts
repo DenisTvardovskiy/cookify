@@ -11,7 +11,7 @@ export type ResponseHeaders =
   AxiosResponseHeaders
   | Partial<Record<string, string> & { "set-cookie"?: string[] | undefined; }>
 
-type TRequest = <T>(config: IRequestConfig) => Promise<{ data: T, headers: ResponseHeaders }>;
+type TRequest = <T>(config: IRequestConfig) => Promise<T>;
 
 interface IUseHTTP {
   request: TRequest;
@@ -66,8 +66,8 @@ const log: (config: IRequestConfig, result: any) => void = (config: IRequestConf
 export const useHTTP: TUseHTTP = (): IUseHTTP => {
   const loader = useLoader();
 
-  const request: TRequest = <T>(config: IRequestConfig): Promise<{ data: T, headers: ResponseHeaders }> => {
-    return new Promise<{ data: T, headers: ResponseHeaders }>((resolve, reject) => {
+  const request: TRequest = <T>(config: IRequestConfig): Promise<T> => {
+    return new Promise<T>((resolve, reject) => {
       const { loader: _loader, debug: _debug, ...axiosConfig } = config;
 
       let task: ILoaderTask;
@@ -90,8 +90,7 @@ export const useHTTP: TUseHTTP = (): IUseHTTP => {
             log(axiosConfig, response);
           }
 
-          // @ts-ignore
-          resolve({ data: response.data, headers: response.headers });
+          resolve(response.data);
         })
         .catch((error) => {
           if (!!_loader) {
