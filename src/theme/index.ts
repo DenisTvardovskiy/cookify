@@ -28,7 +28,8 @@ export const theme = {
   colors: {
     primary: {
       main: 'rgba(25,25,25, 1)',
-      opacity: 'rgba(25,25,25, 1)',
+      opacity: 'rgba(25,25,25, 0.8)',
+      minOpacity: 'rgba(25,25,25, 0.3)',
     },
     secondary: {
       main: 'rgba(243,243,243, 1)',
@@ -54,7 +55,8 @@ export const theme = {
   },
 
   margin: {
-    small: 5,
+    xSmall: 5,
+    small: 10,
     default: 20,
     medium: 40,
   },

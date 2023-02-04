@@ -7,14 +7,14 @@ export default createUseStyles(() => ({
     border: '1px solid red',
     alignItems: 'center',
     display: 'flex',
+    justifyContent: 'space-between',
   },
 
   openMenu: {
     display: 'flex',
     flexDirection: 'column',
-    gap: theme.margin.small,
+    gap: theme.margin.xSmall,
     cursor: 'pointer',
-    marginRight: theme.margin.small,
 
     '& span': {
       width: 30,
@@ -28,15 +28,18 @@ export default createUseStyles(() => ({
   logo: {
     display: 'flex',
     alignItems: 'center',
+    margin: [0, theme.margin.small],
 
     '& img': {
       width: 60,
+      margin: [0, theme.margin.small],
     },
   },
 
   searchBar: {
-    border: `1px solid ${theme.colors.secondary.main}`,
+    border: `1px solid ${theme.colors.primary.minOpacity}`,
     height: 45,
     borderRadius: theme.shape.radius,
+    padding: [0, 15],
   },
 }))

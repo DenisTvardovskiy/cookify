@@ -5,18 +5,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="d126c699-4d5e-4da4-b1fb-09a7da2c3bb3" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/components/Navigation/Navigation.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/components/Navigation/index.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/components/Navigation/style.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/Container/Container.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Container/Container.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/components/Container/styles.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Container/styles.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/Loader/Loader.module.scss" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/index.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/index.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/index.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/Landing/Landing.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/Landing/Landing.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Navigation/Navigation.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Navigation/Navigation.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Navigation/style.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Navigation/style.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/theme/index.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/theme/index.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
