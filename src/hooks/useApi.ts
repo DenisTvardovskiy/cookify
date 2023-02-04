@@ -60,7 +60,7 @@ interface IApiMealCategoriesInfoListConfig extends IApiConfig {
 export interface IUseApi {
   authorization: {
     signUp: (config: IApiAuthorizationSignUpConfig) => Promise<void>;
-    signIn: (config: IApiAuthorizationSignInConfig) => Promise<{ accessToken: string, jsonWebToken: string }>;
+    signIn: (config: IApiAuthorizationSignInConfig) => Promise<{ refreshToken: string, jsonWebToken: string }>;
     signOut: (config: IApiAuthorizationSignOutConfig) => Promise<void>;
   };
   account: {
@@ -84,20 +84,20 @@ type TUseApi = () => IUseApi;
 
 export const useApi: TUseApi = (): IUseApi => {
   const http = useHTTP();
-  const { isAuthorized, accessToken, tokenType } = useAuthorization();
+  const { isAuthorized, jsonWebToken } = useAuthorization();
 
   const headers: AxiosRequestHeaders = useMemo<AxiosRequestHeaders>(() => {
     const _headers: any = {};
 
     if (isAuthorized) {
-      _headers["Authorization"] = `${tokenType} ${accessToken}`;
+      _headers["Authorization"] = `Bearer ${jsonWebToken}`;
     }
 
     _headers["Access-Control-Allow-Origin"] = "*";
     _headers["Content-Type"] = "application/json";
 
     return _headers;
-  }, [ isAuthorized, accessToken, tokenType ]);
+  }, [ isAuthorized, jsonWebToken ]);
 
   return {
     authorization: {
@@ -114,18 +114,13 @@ export const useApi: TUseApi = (): IUseApi => {
             .catch(reject);
         });
       },
-      signIn: ({ loader, debug, password, username }) => {
+      signIn: ({ loader, debug, username, password }) => {
         return new Promise((resolve, reject) => {
-          const formData = new FormData();
-
-          formData.append("username", username);
-          formData.append("password", password);
-
-          http.request<{ accessToken: string, jsonWebToken: string }>({
+          http.request<{ refreshToken: string, jsonWebToken: string }>({
             method: "POST",
             url: `${API_URL}/users/authentication`,
-            headers: { "Content-Type": "multipart/form-data" },
-            data: formData,
+            headers,
+            data: { username, password },
             loader: !!loader ? loader : "Processing sign in...",
             debug,
           })
