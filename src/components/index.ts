@@ -6,6 +6,7 @@ import { Footer } from './Footer'
 import { ImageContainer } from './ImageContainer'
 import { Root } from './Root'
 import { Router } from './Router'
+import { Logo } from './Logo'
 
 export type { ILoaderContext }
 
@@ -16,6 +17,7 @@ export {
   ImageContainer,
   RecipesList,
   Footer,
+  Logo,
   LoaderContext,
   Root,
   Router,
