@@ -1,5 +1,5 @@
-import { createUseStyles } from 'react-jss'
-import { theme } from './index'
+import { createUseStyles } from 'react-jss';
+import { theme } from './index';
 
 export const useGlobalStyles = createUseStyles({
   '@global': {
@@ -60,4 +60,4 @@ export const useGlobalStyles = createUseStyles({
       },
     },
   },
-})
+});

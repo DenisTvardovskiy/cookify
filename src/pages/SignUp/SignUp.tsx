@@ -13,16 +13,18 @@ interface IProps {}
 
 const validationSchema = Yup.object().shape({
   username: Yup.string().required('Username is required!'),
-  password: Yup.string().required('Password is required!'),
+  email: Yup.string().required('Email is required!'),
+  retypePassword: Yup.string().required('Passwords are not the same!'),
+  password: Yup.string().required('Passwords are not the same!'),
 });
 
-export const SignIn: FC<IProps> = (props: IProps): JSX.Element => {
+export const SignUp: FC<IProps> = (props: IProps): JSX.Element => {
   const api = useApi();
   const { isAuthorized, setAuthorization } = useAuthorization();
   const classes = useStyles();
 
   const formik = useFormik({
-    initialValues: { username: '', password: '' },
+    initialValues: { username: '', password: '', retypePassword: '', email: '' },
     validationSchema,
     onSubmit: (values) =>
       api.authorization
@@ -34,11 +36,6 @@ export const SignIn: FC<IProps> = (props: IProps): JSX.Element => {
 
   return !isAuthorized ? (
     <AuthLayout>
-      <div className={classes.authWrap}>
-        <ImageContainer>
-          <img src='images/auth1.jpg' alt='Cookify' />
-        </ImageContainer>
-      </div>
       <div className={classes.authWrap}>
         <Logo vertical />
         <div className={classes.formWrapper}>
@@ -55,6 +52,16 @@ export const SignIn: FC<IProps> = (props: IProps): JSX.Element => {
                 helperText={errors.username}
               />
               <TextField
+                error={!!errors.email}
+                name='email'
+                id='email'
+                required
+                placeholder='Email'
+                value={values.email}
+                onChange={handleChange}
+                helperText={errors.email}
+              />
+              <TextField
                 error={!!errors.password}
                 name='password'
                 id='password'
@@ -64,12 +71,27 @@ export const SignIn: FC<IProps> = (props: IProps): JSX.Element => {
                 onChange={handleChange}
                 helperText={errors.password}
               />
+              <TextField
+                error={!!errors.password}
+                name='retypePassword'
+                id='retypePassword'
+                required
+                placeholder='Retype password'
+                value={values.retypePassword}
+                onChange={handleChange}
+                helperText={errors.retypePassword}
+              />
               <Button variant='outlined' type='submit' disabled={!isValid}>
-                log in
+                Sign up
               </Button>
             </form>
           </FormikProvider>
         </div>
+      </div>
+      <div className={classes.authWrap}>
+        <ImageContainer>
+          <img src='images/auth1.jpg' alt='Cookify' />
+        </ImageContainer>
       </div>
     </AuthLayout>
   ) : (

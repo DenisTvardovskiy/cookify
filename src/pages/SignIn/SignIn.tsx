@@ -1,25 +1,25 @@
-import React, { FC } from 'react'
-import { Link } from 'react-router-dom'
-import { FormikProvider, useFormik } from 'formik'
-import { Button, TextField } from '@mui/material'
-import * as Yup from 'yup'
+import React, { FC } from 'react';
+import { Link } from 'react-router-dom';
+import { FormikProvider, useFormik } from 'formik';
+import { Button, TextField } from '@mui/material';
+import * as Yup from 'yup';
 
-import { ImageContainer, Logo } from '../../components'
-import { useApi, useAuthorization } from '../../hooks'
-import { AuthLayout } from '../../layouts'
-import useStyles from './styles'
+import { ImageContainer, Logo } from '../../components';
+import { useApi, useAuthorization } from '../../hooks';
+import { AuthLayout } from '../../layouts';
+import useStyles from './styles';
 
 interface IProps {}
 
 const validationSchema = Yup.object().shape({
   username: Yup.string().required('Username is required!'),
   password: Yup.string().required('Password is required!'),
-})
+});
 
 export const SignIn: FC<IProps> = (props: IProps): JSX.Element => {
-  const api = useApi()
-  const { isAuthorized, setAuthorization } = useAuthorization()
-  const classes = useStyles()
+  const api = useApi();
+  const { isAuthorized, setAuthorization } = useAuthorization();
+  const classes = useStyles();
 
   const formik = useFormik({
     initialValues: { username: '', password: '' },
@@ -28,9 +28,9 @@ export const SignIn: FC<IProps> = (props: IProps): JSX.Element => {
       api.authorization
         .signIn({ ...values })
         .then(({ refreshToken, jsonWebToken }) => setAuthorization(jsonWebToken, refreshToken)),
-  })
+  });
 
-  const { values, handleChange, handleSubmit, isValid, errors } = formik
+  const { values, handleChange, handleSubmit, isValid, errors } = formik;
 
   return !isAuthorized ? (
     <AuthLayout>
@@ -77,5 +77,5 @@ export const SignIn: FC<IProps> = (props: IProps): JSX.Element => {
       <h1>You are authorized</h1>
       <Link to='/home'>Go Home</Link>
     </AuthLayout>
-  )
-}
+  );
+};
