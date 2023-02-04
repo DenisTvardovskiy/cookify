@@ -1,19 +1,31 @@
 import React, { FC } from 'react'
-import { Container, Navigation } from '../../components'
-import { useLoader } from '../../hooks'
-import { RootLayout } from '../../layouts'
+
+import { Container, Footer, RecipesList, Navigation } from '../../components'
+
+import useStyles from './styles'
+import { useGlobalElements } from '../../theme/globalElements'
+import { Sort } from '@mui/icons-material'
 
 interface IProps {}
 
 export const Landing: FC<IProps> = (props: IProps): JSX.Element => {
+  const classes = useStyles()
+  const globalElements = useGlobalElements()
+
   return (
-    <RootLayout>
+    <>
       <Navigation />
       <Container>
-        <div>
-          <h1>Hello</h1>
+        <div className={classes.filterWrap}>
+          <h2>Last recipes</h2>
+          <div className={globalElements.primaryButton}>
+            <Sort />
+            Filter
+          </div>
         </div>
       </Container>
-    </RootLayout>
+      <RecipesList />
+      <Footer />
+    </>
   )
 }

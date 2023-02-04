@@ -4,10 +4,15 @@ import { theme } from '../../theme'
 export default createUseStyles(() => ({
   navigation: {
     width: '100%',
-    border: '1px solid red',
     alignItems: 'center',
     display: 'flex',
     justifyContent: 'space-between',
+  },
+
+  navWrapper: {
+    alignItems: 'center',
+    display: 'flex',
+    gap: theme.margin.small,
   },
 
   openMenu: {
@@ -18,28 +23,25 @@ export default createUseStyles(() => ({
 
     '& span': {
       width: 30,
-      height: 2,
+      height: 3,
       display: 'block',
       backgroundColor: theme.colors.primary.main,
-      borderRadius: 1,
-    },
-  },
-
-  logo: {
-    display: 'flex',
-    alignItems: 'center',
-    margin: [0, theme.margin.small],
-
-    '& img': {
-      width: 60,
-      margin: [0, theme.margin.small],
+      borderRadius: 2,
     },
   },
 
   searchBar: {
-    border: `1px solid ${theme.colors.primary.minOpacity}`,
-    height: 45,
+    width: 300,
+    height: 'auto',
     borderRadius: theme.shape.radius,
-    padding: [0, 15],
+    padding: theme.margin.small,
+    border: `1px solid ${theme.colors.primary.minOpacity}`,
+
+    '& .MuiInputBase-input': {
+      width: '100%',
+      height: 'auto',
+      padding: 0,
+      border: '1px solid red',
+    },
   },
 }))

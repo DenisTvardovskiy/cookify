@@ -11,6 +11,7 @@ export const theme = {
         h5: 24,
         h6: 18,
         paragraph: 18,
+        small: 12,
       },
     },
 
@@ -32,13 +33,19 @@ export const theme = {
       minOpacity: 'rgba(25,25,25, 0.3)',
     },
     secondary: {
-      main: 'rgba(243,243,243, 1)',
+      main: 'rgba(250,250,250, 1)',
+    },
+    light: {
+      main: 'rgba(243, 243, 243, 1)',
     },
     white: {
       main: 'white',
     },
     blue: {
       main: 'rgba(73,159,244, 1)',
+    },
+    yellow: {
+      main: 'rgba(242, 205, 92, 1)',
     },
   },
 
@@ -55,6 +62,7 @@ export const theme = {
   },
 
   margin: {
+    xxSmall: 2,
     xSmall: 5,
     small: 10,
     default: 20,
