@@ -4,7 +4,10 @@ import { theme } from '../../theme'
 export default createUseStyles(() => ({
   container: {
     width: '100%',
-    border: '1px solid red',
-    padding: theme.padding.default,
+    padding: [theme.padding.small, theme.padding.xLarge],
+  },
+
+  whiteStyle: {
+    backgroundColor: theme.colors.white.main,
   },
 }))
