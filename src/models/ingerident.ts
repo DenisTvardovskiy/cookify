@@ -1,5 +1,6 @@
-export interface ICategory {
+export interface IIngredient {
   id: string;
+  createdBy: string;
   createdAt: Date;
   name: string;
   ukrainianName: string;
