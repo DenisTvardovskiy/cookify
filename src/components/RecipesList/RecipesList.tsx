@@ -2,8 +2,9 @@ import React, { FC } from 'react'
 import Timelapse from '@mui/icons-material/Timelapse'
 import Star from '@mui/icons-material/Star'
 
-import useStyles from './styles'
+import { ImageContainer } from '../ImageContainer'
 import { Container } from '../Container'
+import useStyles from './styles'
 
 interface IProps {}
 
@@ -34,12 +35,14 @@ export const RecipesList: FC<IProps> = (props: IProps): JSX.Element => {
       <div className={classes.itemList}>
         {mock.map((item) => (
           <div className={classes.item}>
-            <div className={classes.imageContainer}>
-              {item.imageLink ? (
-                <img src={item.imageLink} alt={item.name} />
-              ) : (
-                <img src='images/placeholder.png' alt={item.name} />
-              )}
+            <div className={classes.imageWrap}>
+              <ImageContainer hoverAnimation>
+                {item.imageLink ? (
+                  <img src={item.imageLink} alt={item.name} />
+                ) : (
+                  <img src='images/placeholder.png' alt={item.name} />
+                )}
+              </ImageContainer>
             </div>
 
             <div className={classes.textContainer}>

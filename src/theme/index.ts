@@ -32,18 +32,23 @@ export const theme = {
       opacity: 'rgba(25,25,25, 0.8)',
       minOpacity: 'rgba(25,25,25, 0.3)',
     },
+
     secondary: {
       main: 'rgba(250,250,250, 1)',
     },
+
     light: {
       main: 'rgba(243, 243, 243, 1)',
     },
+
     white: {
       main: 'white',
     },
+
     blue: {
       main: 'rgba(73,159,244, 1)',
     },
+
     yellow: {
       main: 'rgba(242, 205, 92, 1)',
     },

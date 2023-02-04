@@ -16,31 +16,15 @@ export default createUseStyles(() => ({
     borderBottom: `1px solid ${theme.colors.primary.minOpacity}`,
     paddingBottom: theme.margin.medium,
     cursor: 'pointer',
-
-    '&:hover': {
-      '& img': {
-        transform: 'scale(1.1)',
-      },
-    },
-  },
-
-  imageContainer: {
-    width: '100%',
-    height: 300,
-    position: 'relative',
-    overflow: 'hidden',
-    borderRadius: [theme.shape.radius, theme.shape.radius, 0, 0],
-
-    '& img': {
-      width: '100%',
-      height: '100%',
-      objectFit: 'cover',
-      transition: theme.transitions.default,
-    },
   },
 
   textContainer: {
     width: '100%',
+  },
+
+  imageWrap: {
+    width: '100%',
+    height: 300,
   },
 
   categoryList: {
