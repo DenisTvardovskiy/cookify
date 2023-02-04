@@ -14,5 +14,11 @@ export default createUseStyles(() => ({
 
   formWrapper: {
     marginTop: theme.margin.medium,
+
+    '& form': {
+      display: 'flex',
+      flexDirection: 'column',
+      gap: theme.margin.small,
+    },
   },
 }))

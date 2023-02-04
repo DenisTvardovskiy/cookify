@@ -47,11 +47,12 @@ export const useGlobalStyles = createUseStyles({
         transition: theme.transitions.default,
         border: `1px solid ${theme.colors.primary.minOpacity}`,
         borderRadius: theme.shape.radius,
-        padding: theme.margin.small,
+        padding: theme.margin.xSmall,
         fontWeight: theme.font.weight.bold,
         display: 'inline-flex',
         alignItems: 'center',
         cursor: 'pointer',
+        textTransform: 'none',
 
         '&:hover': {
           borderColor: theme.colors.primary.opacity,
