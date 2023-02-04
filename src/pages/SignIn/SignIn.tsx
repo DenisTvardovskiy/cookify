@@ -1,10 +1,10 @@
 import React, { FC } from "react";
 import { FormikProvider, useFormik } from "formik";
 import * as Yup from "yup";
-
-import { useApi } from "../../hooks";
+import { useApi, useAuthorization } from "../../hooks";
 import { AuthLayout } from "../../layouts";
 import { Button, TextField } from "@mui/material";
+import { Link } from "react-router-dom";
 
 interface IProps {}
 
@@ -15,16 +15,18 @@ const validationSchema = Yup.object().shape({
 
 export const SignIn: FC<IProps> = (props: IProps): JSX.Element => {
   const api = useApi();
+  const { isAuthorized, setAuthorization } = useAuthorization();
 
   const formik = useFormik({
     initialValues: { username: "", password: "" },
     validationSchema,
-    onSubmit: (values) => api.authorization.signIn({ ...values }).then(() => console.log("log in")),
+    onSubmit: (values) => api.authorization.signIn({ ...values })
+      .then(({ refreshToken, jsonWebToken }) => setAuthorization(jsonWebToken, refreshToken)),
   });
 
   const { values, handleChange, handleSubmit, isValid, errors } = formik;
 
-  return (
+  return !isAuthorized ? (
     <AuthLayout>
       <FormikProvider value={formik}>
         <form noValidate onSubmit={handleSubmit}>
@@ -57,6 +59,11 @@ export const SignIn: FC<IProps> = (props: IProps): JSX.Element => {
           </Button>
         </form>
       </FormikProvider>
+    </AuthLayout>
+  ) : (
+    <AuthLayout>
+      <h1>You are authorized</h1>
+      <Link to="/home">Go Home</Link>
     </AuthLayout>
   );
 };
