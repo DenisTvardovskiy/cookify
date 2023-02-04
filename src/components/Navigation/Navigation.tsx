@@ -1,12 +1,12 @@
-import React, { FC } from "react";
-import { Autocomplete, Button, InputAdornment, TextField } from "@mui/material";
-import { AccountCircle, Sort } from "@mui/icons-material";
+import React, { FC } from 'react';
+import { Autocomplete, Button, InputAdornment, TextField } from '@mui/material';
+import { AccountCircle, Sort } from '@mui/icons-material';
 
-import { Container } from "../Container";
-import useStyles from "./style";
-import { Logo } from "../Logo";
-import { useApi, useAuthorization } from "../../hooks";
-import { Link } from "react-router-dom";
+import { Container } from '../Container';
+import useStyles from './style';
+import { Logo } from '../Logo';
+import { useApi, useAuthorization } from '../../hooks';
+import { Link } from 'react-router-dom';
 
 interface IProps {}
 
@@ -16,9 +16,9 @@ export const Navigation: FC = (props: IProps): JSX.Element => {
   const api = useApi();
 
   const top100Films = [
-    { label: "The Shawshank Redemption", year: 1994 },
-    { label: "The Godfather", year: 1972 },
-    { label: "The Godfather: Part II", year: 1974 },
+    { label: 'The Shawshank Redemption', year: 1994 },
+    { label: 'The Godfather', year: 1972 },
+    { label: 'The Godfather: Part II', year: 1974 },
   ];
 
   return (
@@ -28,12 +28,11 @@ export const Navigation: FC = (props: IProps): JSX.Element => {
           <div className={classes.openMenu}>
             <span></span>
             <span></span>
-            <span></span>
           </div>
 
-          <a href="#">
+          <Link to='/'>
             <Logo />
-          </a>
+          </Link>
         </div>
 
         <div className={classes.navWrapper}>
@@ -45,31 +44,31 @@ export const Navigation: FC = (props: IProps): JSX.Element => {
               <TextField
                 InputProps={{
                   startAdornment: (
-                    <InputAdornment position="start">
+                    <InputAdornment position='start'>
                       <AccountCircle />
                     </InputAdornment>
                   ),
                 }}
                 {...params}
-                placeholder="Search for recipe..."
+                placeholder='Search for recipe...'
               />
             )}
           />
-          <Button variant="outlined">
+          <Button variant='outlined'>
             <Sort /> Ingredients
           </Button>
         </div>
         {!isAuthorized ? (
           <div>
-            <Button variant="outlined">
-              <Link to="/sign-in">Sign in</Link>
+            <Button variant='outlined'>
+              <Link to='/sign-in'>Sign in</Link>
             </Button>
-            <Button variant="outlined">
-              <Link to="/sign-up">Sign up</Link>
+            <Button variant='outlined'>
+              <Link to='/sign-up'>Sign up</Link>
             </Button>
           </div>
         ) : (
-          <Button variant="outlined" onClick={resetAuthorization}>
+          <Button variant='outlined' onClick={resetAuthorization}>
             Log Out
           </Button>
         )}
