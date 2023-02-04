@@ -4,7 +4,7 @@ export const theme = {
 
     sizes: {
       desktop: {
-        h1: 60,
+        h1: 52,
         h2: 48,
         h3: 36,
         h4: 30,
@@ -27,7 +27,8 @@ export const theme = {
 
   colors: {
     primary: {
-      main: 'rgba(0,0,0, 1)',
+      main: 'rgba(25,25,25, 1)',
+      opacity: 'rgba(25,25,25, 1)',
     },
     secondary: {
       main: 'rgba(243,243,243, 1)',
@@ -49,6 +50,7 @@ export const theme = {
   },
 
   margin: {
+    small: 5,
     default: 20,
     medium: 40,
   },
