@@ -22,7 +22,7 @@ export const theme = {
   },
 
   shape: {
-    radius: 15,
+    radius: 5,
   },
 
   colors: {
@@ -34,7 +34,7 @@ export const theme = {
       main: 'rgba(243,243,243, 1)',
     },
     white: {
-      main: 'rgba(245,245,245, 1)',
+      main: 'white',
     },
     blue: {
       main: 'rgba(73,159,244, 1)',
@@ -46,7 +46,11 @@ export const theme = {
   },
 
   padding: {
-    default: '2rem',
+    small: '1em',
+    default: '2em',
+    medium: '4em',
+    large: '6em',
+    xLarge: '8em',
   },
 
   margin: {

@@ -1,13 +1,24 @@
 import React, { FC } from 'react'
 
 import useStyles from './styles'
+import classNames from 'classnames'
 
 interface IProps {
+  whiteStyle?: Boolean
   children: React.ReactNode | React.ReactNode[]
 }
 
-export const Container: FC<IProps> = ({ children }): JSX.Element => {
+export const Container: FC<IProps> = (props: IProps): JSX.Element => {
   const classes = useStyles()
 
-  return <div className={classes.container}>{children}</div>
+  return (
+    <div
+      className={classNames({
+        [classes.container]: true,
+        [classes.whiteStyle]: props.whiteStyle,
+      })}
+    >
+      {props.children}
+    </div>
+  )
 }
