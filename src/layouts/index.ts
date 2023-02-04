@@ -1,3 +1,5 @@
-import { RootLayout } from "./RootLayout";
+import { RootLayout } from './RootLayout'
+import { AuthLayout } from './AuthLayout'
+import { ServerResponseLayout } from './ServerResponseLayout'
 
-export { RootLayout };
+export { RootLayout, AuthLayout, ServerResponseLayout }
