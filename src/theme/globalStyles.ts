@@ -13,7 +13,8 @@ export const useGlobalStyles = createUseStyles({
     },
 
     'h1,h2,h3,h4,h5,h6': {
-      margin: [theme.margin.small, 0],
+      margin: [theme.margin.xSmall, 0],
+      color: theme.colors.primary.main,
       fontWeight: theme.font.weight.bold,
     },
 
@@ -34,6 +35,10 @@ export const useGlobalStyles = createUseStyles({
     },
     h6: {
       fontSize: theme.font.sizes.desktop.h6,
+    },
+
+    a: {
+      color: theme.colors.primary.main,
     },
   },
 })

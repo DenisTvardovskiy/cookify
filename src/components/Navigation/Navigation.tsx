@@ -1,35 +1,66 @@
 import React, { FC } from 'react'
+import { Autocomplete, Button, Input, InputAdornment, TextField } from '@mui/material'
+import { AccountCircle, Sort } from '@mui/icons-material'
 
-import useStyles from './style'
 import { Container } from '../Container'
+import { useGlobalElements } from '../../theme/globalElements'
+import useStyles from './style'
+import { Logo } from '../Logo'
 
 interface IProps {}
 
 export const Navigation: FC = (props: IProps): JSX.Element => {
   const classes = useStyles()
+  const globalElements = useGlobalElements()
+
+  const top100Films = [
+    { label: 'The Shawshank Redemption', year: 1994 },
+    { label: 'The Godfather', year: 1972 },
+    { label: 'The Godfather: Part II', year: 1974 },
+  ]
 
   return (
     <Container whiteStyle>
       <nav className={classes.navigation}>
-        <div className={classes.openMenu}>
-          <span></span>
-          <span></span>
-          <span></span>
-        </div>
-
-        <a href='#'>
-          <div className={classes.logo}>
-            <img src='images/logo.png' alt='Cookify' />
-            <h5>Cookify</h5>
+        <div className={classes.navWrapper}>
+          <div className={classes.openMenu}>
+            <span></span>
+            <span></span>
+            <span></span>
           </div>
-        </a>
 
-        <div>
-          <input className={classes.searchBar} placeholder='Search for recipe...' type='text' />
+          <a href='#'>
+            <Logo />
+          </a>
         </div>
-        <div>
-          <button>Sign Up</button>
+
+        <div className={classes.navWrapper}>
+          <Autocomplete
+            className={classes.searchBar}
+            disablePortal
+            options={top100Films}
+            renderInput={(params) => (
+              <TextField
+                InputProps={{
+                  startAdornment: (
+                    <InputAdornment position='start'>
+                      <AccountCircle />
+                    </InputAdornment>
+                  ),
+                }}
+                {...params}
+                placeholder='Search for recipe...'
+              />
+            )}
+          />
+          <div className={globalElements.primaryButton}>
+            <Sort /> Ingredients
+          </div>
         </div>
+
+        <a href='#' className={globalElements.primaryButton}>
+          Sign up
+        </a>
       </nav>
     </Container>
   )
