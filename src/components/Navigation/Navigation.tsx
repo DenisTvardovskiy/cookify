@@ -3,7 +3,6 @@ import { Autocomplete, Button, Input, InputAdornment, TextField } from '@mui/mat
 import { AccountCircle, Sort } from '@mui/icons-material'
 
 import { Container } from '../Container'
-import { useGlobalElements } from '../../theme/globalElements'
 import useStyles from './style'
 import { Logo } from '../Logo'
 
@@ -11,7 +10,6 @@ interface IProps {}
 
 export const Navigation: FC = (props: IProps): JSX.Element => {
   const classes = useStyles()
-  const globalElements = useGlobalElements()
 
   const top100Films = [
     { label: 'The Shawshank Redemption', year: 1994 },
