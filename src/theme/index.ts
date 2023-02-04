@@ -73,4 +73,4 @@ export const theme = {
     default: 20,
     medium: 40,
   },
-}
+};

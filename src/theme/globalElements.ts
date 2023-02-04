@@ -1,5 +1,5 @@
-import { createUseStyles } from 'react-jss'
-import { theme } from './index'
+import { createUseStyles } from 'react-jss';
+import { theme } from './index';
 
 export const useGlobalElements = createUseStyles({
   primaryButton: {
@@ -17,4 +17,4 @@ export const useGlobalElements = createUseStyles({
       borderColor: theme.colors.primary.opacity,
     },
   },
-})
+});

@@ -1,5 +1,5 @@
-import { createUseStyles } from 'react-jss'
-import { theme } from '../../theme'
+import { createUseStyles } from 'react-jss';
+import { theme } from '../../theme';
 
 export default createUseStyles(() => ({
   authWrap: {
@@ -21,4 +21,4 @@ export default createUseStyles(() => ({
       gap: theme.margin.small,
     },
   },
-}))
+}));
