@@ -6,7 +6,7 @@ interface IProps {
   children: React.ReactNode | React.ReactNode[]
 }
 
-export const AuthLayout: FC = (props: IProps) => {
+export const AuthLayout: FC<IProps> = (props: IProps): JSX.Element => {
   const classes = useStyles()
 
   return <div className={classes.authLayout}>{props.children}</div>
