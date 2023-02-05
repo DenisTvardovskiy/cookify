@@ -1,9 +1,9 @@
 import React, { FC } from 'react';
 import StarIcon from '@mui/icons-material/Star';
 
-import { IRecipe } from '../../models';
+import { IRecipe } from '../../../models';
 import useStyles from './styles';
-import { ImageContainer } from '../ImageContainer';
+import { ImageContainer } from '../../common/ImageContainer';
 
 interface IProps {
   item: IRecipe;

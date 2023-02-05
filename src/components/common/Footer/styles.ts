@@ -1,6 +1,6 @@
-import { createUseStyles } from 'react-jss'
+import { createUseStyles } from 'react-jss';
 
-import { theme } from '../../theme'
+import { theme } from '../../../theme';
 
 export default createUseStyles(() => ({
   footer: {
@@ -11,4 +11,4 @@ export default createUseStyles(() => ({
     position: 'relative',
     padding: [theme.padding.small, 0],
   },
-}))
+}));

@@ -1,15 +1,16 @@
-import { Container } from './Container';
-import { GridContainer } from './GridContainer';
-import { Navigation } from './Navigation';
-import { ILoaderContext, Loader, LoaderContext } from './Loader';
-import { Recipe } from './Recipe';
-import { Ingredient } from './Ingredient';
-import { Footer } from './Footer';
-import { ImageContainer } from './ImageContainer';
-import { Root } from './Root';
-import { Router } from './Router';
-import { AuthorizedMessage } from './AuthorizedMessage';
-import { Logo } from './Logo';
+import { Container } from './common/Container';
+import { GridContainer } from './common/GridContainer';
+import { Navigation } from './common/Navigation';
+import { Footer } from './common/Footer';
+import { ImageContainer } from './common/ImageContainer';
+import { Root } from './common/Root';
+import { Router } from './common/Router';
+import { AuthorizedMessage } from './common/AuthorizedMessage';
+
+import { Logo } from './shared/Logo';
+import { Recipe } from './shared/Recipe';
+import { ILoaderContext, Loader, LoaderContext } from './shared/Loader';
+import { Ingredient } from './shared/Ingredient';
 
 export type { ILoaderContext };
 

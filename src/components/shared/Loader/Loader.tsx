@@ -1,10 +1,10 @@
-import React, { useState } from "react";
-import { LoaderContext } from "./Loader.context";
-import crypto from "crypto-js";
-import { Player } from "@lottiefiles/react-lottie-player";
-import animation from "./Loader.animation.json";
-import useStyles from "./styles";
-import { classes } from "../../utils";
+import React, { useState } from 'react';
+import { LoaderContext } from './Loader.context';
+import crypto from 'crypto-js';
+import { Player } from '@lottiefiles/react-lottie-player';
+import animation from './Loader.animation.json';
+import useStyles from './styles';
+import { classes } from '../../../utils';
 
 export interface IProps {
   children?: React.ReactNode | React.ReactNode[];
@@ -20,11 +20,11 @@ export interface ILoaderTaskObject extends ILoaderTask {
   stop: () => void;
 }
 
-export type TLoaderPull = Array<{ isActive: boolean, startedAt: number } & ILoaderTask>;
+export type TLoaderPull = Array<{ isActive: boolean; startedAt: number } & ILoaderTask>;
 
 export const Loader: React.FC<IProps> = ({ children }: IProps): JSX.Element => {
   const styles = useStyles();
-  const [ pull, setPull ] = useState<TLoaderPull>([]);
+  const [pull, setPull] = useState<TLoaderPull>([]);
 
   const generateUniqueKey: () => string = (): string => {
     const key: string = crypto.lib.WordArray.random(16).toString();
@@ -40,7 +40,7 @@ export const Loader: React.FC<IProps> = ({ children }: IProps): JSX.Element => {
   const create: (label?: string) => ILoaderTaskObject = (label): ILoaderTaskObject => {
     const key: string = generateUniqueKey();
 
-    setPull((prevState) => [ ...prevState, { key, label, isActive: false, startedAt: 0 } ]);
+    setPull((prevState) => [...prevState, { key, label, isActive: false, startedAt: 0 }]);
 
     return { key, label, start: () => start({ key, label }), stop: () => stop({ key, label }) };
   };
@@ -50,17 +50,17 @@ export const Loader: React.FC<IProps> = ({ children }: IProps): JSX.Element => {
       const isFound: boolean = !!prevState.find((item) => item.key === task.key);
 
       if (isFound) {
-        if (process.env.NODE_ENV !== "production") {
+        if (process.env.NODE_ENV !== 'production') {
           console.log(`> loader [task:${task.key}] started`);
         }
 
         return [
           ...prevState.filter((item) => item.key !== task.key),
-          { ...task, isActive: true, startedAt: (new Date()).getTime() },
+          { ...task, isActive: true, startedAt: new Date().getTime() },
         ];
       }
 
-      if (process.env.NODE_ENV !== "production") {
+      if (process.env.NODE_ENV !== 'production') {
         console.log(`> loader [task:${task.key}] not found`);
       }
 
@@ -73,11 +73,11 @@ export const Loader: React.FC<IProps> = ({ children }: IProps): JSX.Element => {
       const _task = prevState.find((item) => item.key === task.key);
 
       if (!!_task) {
-        const now = (new Date()).getTime();
+        const now = new Date().getTime();
         const duration = now - _task.startedAt;
 
         if (duration >= 1000) {
-          if (process.env.NODE_ENV !== "production") {
+          if (process.env.NODE_ENV !== 'production') {
             console.log(`> loader [task:${task.key}] stopped`);
           }
 
@@ -92,7 +92,7 @@ export const Loader: React.FC<IProps> = ({ children }: IProps): JSX.Element => {
         return prevState;
       }
 
-      if (process.env.NODE_ENV !== "production") {
+      if (process.env.NODE_ENV !== 'production') {
         console.log(`> loader [task:${task.key}] not found`);
       }
 

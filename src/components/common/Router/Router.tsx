@@ -1,7 +1,7 @@
 import React, { FC } from 'react';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
-import { withCheckAuthorization } from '../../hocs';
-import * as Page from '../../pages';
+import { withCheckAuthorization } from '../../../hocs';
+import * as Page from '../../../pages';
 
 interface IProps {}
 

@@ -1,9 +1,9 @@
 import React, { FC } from 'react';
 import { Link } from 'react-router-dom';
 
-import { useGlobalElements } from '../../theme/globalElements';
-import { Logo } from '../Logo';
-import { ServerResponseLayout } from '../../layouts';
+import { useGlobalElements } from '../../../theme/globalElements';
+import { Logo } from '../../shared/Logo';
+import { ServerResponseLayout } from '../../../layouts';
 
 interface IProps {}
 

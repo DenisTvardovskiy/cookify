@@ -1,5 +1,5 @@
 import React, { FC } from 'react';
-import { IIngredient } from '../../models';
+import { IIngredient } from '../../../models';
 
 import useStyles from './styles';
 
