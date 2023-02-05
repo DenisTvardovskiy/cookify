@@ -4,7 +4,7 @@ import { theme } from '../../../theme';
 export default createUseStyles(() => ({
   container: {
     width: '100%',
-    padding: [theme.padding.small, theme.padding.xLarge],
+    padding: [theme.padding.small, theme.padding.xxLarge],
   },
 
   whiteStyle: {

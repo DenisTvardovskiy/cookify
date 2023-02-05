@@ -1,7 +1,7 @@
 import React, { FC } from 'react';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 
-import { Container } from '../Container';
+import { Container } from '../../shared/Container';
 import useStyles from './styles';
 
 interface IProps {}

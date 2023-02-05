@@ -2,7 +2,7 @@ import React, { FC } from 'react';
 import { Autocomplete, Button, InputAdornment, TextField } from '@mui/material';
 import { AccountCircle, Sort } from '@mui/icons-material';
 
-import { Container } from '../Container';
+import { Container } from '../../shared/Container';
 import useStyles from './style';
 import { Logo } from '../../shared/Logo';
 import { useApi, useAuthorization } from '../../../hooks';

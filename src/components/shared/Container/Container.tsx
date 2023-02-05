@@ -1,15 +1,15 @@
-import React, { FC } from 'react'
+import React, { FC } from 'react';
+import classNames from 'classnames';
 
-import useStyles from './styles'
-import classNames from 'classnames'
+import useStyles from './styles';
 
 interface IProps {
-  whiteStyle?: Boolean
-  children: React.ReactNode | React.ReactNode[]
+  whiteStyle?: Boolean;
+  children: React.ReactNode | React.ReactNode[];
 }
 
 export const Container: FC<IProps> = (props: IProps): JSX.Element => {
-  const classes = useStyles()
+  const classes = useStyles();
 
   return (
     <div
@@ -20,5 +20,5 @@ export const Container: FC<IProps> = (props: IProps): JSX.Element => {
     >
       {props.children}
     </div>
-  )
-}
+  );
+};

@@ -52,6 +52,9 @@ export const theme = {
     yellow: {
       main: 'rgba(242, 205, 92, 1)',
     },
+    red: {
+      main: 'rgba(205, 4 ,4, 1)',
+    },
   },
 
   transitions: {
@@ -64,6 +67,7 @@ export const theme = {
     medium: '4em',
     large: '6em',
     xLarge: '8em',
+    xxLarge: '12em',
   },
 
   margin: {
@@ -73,4 +77,6 @@ export const theme = {
     default: 20,
     medium: 40,
   },
+
+  navigationHeight: 80,
 };

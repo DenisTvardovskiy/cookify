@@ -1,4 +1,4 @@
-import { Container } from './common/Container';
+import { Container } from './shared/Container';
 import { GridContainer } from './common/GridContainer';
 import { Navigation } from './common/Navigation';
 import { Footer } from './common/Footer';
