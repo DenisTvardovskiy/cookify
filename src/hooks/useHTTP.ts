@@ -1,6 +1,6 @@
-import axios, { AxiosError, AxiosRequestConfig, AxiosResponseHeaders } from "axios";
-import { useLoader } from "./index";
-import { ILoaderTask } from "../components/Loader/Loader";
+import axios, { AxiosError, AxiosRequestConfig, AxiosResponseHeaders } from 'axios';
+import { useLoader } from './index';
+import { ILoaderTask } from '../components/shared/Loader/Loader';
 
 interface IRequestConfig extends AxiosRequestConfig {
   loader?: boolean | string;
@@ -8,10 +8,10 @@ interface IRequestConfig extends AxiosRequestConfig {
 }
 
 export type ResponseHeaders =
-  AxiosResponseHeaders
-  | Partial<Record<string, string> & { "set-cookie"?: string[] | undefined; }>
+  | AxiosResponseHeaders
+  | Partial<Record<string, string> & { 'set-cookie'?: string[] | undefined }>;
 
-type TRequest = <T>(config: IRequestConfig) => Promise<{ data: T, headers: ResponseHeaders }>;
+type TRequest = <T>(config: IRequestConfig) => Promise<T>;
 
 interface IUseHTTP {
   request: TRequest;
@@ -19,28 +19,34 @@ interface IUseHTTP {
 
 type TUseHTTP = () => IUseHTTP;
 
-const log: (config: IRequestConfig, result: any) => void = (config: IRequestConfig, result: any): void => {
-  const colors: { success: string, error: string } = {
-    success: "green",
-    error: "red",
+const log: (config: IRequestConfig, result: any) => void = (
+  config: IRequestConfig,
+  result: any,
+): void => {
+  const colors: { success: string; error: string } = {
+    success: 'green',
+    error: 'red',
   };
 
-  let status: "success" | "error";
+  let status: 'success' | 'error';
 
   if (result instanceof AxiosError) {
-    status = "error";
+    status = 'error';
   } else {
-    status = "success";
+    status = 'success';
   }
 
-  const response: any = result instanceof AxiosError
-    ? JSON.stringify(result.response, undefined, 2)
-    : JSON.stringify(result.data, undefined, 2);
+  const response: any =
+    result instanceof AxiosError
+      ? JSON.stringify(result.response, undefined, 2)
+      : JSON.stringify(result.data, undefined, 2);
 
   // @ts-ignore
-  const headers: string = Object.keys(config.headers).map((key) => `${key}: ${config.headers[key]}`).join("  \n");
+  const headers: string = Object.keys(config.headers)
+    .map((key) => `${key}: ${config.headers[key]}`)
+    .join('  \n');
 
-  let body: string = "";
+  let body: string = '';
 
   if (config.data instanceof FormData) {
     config.data.forEach((b, a) => {
@@ -66,21 +72,22 @@ const log: (config: IRequestConfig, result: any) => void = (config: IRequestConf
 export const useHTTP: TUseHTTP = (): IUseHTTP => {
   const loader = useLoader();
 
-  const request: TRequest = <T>(config: IRequestConfig): Promise<{ data: T, headers: ResponseHeaders }> => {
-    return new Promise<{ data: T, headers: ResponseHeaders }>((resolve, reject) => {
+  const request: TRequest = <T>(config: IRequestConfig): Promise<T> => {
+    return new Promise<T>((resolve, reject) => {
       const { loader: _loader, debug: _debug, ...axiosConfig } = config;
 
       let task: ILoaderTask;
 
       if (!!_loader) {
-        let label: string = typeof _loader === "string" ? _loader : "";
+        let label: string = typeof _loader === 'string' ? _loader : '';
 
         task = loader.create(label);
 
         loader.start(task);
       }
 
-      axios.request<T>(axiosConfig)
+      axios
+        .request<T>(axiosConfig)
         .then((response) => {
           if (!!_loader) {
             loader.stop(task);
@@ -90,8 +97,7 @@ export const useHTTP: TUseHTTP = (): IUseHTTP => {
             log(axiosConfig, response);
           }
 
-          // @ts-ignore
-          resolve({ data: response.data, headers: response.headers });
+          resolve(response.data);
         })
         .catch((error) => {
           if (!!_loader) {

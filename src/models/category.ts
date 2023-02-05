@@ -1,7 +1,9 @@
 export interface ICategory {
-  id: string,
+  id: string;
   createdAt: Date;
-  name: string,
-  description: string,
-  imageLink: string
+  name: string;
+  ukrainianName: string;
+  description: string;
+  ukrainianDescription: string;
+  imageLink: string;
 }
