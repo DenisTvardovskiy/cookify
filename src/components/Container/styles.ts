@@ -1,11 +1,10 @@
 import { createUseStyles } from 'react-jss'
+import { theme } from '../../theme'
 
 export default createUseStyles(() => ({
-  rootLayout: {
+  container: {
     width: '100%',
     border: '1px solid red',
-    display: 'flex',
-    flexWrap: 'wrap',
-    flexDirection: 'column',
+    padding: theme.padding.default,
   },
 }))

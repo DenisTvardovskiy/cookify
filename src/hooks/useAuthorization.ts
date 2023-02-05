@@ -6,8 +6,8 @@ import { useLoader } from "./useLoader";
 
 type TUseAuthorization = () => {
   isAuthorized: boolean;
-  jsonWebToken: string;
-  refreshToken: string;
+  accessToken: string;
+  tokenType: string;
   setAuthorization: (token: string, type?: string) => void;
   resetAuthorization: () => void;
 };
@@ -15,20 +15,21 @@ type TUseAuthorization = () => {
 export const useAuthorization: TUseAuthorization = () => {
   const loader = useLoader();
   const dispatch = useDispatch();
-  const { jsonWebToken, refreshToken } = useStore((store) => store.authorization);
+  const { accessToken, tokenType } = useStore((store) => store.authorization);
+
   const isValid = (): boolean => {
-    if (!jsonWebToken) {
+    if (!accessToken) {
       return false;
     }
 
-    const payload = jose.decodeJwt(jsonWebToken);
+    const payload = jose.decodeJwt(accessToken);
     const now = Math.round(Date.now() / 1000);
 
     return (!!payload && !!payload.exp && (payload.exp - now > 0));
   };
 
-  const setAuthorization = (token: string, refresh: string): void => {
-    dispatch({ type: SET_AUTHORIZATION, jsonWebToken: token, refreshToken: refresh });
+  const setAuthorization = (token: string, type: string = "Bearer"): void => {
+    dispatch({ type: SET_AUTHORIZATION, accessToken: token, tokenType: type });
   };
 
   const resetAuthorization = (): void => {
@@ -47,8 +48,8 @@ export const useAuthorization: TUseAuthorization = () => {
 
   return {
     isAuthorized: isValid(),
-    jsonWebToken,
-    refreshToken,
+    accessToken,
+    tokenType,
     setAuthorization,
     resetAuthorization,
   };
