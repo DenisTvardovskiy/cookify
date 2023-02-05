@@ -88,7 +88,7 @@ export const SignUp: FC<IProps> = (props: IProps): JSX.Element => {
       </div>
       <div className={classes.authWrap}>
         <ImageContainer>
-          <img src='images/auth2.jpg' alt='Cookify' />
+          <img src='./assets/auth2.jpg' alt='Cookify' />
         </ImageContainer>
       </div>
     </AuthLayout>

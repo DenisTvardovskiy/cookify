@@ -6,7 +6,6 @@ import * as Yup from 'yup';
 import { AuthorizedMessage, ImageContainer, Logo } from '../../components';
 import { useApi, useAuthorization } from '../../hooks';
 import { AuthLayout, ServerResponseLayout } from '../../layouts';
-
 import useStyles from './styles';
 
 interface IProps {}
@@ -36,7 +35,7 @@ export const SignIn: FC<IProps> = (props: IProps): JSX.Element => {
     <AuthLayout>
       <div className={classes.authWrap}>
         <ImageContainer>
-          <img src='images/auth1.jpg' alt='Cookify' />
+          <img src='./assets/auth1.jpg' alt='Cookify' />
         </ImageContainer>
       </div>
       <div className={classes.authWrap}>

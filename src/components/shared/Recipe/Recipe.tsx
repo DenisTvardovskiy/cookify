@@ -21,7 +21,7 @@ export const Recipe: FC<IProps> = ({ item }: IProps): JSX.Element => {
           {item.imageLink ? (
             <img src={item.imageLink} alt={item.title} />
           ) : (
-            <img src="images/placeholder.png" alt={item.title} />
+            <img src="./assets/placeholder.png" alt={item.title} />
           )}
         </ImageContainer>
       </div>

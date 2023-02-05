@@ -19,7 +19,7 @@ export const Ingredient: FC<IProps> = ({ item }: IProps): JSX.Element => {
           {item.imageLink ? (
             <img src={item.imageLink} alt={item.name} />
           ) : (
-            <img src='images/placeholder.png' alt={item.name} />
+            <img src='./assets/placeholder.png' alt={item.name} />
           )}
         </ImageContainer>
       </div>
