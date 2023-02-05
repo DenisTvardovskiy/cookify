@@ -1,17 +1,7 @@
-import { createUseStyles } from 'react-jss'
-
-import { theme } from '../../theme'
+import { createUseStyles } from 'react-jss';
+import { theme } from '../../theme';
 
 export default createUseStyles(() => ({
-  itemList: {
-    width: '100%',
-    display: 'inline-grid',
-    gridTemplateColumns: 'repeat(4, 4fr)',
-    gap: '3em',
-
-    '& > div': {},
-  },
-
   item: {
     borderBottom: `1px solid ${theme.colors.primary.minOpacity}`,
     paddingBottom: theme.margin.medium,
@@ -24,7 +14,11 @@ export default createUseStyles(() => ({
 
   imageWrap: {
     width: '100%',
-    height: 300,
+    height: 250,
+
+    '& *': {
+      borderRadius: [theme.shape.radius, theme.shape.radius, 0, 0],
+    },
   },
 
   categoryList: {
@@ -63,4 +57,4 @@ export default createUseStyles(() => ({
   rateIcon: {
     color: theme.colors.yellow.main,
   },
-}))
+}));
