@@ -25,23 +25,16 @@ export const Navigation: FC = (props: IProps): JSX.Element => {
     <Container whiteStyle>
       <nav className={classes.navigation}>
         <div className={classes.navWrapper}>
-          <div className={classes.openMenu}>
-            <span></span>
-            <span></span>
-          </div>
-
           <Link to='/'>
             <Logo />
           </Link>
         </div>
 
-        <div className={classes.navWrapper}>
-          <Button variant='outlined'>
-            <Sort /> Ingredients
-          </Button>
-        </div>
+        {/*<Button variant='outlined'>*/}
+        {/*  <Sort /> Ingredients*/}
+        {/*</Button>*/}
         {!isAuthorized ? (
-          <div>
+          <div className={classes.navWrapper}>
             <Button variant='outlined'>
               <Link to='/sign-in'>Sign in</Link>
             </Button>
