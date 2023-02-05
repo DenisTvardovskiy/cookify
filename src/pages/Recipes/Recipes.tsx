@@ -37,7 +37,7 @@ export const Recipes: FC<IProps> = (props: IProps): JSX.Element => {
     UkrainianTitleEquals: null,
     Pagination: {
       Page: 1,
-      PageSize: 10,
+      PageSize: 12,
       Offset: 0,
     },
   });
@@ -99,7 +99,7 @@ export const Recipes: FC<IProps> = (props: IProps): JSX.Element => {
           Pagination: {
             Offset: 0,
             Page: 1,
-            PageSize: 10,
+            PageSize: 12,
           },
         };
       });

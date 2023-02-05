@@ -13,16 +13,18 @@ interface IApiConfig {
 }
 
 interface IPaginatedList<T> {
-  totalCount: number,
-  count: number,
-  page: number,
-  offset: number,
-  items: T[]
+  totalCount: number;
+  count: number;
+  page: number;
+  offset: number;
+  items: T[];
 }
 
 interface IApiAuthorizationSignUpConfig extends IApiConfig {
   username: string;
+  email: string;
   password: string;
+  passwordConfirmation: string;
 }
 
 interface IApiAuthorizationSignInConfig extends IApiConfig {
@@ -49,24 +51,24 @@ interface IApiMealCategoriesInfoConfig extends IApiConfig {
 
 interface IApiMealCategoriesInfoPaginatedListConfig extends IApiConfig {
   params?: {
-    NameContains: string,
-    NameEquals: string,
-    UkrainianTitleContains: string,
-    UkrainianTitleEquals: string
+    NameContains: string;
+    NameEquals: string;
+    UkrainianTitleContains: string;
+    UkrainianTitleEquals: string;
     Pagination: {
-      CurrentPage: number,
-      PageSize: number
-      Offset: number
-    }
+      CurrentPage: number;
+      PageSize: number;
+      Offset: number;
+    };
   };
 }
 
 interface IApiMealCategoriesInfoListConfig extends IApiConfig {
   params?: {
-    NameContains: string,
-    NameEquals: string,
-    UkrainianNameContains: string,
-    UkrainianNameEquals: string
+    NameContains: string;
+    NameEquals: string;
+    UkrainianNameContains: string;
+    UkrainianNameEquals: string;
   };
 }
 
@@ -80,22 +82,22 @@ interface IApiIngredientInfoConfig extends IApiConfig {
 
 interface IApiIngredientPaginatedListConfig extends IApiConfig {
   params?: {
-    NameContains: string,
-    NameEquals: string,
-    UkrainianNameContains: string,
-    UkrainianNameEquals: string
+    NameContains: string;
+    NameEquals: string;
+    UkrainianNameContains: string;
+    UkrainianNameEquals: string;
     Pagination: {
-      Page: number,
-      PageSize: number
-      Offset: number
-    }
+      Page: number;
+      PageSize: number;
+      Offset: number;
+    };
   };
 }
 
 interface IApiIngredientInfoListConfig extends IApiConfig {
   params?: {
-    NameContains: string,
-    NameEquals: string,
+    NameContains: string;
+    NameEquals: string;
   };
 }
 
@@ -121,7 +123,9 @@ interface IApiRecipeInfoConfig extends IApiConfig {
 export interface IUseApi {
   authorization: {
     signUp: (config: IApiAuthorizationSignUpConfig) => Promise<void>;
-    signIn: (config: IApiAuthorizationSignInConfig) => Promise<{ refreshToken: string, jsonWebToken: string }>;
+    signIn: (
+      config: IApiAuthorizationSignInConfig,
+    ) => Promise<{ refreshToken: string; jsonWebToken: string }>;
     signOut: (config: IApiAuthorizationSignOutConfig) => Promise<void>;
   };
   account: {
@@ -134,16 +138,28 @@ export interface IUseApi {
   recipe: {
     categories: {
       one: (config: IApiMealCategoriesOneConfig) => Promise<ICategory>;
-      info: (config: IApiMealCategoriesInfoConfig) => Promise<{ id: string, name: string, ukrainianName: string, imageLink: string }>;
-      paginatedList: (config: IApiMealCategoriesInfoPaginatedListConfig) => Promise<IPaginatedList<ICategory>>;
-      list: (config: IApiMealCategoriesInfoListConfig) => Promise<{ id: string, name: string, ukrainianName: string, imageLink: string }[]>;
+      info: (
+        config: IApiMealCategoriesInfoConfig,
+      ) => Promise<{ id: string; name: string; ukrainianName: string; imageLink: string }>;
+      paginatedList: (
+        config: IApiMealCategoriesInfoPaginatedListConfig,
+      ) => Promise<IPaginatedList<ICategory>>;
+      list: (
+        config: IApiMealCategoriesInfoListConfig,
+      ) => Promise<{ id: string; name: string; ukrainianName: string; imageLink: string }[]>;
     };
   };
   ingredients: {
     one: (config: IApiIngredientOneConfig) => Promise<IIngredient>;
-    info: (config: IApiIngredientInfoConfig) => Promise<{ id: string, name: string, ukrainianName: string, imageLink: string }>;
-    paginatedList: (config: IApiIngredientPaginatedListConfig) => Promise<IPaginatedList<IIngredient>>;
-    list: (config: IApiIngredientInfoListConfig) => Promise<{ id: string, name: string, ukrainianName: string, imageLink: string }[]>;
+    info: (
+      config: IApiIngredientInfoConfig,
+    ) => Promise<{ id: string; name: string; ukrainianName: string; imageLink: string }>;
+    paginatedList: (
+      config: IApiIngredientPaginatedListConfig,
+    ) => Promise<IPaginatedList<IIngredient>>;
+    list: (
+      config: IApiIngredientInfoListConfig,
+    ) => Promise<{ id: string; name: string; ukrainianName: string; imageLink: string }[]>;
   };
   recipes: {
     one: (config: IApiRecipeInfoConfig) => Promise<IRecipe>;
@@ -172,29 +188,31 @@ export const useApi: TUseApi = (): IUseApi => {
 
   return {
     authorization: {
-      signUp: ({ password, username, loader }) => {
+      signUp: ({ password, username, email, passwordConfirmation, loader }) => {
         return new Promise((resolve, reject) => {
-          http.request<void>({
-            method: "POST",
-            url: `${API_URL}/account/register`,
-            headers,
-            data: { password, username },
-            loader: !!loader ? loader : "Processing sign up...",
-          })
+          http
+            .request<void>({
+              method: 'POST',
+              url: `${API_URL}/users/registration`,
+              headers,
+              data: { password, username, email, passwordConfirmation },
+              loader: !!loader ? loader : 'Processing sign up...',
+            })
             .then(resolve)
             .catch(reject);
         });
       },
       signIn: ({ loader, debug, username, password }) => {
         return new Promise((resolve, reject) => {
-          http.request<{ refreshToken: string, jsonWebToken: string }>({
-            method: "POST",
-            url: `${API_URL}/users/authentication`,
-            headers,
-            data: { username, password },
-            loader: !!loader ? loader : "Processing sign in...",
-            debug,
-          })
+          http
+            .request<{ refreshToken: string; jsonWebToken: string }>({
+              method: 'POST',
+              url: `${API_URL}/users/authentication`,
+              headers,
+              data: { username, password },
+              loader: !!loader ? loader : 'Processing sign in...',
+              debug,
+            })
             .then(resolve)
             .catch(reject);
         });

@@ -7,28 +7,27 @@ import { ImageContainer, Logo, AuthorizedMessage } from '../../components';
 import { useApi, useAuthorization } from '../../hooks';
 import { AuthLayout, ServerResponseLayout } from '../../layouts';
 import useStyles from './styles';
+import { useNavigate } from 'react-router-dom';
 
 interface IProps {}
 
 const validationSchema = Yup.object().shape({
   username: Yup.string().required('Username is required!'),
   email: Yup.string().required('Email is required!'),
-  retypePassword: Yup.string().required('Passwords are not the same!'),
+  passwordConfirmation: Yup.string().required('Passwords are not the same!'),
   password: Yup.string().required('Passwords are not the same!'),
 });
 
 export const SignUp: FC<IProps> = (props: IProps): JSX.Element => {
   const api = useApi();
-  const { isAuthorized, setAuthorization } = useAuthorization();
+  const navigate = useNavigate();
+  const { isAuthorized } = useAuthorization();
   const classes = useStyles();
 
   const formik = useFormik({
-    initialValues: { username: '', password: '', retypePassword: '', email: '' },
+    initialValues: { username: '', email: '', password: '', passwordConfirmation: '' },
     validationSchema,
-    onSubmit: (values) =>
-      api.authorization
-        .signIn({ ...values })
-        .then(({ refreshToken, jsonWebToken }) => setAuthorization(jsonWebToken, refreshToken)),
+    onSubmit: (values) => api.authorization.signUp({ ...values }).then(() => navigate('/sign-in')),
   });
 
   const { values, handleChange, handleSubmit, isValid, errors } = formik;
@@ -71,14 +70,14 @@ export const SignUp: FC<IProps> = (props: IProps): JSX.Element => {
                 helperText={errors.password}
               />
               <TextField
-                error={!!errors.password}
-                name='retypePassword'
-                id='retypePassword'
+                error={!!errors.passwordConfirmation}
+                name='passwordConfirmation'
+                id='passwordConfirmation'
                 required
                 placeholder='Retype password'
-                value={values.retypePassword}
+                value={values.passwordConfirmation}
                 onChange={handleChange}
-                helperText={errors.retypePassword}
+                helperText={errors.passwordConfirmation}
               />
               <Button variant='outlined' type='submit' disabled={!isValid}>
                 Sign up
