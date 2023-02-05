@@ -1,20 +1,20 @@
-import React, { FC, SyntheticEvent, useEffect, useRef, useState } from "react";
-import { Container, Footer, GridContainer, Navigation, Recipe } from "../../components";
-import useStyles from "./styles";
-import { Sort } from "@mui/icons-material";
-import { Button, Pagination } from "@mui/material";
-import { useApi } from "../../hooks";
-import { IRecipe } from "../../models";
-import { debounce } from "lodash";
-import { IOption, SearchBar } from "./SearchBar";
-import { useLocation, useNavigate } from "react-router-dom";
+import React, { FC, SyntheticEvent, useEffect, useRef, useState } from 'react';
+import { Container, Footer, GridContainer, Navigation, Recipe } from '../../components';
+import useStyles from './styles';
+import { Sort } from '@mui/icons-material';
+import { Button, Pagination } from '@mui/material';
+import { useApi } from '../../hooks';
+import { IRecipe } from '../../models';
+import { debounce } from 'lodash';
+import { IOption, SearchBar } from './SearchBar';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 interface IProps {}
 
 function useQuery() {
   const { search } = useLocation();
 
-  return React.useMemo(() => new URLSearchParams(search), [ search ]);
+  return React.useMemo(() => new URLSearchParams(search), [search]);
 }
 
 export const Recipes: FC<IProps> = (props: IProps): JSX.Element => {
@@ -22,19 +22,19 @@ export const Recipes: FC<IProps> = (props: IProps): JSX.Element => {
   const api = useApi();
   const navigate = useNavigate();
   const query = useQuery();
-  const [ items, setItems ] = useState<IRecipe[]>([]);
-  const [ total, setTotal ] = useState<number | null>(null);
-  const [ criteria, setCriteria ] = useState<string>("");
-  const [ search, setSearch ] = useState<string | null>(null);
-  const [ options, setOptions ] = useState<IOption[]>([]);
-  const [ params, setParams ] = useState({
+  const [items, setItems] = useState<IRecipe[]>([]);
+  const [total, setTotal] = useState<number | null>(null);
+  const [criteria, setCriteria] = useState<string>('');
+  const [search, setSearch] = useState<string | null>(null);
+  const [options, setOptions] = useState<IOption[]>([]);
+  const [params, setParams] = useState({
     TitleContains: null,
     TitleEquals: null,
     UkrainianTitleContains: null,
     UkrainianTitleEquals: null,
     Pagination: {
       Page: 1,
-      PageSize: 10,
+      PageSize: 12,
       Offset: 0,
     },
   });
@@ -43,10 +43,11 @@ export const Recipes: FC<IProps> = (props: IProps): JSX.Element => {
     api.recipes
       .paginatedList({
         params: {
-          ...params, TitleContains: search,
+          ...params,
+          TitleContains: search,
           Pagination: {
             ...params.Pagination,
-            Page: +query.get("page") || 1,
+            Page: +query.get('page') || 1,
           },
         },
       })
@@ -64,7 +65,7 @@ export const Recipes: FC<IProps> = (props: IProps): JSX.Element => {
         setTotal(totalCount);
         setItems(items);
       });
-  }, [ params.Pagination.Page, search, +query.get("page") ]);
+  }, [params.Pagination.Page, search, +query.get('page')]);
 
   useEffect(() => {
     api.recipes
@@ -76,7 +77,7 @@ export const Recipes: FC<IProps> = (props: IProps): JSX.Element => {
           }),
         );
       });
-  }, [ criteria ]);
+  }, [criteria]);
 
   const handleChangeCriteria = (
     event: SyntheticEvent<Element, Event>,
@@ -89,22 +90,22 @@ export const Recipes: FC<IProps> = (props: IProps): JSX.Element => {
           Pagination: {
             Offset: 0,
             Page: 1,
-            PageSize: 10,
+            PageSize: 12,
           },
         };
       });
-      setSearch("");
+      setSearch('');
     } else {
       setSearch(newValue.label);
     }
-    navigate("/");
+    navigate('/');
   };
 
   const debouncedSearch = useRef(
     debounce(async (text: string) => {
       setSearch(text);
       setCriteria(text);
-      navigate("/");
+      navigate('/');
     }, 300),
   ).current;
 
@@ -128,7 +129,7 @@ export const Recipes: FC<IProps> = (props: IProps): JSX.Element => {
             />
             <span>Total search results: {total}</span>
           </div>
-          <Button variant="outlined">
+          <Button variant='outlined'>
             <Sort /> Filter
           </Button>
         </div>
@@ -144,8 +145,8 @@ export const Recipes: FC<IProps> = (props: IProps): JSX.Element => {
         <Pagination
           count={Math.ceil(total / params.Pagination.PageSize)}
           page={params.Pagination.Page}
-          onChange={(e, page) => navigate("?page=" + page)}
-          variant="outlined"
+          onChange={(e, page) => navigate('?page=' + page)}
+          variant='outlined'
         />
       </Container>
       <Footer />

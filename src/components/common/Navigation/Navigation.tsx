@@ -13,13 +13,6 @@ interface IProps {}
 export const Navigation: FC = (props: IProps): JSX.Element => {
   const { isAuthorized, resetAuthorization } = useAuthorization();
   const classes = useStyles();
-  const api = useApi();
-
-  const top100Films = [
-    { label: 'The Shawshank Redemption', year: 1994 },
-    { label: 'The Godfather', year: 1972 },
-    { label: 'The Godfather: Part II', year: 1974 },
-  ];
 
   return (
     <Container whiteStyle>
@@ -30,9 +23,6 @@ export const Navigation: FC = (props: IProps): JSX.Element => {
           </Link>
         </div>
 
-        {/*<Button variant='outlined'>*/}
-        {/*  <Sort /> Ingredients*/}
-        {/*</Button>*/}
         {!isAuthorized ? (
           <div className={classes.navWrapper}>
             <Button variant='outlined'>
