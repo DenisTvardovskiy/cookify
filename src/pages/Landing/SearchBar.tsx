@@ -53,7 +53,6 @@ export const SearchBar: FC<IProps> = ({
       onChange={onChangeCriteria}
       onInputChange={onChangeInput}
       renderInput={searchInput}
-      on
       sx={{ width: 300 }}
       filterOptions={(x) => x}
       renderOption={renderOption}

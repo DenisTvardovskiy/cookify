@@ -78,7 +78,17 @@ export const Landing: FC<IProps> = (props: IProps): JSX.Element => {
 
   const debouncedSearch = useRef(
     debounce(async (text: string) => {
-      setCriteria(text);
+      setSearch(text);
+      setCriteria(text)
+      setParams((prevState) => {
+        return {
+          ...prevState, Pagination: {
+            Offset: 0,
+            CurrentPage: 1,
+            PageSize: 10,
+          },
+        };
+      });
     }, 300),
   ).current;
 
