@@ -13,12 +13,13 @@ export const Router: FC<IProps> = (props: IProps): JSX.Element => {
     <BrowserRouter>
       <Routes>
         <Route path='/' element={<Page.Recipes />} />
+        <Route path='/recipe/' element={<Page.Recipe />} />
+        <Route path='/home' element={<PageMainWithCheckAuthorization />} />
         <Route path='/ingredients' element={<Page.Ingredients />} />
-        <Route path='/recipe' element={<Page.Recipe />} />
+        <Route path='/ingredient' element={<Page.Ingredient />} />
         <Route path='/sign-in' element={<Page.SignIn />} />
         <Route path='/sign-up' element={<Page.SignUp />} />
         <Route path='/profile' element={<PageProfileWithCheckAuthorization />} />
-        <Route path='/home' element={<PageMainWithCheckAuthorization />} />
         <Route path='*' element={<Page.NotFound />} />
       </Routes>
     </BrowserRouter>
