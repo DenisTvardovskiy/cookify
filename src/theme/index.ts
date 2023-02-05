@@ -11,7 +11,6 @@ export const theme = {
         h5: 24,
         h6: 18,
         paragraph: 18,
-        small: 12,
       },
     },
 
@@ -23,37 +22,22 @@ export const theme = {
   },
 
   shape: {
-    radius: 5,
+    radius: 15,
   },
 
   colors: {
     primary: {
       main: 'rgba(25,25,25, 1)',
-      opacity: 'rgba(25,25,25, 0.8)',
-      minOpacity: 'rgba(25,25,25, 0.3)',
+      opacity: 'rgba(25,25,25, 1)',
     },
-
     secondary: {
-      main: 'rgba(250,250,250, 1)',
+      main: 'rgba(243,243,243, 1)',
     },
-
-    light: {
-      main: 'rgba(243, 243, 243, 1)',
-    },
-
     white: {
-      main: 'white',
+      main: 'rgba(245,245,245, 1)',
     },
-
     blue: {
       main: 'rgba(73,159,244, 1)',
-    },
-
-    yellow: {
-      main: 'rgba(242, 205, 92, 1)',
-    },
-    red: {
-      main: 'rgba(205, 4 ,4, 1)',
     },
   },
 
@@ -62,21 +46,12 @@ export const theme = {
   },
 
   padding: {
-    small: '1em',
-    default: '2em',
-    medium: '4em',
-    large: '6em',
-    xLarge: '8em',
-    xxLarge: '12em',
+    default: '2rem',
   },
 
   margin: {
-    xxSmall: 2,
-    xSmall: 5,
-    small: 10,
+    small: 5,
     default: 20,
     medium: 40,
   },
-
-  navigationHeight: 80,
-};
+}
