@@ -28,4 +28,7 @@ export default createUseStyles(() => ({
     justifyContent: 'center',
     gap: theme.margin.default,
   },
+  steps: {
+    textAlign: 'start'
+  }
 }));

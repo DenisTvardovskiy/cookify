@@ -1,35 +1,35 @@
-import React, { FC, useEffect, useReducer, useState } from 'react';
-import { Button } from '@mui/material';
-import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
-import FavoriteIcon from '@mui/icons-material/Favorite';
+import React, { FC, useEffect, useReducer, useState } from "react";
+import { Button } from "@mui/material";
+import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
+import FavoriteIcon from "@mui/icons-material/Favorite";
 
-import { Container, Footer, GridContainer, ImageContainer, Navigation } from '../../components';
-import useStyles from './styles';
-import { Link, useParams } from 'react-router-dom';
-import { useApi } from '../../hooks';
-import { IRecipe } from '../../models';
+import { Container, Footer, GridContainer, ImageContainer, Navigation } from "../../components";
+import useStyles from "./styles";
+import { Link, useParams } from "react-router-dom";
+import { useApi } from "../../hooks";
+import { IRecipe } from "../../models";
 
 interface IProps {}
 
 export const Recipe: FC<IProps> = (props: IProps): JSX.Element => {
   const classes = useStyles();
 
-  let { recipeId } = useParams();
+  let { id } = useParams();
 
   const api = useApi();
-  const [recipe, setItem] = useState<IRecipe>();
+  const [ recipe, setItem ] = useState<IRecipe>();
 
   useEffect(() => {
     api.recipes
-      .one({ recipeId: '00734649-5a67-470f-9cef-bab16cc5504c' })
+      .one({ recipeId: id, loader: "Loading recipe..." })
       .then((recipe) => setItem(recipe));
-  }, []);
+  }, [ id ]);
 
   const userLiked = false;
 
   const date = new Date(recipe?.createdAt);
 
-  return (
+  return recipe && (
     <>
       <Navigation />
       <Container>
@@ -39,8 +39,8 @@ export const Recipe: FC<IProps> = (props: IProps): JSX.Element => {
             <p>Опубліковано {date.toDateString()}</p>
           </div>
           <p>Категорія: {recipe?.category?.name}</p>
-          <Button variant='outlined' onClick={() => console.log('LIKE!')}>
-            {userLiked ? <FavoriteIcon className={classes?.like} /> : <FavoriteBorderIcon />}{' '}
+          <Button variant="outlined" onClick={() => console.log("LIKE!")}>
+            {userLiked ? <FavoriteIcon className={classes?.like} /> : <FavoriteBorderIcon />}{" "}
             {recipe?.likesCount}
           </Button>
 
@@ -56,12 +56,12 @@ export const Recipe: FC<IProps> = (props: IProps): JSX.Element => {
           <div className={classes?.ingredientsList}>
             {recipe?.ingredients.map((item) => (
               <Link to={`/ingredients/${item?.ingredientId}`} key={item?.ingredientId}>
-                {item?.name}
+                {item?.ukrainianName}
               </Link>
             ))}
           </div>
 
-          <p>{recipe?.ukrainianInstruction}</p>
+          <p className={classes.steps}>{recipe?.ukrainianInstruction}</p>
         </div>
       </Container>
       <Container>

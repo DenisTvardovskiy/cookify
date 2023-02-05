@@ -1,30 +1,39 @@
-import React, { FC, SyntheticEvent, useEffect, useRef, useState } from 'react';
-import { Container, Footer, GridContainer, Navigation, Recipe } from '../../components';
-import useStyles from './styles';
-import { Sort } from '@mui/icons-material';
-import { Button, Pagination } from '@mui/material';
-import { useApi } from '../../hooks';
-import { IRecipe } from '../../models';
-import { debounce } from 'lodash';
-import { IOption, SearchBar } from './SearchBar';
+import React, { FC, SyntheticEvent, useEffect, useRef, useState } from "react";
+import { Container, Footer, GridContainer, Navigation, Recipe } from "../../components";
+import useStyles from "./styles";
+import { Sort } from "@mui/icons-material";
+import { Button, Pagination } from "@mui/material";
+import { useApi } from "../../hooks";
+import { IRecipe } from "../../models";
+import { debounce } from "lodash";
+import { IOption, SearchBar } from "./SearchBar";
+import { useLocation, useNavigate } from "react-router-dom";
 
 interface IProps {}
+
+function useQuery() {
+  const { search } = useLocation();
+
+  return React.useMemo(() => new URLSearchParams(search), [ search ]);
+}
 
 export const Recipes: FC<IProps> = (props: IProps): JSX.Element => {
   const classes = useStyles();
   const api = useApi();
-  const [items, setItems] = useState<IRecipe[]>([]);
-  const [total, setTotal] = useState<number | null>(null);
-  const [criteria, setCriteria] = useState<string>('');
-  const [search, setSearch] = useState<string | null>(null);
-  const [options, setOptions] = useState<IOption[]>([]);
-  const [params, setParams] = useState({
+  const navigate = useNavigate();
+  const query = useQuery();
+  const [ items, setItems ] = useState<IRecipe[]>([]);
+  const [ total, setTotal ] = useState<number | null>(null);
+  const [ criteria, setCriteria ] = useState<string>("");
+  const [ search, setSearch ] = useState<string | null>(null);
+  const [ options, setOptions ] = useState<IOption[]>([]);
+  const [ params, setParams ] = useState({
     TitleContains: null,
     TitleEquals: null,
     UkrainianTitleContains: null,
     UkrainianTitleEquals: null,
     Pagination: {
-      CurrentPage: 1,
+      Page: 1,
       PageSize: 10,
       Offset: 0,
     },
@@ -32,14 +41,22 @@ export const Recipes: FC<IProps> = (props: IProps): JSX.Element => {
 
   useEffect(() => {
     api.recipes
-      .paginatedList({ params: { ...params, TitleContains: search } })
+      .paginatedList({
+        params: {
+          ...params, TitleContains: search,
+          Pagination: {
+            ...params.Pagination,
+            Page: +query.get("page") || 1,
+          },
+        },
+      })
       .then(({ items, count, totalCount, offset, page }) => {
         setParams((prevState) => {
           return {
             ...prevState,
             Pagination: {
               Offset: offset,
-              CurrentPage: page,
+              Page: page,
               PageSize: count,
             },
           };
@@ -47,7 +64,7 @@ export const Recipes: FC<IProps> = (props: IProps): JSX.Element => {
         setTotal(totalCount);
         setItems(items);
       });
-  }, [params.Pagination.CurrentPage, search]);
+  }, [ params.Pagination.Page, search, +query.get("page") ]);
 
   useEffect(() => {
     api.recipes
@@ -59,7 +76,7 @@ export const Recipes: FC<IProps> = (props: IProps): JSX.Element => {
           }),
         );
       });
-  }, [criteria]);
+  }, [ criteria ]);
 
   const handleChangeCriteria = (
     event: SyntheticEvent<Element, Event>,
@@ -71,31 +88,23 @@ export const Recipes: FC<IProps> = (props: IProps): JSX.Element => {
           ...prevState,
           Pagination: {
             Offset: 0,
-            CurrentPage: 1,
+            Page: 1,
             PageSize: 10,
           },
         };
       });
-      setSearch('');
+      setSearch("");
     } else {
       setSearch(newValue.label);
     }
+    navigate("/");
   };
 
   const debouncedSearch = useRef(
     debounce(async (text: string) => {
       setSearch(text);
       setCriteria(text);
-      setParams((prevState) => {
-        return {
-          ...prevState,
-          Pagination: {
-            Offset: 0,
-            CurrentPage: 1,
-            PageSize: 10,
-          },
-        };
-      });
+      navigate("/");
     }, 300),
   ).current;
 
@@ -119,7 +128,7 @@ export const Recipes: FC<IProps> = (props: IProps): JSX.Element => {
             />
             <span>Total search results: {total}</span>
           </div>
-          <Button variant='outlined'>
+          <Button variant="outlined">
             <Sort /> Filter
           </Button>
         </div>
@@ -134,19 +143,9 @@ export const Recipes: FC<IProps> = (props: IProps): JSX.Element => {
       <Container>
         <Pagination
           count={Math.ceil(total / params.Pagination.PageSize)}
-          page={params.Pagination.CurrentPage}
-          onChange={(e, page) => {
-            setParams((prevState) => {
-              return {
-                ...prevState,
-                Pagination: {
-                  ...prevState.Pagination,
-                  CurrentPage: page,
-                },
-              };
-            });
-          }}
-          variant='outlined'
+          page={params.Pagination.Page}
+          onChange={(e, page) => navigate("?page=" + page)}
+          variant="outlined"
         />
       </Container>
       <Footer />

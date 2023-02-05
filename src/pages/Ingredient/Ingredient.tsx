@@ -13,13 +13,13 @@ interface IProps {}
 
 export const Ingredient: FC<IProps> = (props: IProps): JSX.Element => {
   const classes = useStyles();
-
+  const {id} = useParams()
   const api = useApi();
   const [ingredient, setItem] = useState<IIngredient>();
 
   useEffect(() => {
     api.ingredients
-      .one({ ingredientId: '002c09e5-f6dd-44d3-a9f1-33fd943d155b' })
+      .one({ ingredientId: id, loader: "Loading ingredient..." })
       .then((ingredient) => setItem(ingredient));
   }, []);
 

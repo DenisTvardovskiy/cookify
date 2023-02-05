@@ -85,7 +85,7 @@ interface IApiIngredientPaginatedListConfig extends IApiConfig {
     UkrainianNameContains: string,
     UkrainianNameEquals: string
     Pagination: {
-      CurrentPage: number,
+      Page: number,
       PageSize: number
       Offset: number
     }
@@ -106,7 +106,7 @@ interface IApiRecipePaginatedListConfig extends IApiConfig {
     UkrainianTitleContains: string,
     UkrainianTitleEquals: string
     Pagination: {
-      CurrentPage: number,
+      Page: number,
       PageSize: number
       Offset: number
     }
