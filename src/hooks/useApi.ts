@@ -3,12 +3,21 @@ import { useHTTP } from "./useHTTP";
 import { useAuthorization } from "./useAuthorization";
 import { AxiosRequestHeaders } from "axios";
 import { ICategory, IIngredient, IRecipe } from "../models";
+import qs from "qs";
 
 const API_URL: string = "https://backend-api-sioprycdaq-ew.a.run.app/api";
 
 interface IApiConfig {
   loader?: boolean | string;
   debug?: boolean;
+}
+
+interface IPaginatedList<T> {
+  totalCount: number,
+  count: number,
+  page: number,
+  offset: number,
+  items: T[]
 }
 
 interface IApiAuthorizationSignUpConfig extends IApiConfig {
@@ -56,8 +65,8 @@ interface IApiMealCategoriesInfoListConfig extends IApiConfig {
   params?: {
     NameContains: string,
     NameEquals: string,
-    UkrainianTitleContains: string,
-    UkrainianTitleEquals: string
+    UkrainianNameContains: string,
+    UkrainianNameEquals: string
   };
 }
 
@@ -73,8 +82,8 @@ interface IApiIngredientPaginatedListConfig extends IApiConfig {
   params?: {
     NameContains: string,
     NameEquals: string,
-    UkrainianTitleContains: string,
-    UkrainianTitleEquals: string
+    UkrainianNameContains: string,
+    UkrainianNameEquals: string
     Pagination: {
       CurrentPage: number,
       PageSize: number
@@ -92,8 +101,8 @@ interface IApiIngredientInfoListConfig extends IApiConfig {
 
 interface IApiRecipePaginatedListConfig extends IApiConfig {
   params?: {
-    NameContains: string,
-    NameEquals: string,
+    TitleContains: string,
+    TitleEquals: string,
     UkrainianTitleContains: string,
     UkrainianTitleEquals: string
     Pagination: {
@@ -125,19 +134,19 @@ export interface IUseApi {
     categories: {
       one: (config: IApiMealCategoriesOneConfig) => Promise<ICategory>;
       info: (config: IApiMealCategoriesInfoConfig) => Promise<{ id: string, name: string, ukrainianName: string, imageLink: string }>;
-      paginatedList: (config: IApiMealCategoriesInfoPaginatedListConfig) => Promise<{ totalCount: number, count: number, items: { id: string, name: string, ukrainianName: string, imageLink: string }[] }>;
+      paginatedList: (config: IApiMealCategoriesInfoPaginatedListConfig) => Promise<IPaginatedList<ICategory>>;
       list: (config: IApiMealCategoriesInfoListConfig) => Promise<{ id: string, name: string, ukrainianName: string, imageLink: string }[]>;
-    }
+    };
   };
   ingredients: {
     one: (config: IApiIngredientOneConfig) => Promise<IIngredient>;
     info: (config: IApiIngredientInfoConfig) => Promise<{ id: string, name: string, ukrainianName: string, imageLink: string }>;
-    paginatedList: (config: IApiIngredientPaginatedListConfig) => Promise<{ totalCount: number, count: number, items: { id: string, name: string, ukrainianName: string, imageLink: string }[] }>;
+    paginatedList: (config: IApiIngredientPaginatedListConfig) => Promise<IPaginatedList<IIngredient>>;
     list: (config: IApiIngredientInfoListConfig) => Promise<{ id: string, name: string, ukrainianName: string, imageLink: string }[]>;
   };
   recipes: {
     one: (config: IApiRecipeInfoConfig) => Promise<IRecipe>;
-    paginatedList: (config: IApiRecipePaginatedListConfig) => Promise<{ totalCount: number, count: number, items: IRecipe[] }>;
+    paginatedList: (config: IApiRecipePaginatedListConfig) => Promise<IPaginatedList<IRecipe>>;
   };
 }
 
@@ -260,7 +269,7 @@ export const useApi: TUseApi = (): IUseApi => {
           return new Promise((resolve, reject) => {
             http.request<{ id: string, name: string, ukrainianName: string, imageLink: string }>({
               method: "GET",
-              url: `${API_URL}/meal-categories/${categoryId}/info-list`,
+              url: `${API_URL}/meal-categories/${categoryId}/short-info`,
               headers,
               loader: !!loader ? loader : false,
             })
@@ -270,14 +279,10 @@ export const useApi: TUseApi = (): IUseApi => {
         },
         paginatedList: ({ loader, params }) => {
           return new Promise((resolve, reject) => {
-            http.request<{
-              totalCount: number,
-              count: number,
-              items: { id: string, name: string, ukrainianName: string, imageLink: string }[]
-            }>(
+            http.request<IPaginatedList<ICategory>>(
               {
                 method: "GET",
-                url: `${API_URL}/meal-categories/info-list`,
+                url: `${API_URL}/meal-categories/short-info`,
                 params,
                 headers,
                 loader: !!loader ? loader : false,
@@ -290,8 +295,14 @@ export const useApi: TUseApi = (): IUseApi => {
           return new Promise((resolve, reject) => {
             http.request<{ id: string, name: string, ukrainianName: string, imageLink: string }[]>({
               method: "GET",
-              url: `${API_URL}/meal-categories/info-list/list`,
+              url: `${API_URL}/meal-categories/short-info/list`,
               params,
+              paramsSerializer: {
+                serialize: p => qs.stringify(
+                  Object.fromEntries(Object.entries(p).filter(([ k, v ]) => v)),
+                  { allowDots: true },
+                ),
+              },
               headers,
               loader: !!loader ? loader : false,
             })
@@ -318,7 +329,7 @@ export const useApi: TUseApi = (): IUseApi => {
         return new Promise((resolve, reject) => {
           http.request<{ id: string, name: string, ukrainianName: string, imageLink: string }>({
             method: "GET",
-            url: `${API_URL}/ingredients/${ingredientId}/info-list`,
+            url: `${API_URL}/ingredients/${ingredientId}/short-info`,
             headers,
             loader: !!loader ? loader : false,
           })
@@ -328,15 +339,17 @@ export const useApi: TUseApi = (): IUseApi => {
       },
       paginatedList: ({ loader, params }) => {
         return new Promise((resolve, reject) => {
-          http.request<{
-            totalCount: number,
-            count: number,
-            items: { id: string, name: string, ukrainianName: string, imageLink: string }[]
-          }>(
+          http.request<IPaginatedList<IIngredient>>(
             {
               method: "GET",
-              url: `${API_URL}/ingredients/info-list`,
+              url: `${API_URL}/ingredients/short-info`,
               params,
+              paramsSerializer: {
+                serialize: p => qs.stringify(
+                  Object.fromEntries(Object.entries(p).filter(([ k, v ]) => v)),
+                  { allowDots: true },
+                ),
+              },
               headers,
               loader: !!loader ? loader : false,
             })
@@ -348,7 +361,7 @@ export const useApi: TUseApi = (): IUseApi => {
         return new Promise((resolve, reject) => {
           http.request<{ id: string, name: string, ukrainianName: string, imageLink: string }[]>({
             method: "GET",
-            url: `${API_URL}/ingredients/info-list/list`,
+            url: `${API_URL}/ingredients/short-info/list`,
             params,
             headers,
             loader: !!loader ? loader : false,
@@ -373,15 +386,17 @@ export const useApi: TUseApi = (): IUseApi => {
       },
       paginatedList: ({ loader, params }) => {
         return new Promise((resolve, reject) => {
-          http.request<{
-            totalCount: number,
-            count: number,
-            items: IRecipe[]
-          }>(
+          http.request<IPaginatedList<IRecipe>>(
             {
               method: "GET",
               url: `${API_URL}/recipes/short-info`,
               params,
+              paramsSerializer: {
+                serialize: p => qs.stringify(
+                  Object.fromEntries(Object.entries(p).filter(([ k, v ]) => v)),
+                  { allowDots: true },
+                ),
+              },
               headers,
               loader: !!loader ? loader : false,
             })
