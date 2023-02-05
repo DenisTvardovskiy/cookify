@@ -131,22 +131,24 @@ export const Recipes: FC<IProps> = (props: IProps): JSX.Element => {
           ))}
         </GridContainer>
       </Container>
-      <Pagination
-        count={Math.ceil(total / params.Pagination.PageSize)}
-        page={params.Pagination.CurrentPage}
-        onChange={(e, page) => {
-          setParams((prevState) => {
-            return {
-              ...prevState,
-              Pagination: {
-                ...prevState.Pagination,
-                CurrentPage: page,
-              },
-            };
-          });
-        }}
-        variant='outlined'
-      />
+      <Container>
+        <Pagination
+          count={Math.ceil(total / params.Pagination.PageSize)}
+          page={params.Pagination.CurrentPage}
+          onChange={(e, page) => {
+            setParams((prevState) => {
+              return {
+                ...prevState,
+                Pagination: {
+                  ...prevState.Pagination,
+                  CurrentPage: page,
+                },
+              };
+            });
+          }}
+          variant='outlined'
+        />
+      </Container>
       <Footer />
     </>
   );
