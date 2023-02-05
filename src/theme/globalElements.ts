@@ -11,6 +11,7 @@ export const useGlobalElements = createUseStyles({
     fontWeight: theme.font.weight.bold,
     display: 'inline-flex',
     alignItems: 'center',
+    gap: theme.margin.xSmall,
     cursor: 'pointer',
 
     '&:hover': {
