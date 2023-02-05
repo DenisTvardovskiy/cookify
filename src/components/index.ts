@@ -1,7 +1,9 @@
 import { Container } from './Container';
+import { GridContainer } from './GridContainer';
 import { Navigation } from './Navigation';
 import { ILoaderContext, Loader, LoaderContext } from './Loader';
-import { RecipesList } from './RecipesList';
+import { Recipe } from './Recipe';
+import { Ingredient } from './Ingredient';
 import { Footer } from './Footer';
 import { ImageContainer } from './ImageContainer';
 import { Root } from './Root';
@@ -13,10 +15,12 @@ export type { ILoaderContext };
 
 export {
   Container,
+  GridContainer,
   Loader,
   Navigation,
   ImageContainer,
-  RecipesList,
+  Ingredient,
+  Recipe,
   Footer,
   Logo,
   LoaderContext,
