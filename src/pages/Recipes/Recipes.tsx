@@ -1,16 +1,16 @@
 import React, { FC, SyntheticEvent, useEffect, useRef, useState } from "react";
-import { Container, Footer, Navigation, RecipesList } from "../../components";
+import { Container, Footer, GridContainer, Navigation, Recipe } from "../../components";
 import useStyles from "./styles";
 import { Sort } from "@mui/icons-material";
 import { Button, Pagination } from "@mui/material";
 import { useApi } from "../../hooks";
 import { IRecipe } from "../../models";
-import { IOption, SearchBar } from "./SearchBar";
 import { debounce } from "lodash";
+import { IOption, SearchBar } from "./SearchBar";
 
 interface IProps {}
 
-export const Landing: FC<IProps> = (props: IProps): JSX.Element => {
+export const Recipes: FC<IProps> = (props: IProps): JSX.Element => {
   const classes = useStyles();
   const api = useApi();
   const [ items, setItems ] = useState<IRecipe[]>([]);
@@ -79,7 +79,7 @@ export const Landing: FC<IProps> = (props: IProps): JSX.Element => {
   const debouncedSearch = useRef(
     debounce(async (text: string) => {
       setSearch(text);
-      setCriteria(text)
+      setCriteria(text);
       setParams((prevState) => {
         return {
           ...prevState, Pagination: {
@@ -112,18 +112,22 @@ export const Landing: FC<IProps> = (props: IProps): JSX.Element => {
             />
             <span>Total search results: {total}</span>
           </div>
-
           <Button variant="outlined">
             <Sort /> Filter
           </Button>
         </div>
       </Container>
-      <RecipesList items={items} />
+      <Container>
+        <GridContainer>
+          {items.map((item) => (
+            <Recipe key={item.id} item={item} />
+          ))}
+        </GridContainer>
+      </Container>
       <Pagination
         count={Math.ceil(total / params.Pagination.PageSize)}
         page={params.Pagination.CurrentPage}
         onChange={(e, page) => {
-          console.log(page);
           setParams((prevState) => {
             return {
               ...prevState, Pagination: {
