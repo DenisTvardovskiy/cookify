@@ -104,7 +104,8 @@ interface IApiRecipePaginatedListConfig extends IApiConfig {
     TitleContains: string,
     TitleEquals: string,
     UkrainianTitleContains: string,
-    UkrainianTitleEquals: string
+    UkrainianTitleEquals: string,
+    CategoryIdEquals: string,
     Pagination: {
       Page: number,
       PageSize: number
@@ -130,7 +131,7 @@ export interface IUseApi {
       delete: (config: IApiAccountAvatarDeleteConfig) => Promise<void>;
     };
   };
-  meal: {
+  recipe: {
     categories: {
       one: (config: IApiMealCategoriesOneConfig) => Promise<ICategory>;
       info: (config: IApiMealCategoriesInfoConfig) => Promise<{ id: string, name: string, ukrainianName: string, imageLink: string }>;
@@ -251,13 +252,13 @@ export const useApi: TUseApi = (): IUseApi => {
         },
       },
     },
-    meal: {
+    recipe: {
       categories: {
         one: ({ categoryId, loader }) => {
           return new Promise((resolve, reject) => {
             http.request<ICategory>({
               method: "GET",
-              url: `${API_URL}/meal-categories/${categoryId}`,
+              url: `${API_URL}/recipe-categories/${categoryId}`,
               headers,
               loader: !!loader ? loader : false,
             })
@@ -269,7 +270,7 @@ export const useApi: TUseApi = (): IUseApi => {
           return new Promise((resolve, reject) => {
             http.request<{ id: string, name: string, ukrainianName: string, imageLink: string }>({
               method: "GET",
-              url: `${API_URL}/meal-categories/${categoryId}/short-info`,
+              url: `${API_URL}/recipe-categories/${categoryId}/short-info`,
               headers,
               loader: !!loader ? loader : false,
             })
@@ -282,7 +283,7 @@ export const useApi: TUseApi = (): IUseApi => {
             http.request<IPaginatedList<ICategory>>(
               {
                 method: "GET",
-                url: `${API_URL}/meal-categories/short-info`,
+                url: `${API_URL}/recipe-categories/short-info`,
                 params,
                 headers,
                 loader: !!loader ? loader : false,
@@ -295,7 +296,7 @@ export const useApi: TUseApi = (): IUseApi => {
           return new Promise((resolve, reject) => {
             http.request<{ id: string, name: string, ukrainianName: string, imageLink: string }[]>({
               method: "GET",
-              url: `${API_URL}/meal-categories/short-info/list`,
+              url: `${API_URL}/recipe-categories/short-info/list`,
               params,
               paramsSerializer: {
                 serialize: p => qs.stringify(

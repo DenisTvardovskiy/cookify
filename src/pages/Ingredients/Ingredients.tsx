@@ -128,9 +128,7 @@ export const Ingredients: FC<IProps> = (props: IProps): JSX.Element => {
             />
             <span>Total search results: {total}</span>
           </div>
-          <Button variant="outlined">
-            <Sort /> Filter
-          </Button>
+          <div></div>
         </div>
       </Container>
       <GridContainer>
