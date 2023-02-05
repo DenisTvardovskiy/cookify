@@ -32,7 +32,6 @@ export const useAuthorization: TUseAuthorization = () => {
   };
 
   const resetAuthorization = (): void => {
-    console.log('dddd')
     const logout = loader.create("Processing logout...");
 
     logout.start();
