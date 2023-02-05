@@ -55,9 +55,9 @@ export const Recipes: FC<IProps> = (props: IProps): JSX.Element => {
           return {
             ...prevState,
             Pagination: {
+              ...prevState.Pagination,
               Offset: offset,
               Page: page,
-              PageSize: count,
             },
           };
         });
