@@ -7,7 +7,8 @@ import { ImageContainer, Logo, AuthorizedMessage } from '../../components';
 import { useApi, useAuthorization } from '../../hooks';
 import { AuthLayout, ServerResponseLayout } from '../../layouts';
 import useStyles from './styles';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import classNames from 'classnames';
 
 interface IProps {}
 
@@ -34,17 +35,20 @@ export const SignUp: FC<IProps> = (props: IProps): JSX.Element => {
 
   return !isAuthorized ? (
     <AuthLayout>
-      <div className={classes.authWrap}>
-        <Logo vertical />
+      <div className={classNames(classes.authWrap, classes.withForm)}>
+        <div className={classes.navWrap}>
+          <Link to='/'>Назад</Link>
+        </div>
         <div className={classes.formWrapper}>
           <FormikProvider value={formik}>
             <form noValidate onSubmit={handleSubmit}>
+              <Logo vertical />
               <TextField
                 error={!!errors.username}
                 name='username'
                 id='username'
                 required
-                placeholder='Username'
+                placeholder="Ім'я користувача"
                 value={values.username}
                 onChange={handleChange}
                 helperText={errors.username}
@@ -54,7 +58,7 @@ export const SignUp: FC<IProps> = (props: IProps): JSX.Element => {
                 name='email'
                 id='email'
                 required
-                placeholder='Email'
+                placeholder='Електронна пошта'
                 value={values.email}
                 onChange={handleChange}
                 helperText={errors.email}
@@ -64,7 +68,7 @@ export const SignUp: FC<IProps> = (props: IProps): JSX.Element => {
                 name='password'
                 id='password'
                 required
-                placeholder='Password'
+                placeholder='Пароль'
                 value={values.password}
                 onChange={handleChange}
                 helperText={errors.password}
@@ -74,14 +78,17 @@ export const SignUp: FC<IProps> = (props: IProps): JSX.Element => {
                 name='passwordConfirmation'
                 id='passwordConfirmation'
                 required
-                placeholder='Retype password'
+                placeholder='Повторити пароль'
                 value={values.passwordConfirmation}
                 onChange={handleChange}
                 helperText={errors.passwordConfirmation}
               />
               <Button variant='outlined' type='submit' disabled={!isValid}>
-                Sign up
+                Створити акаунт
               </Button>
+              <p className={classes.accountHint}>
+                Маєте акаунт? <Link to={'/sign-in'}>Увійти</Link>
+              </p>
             </form>
           </FormikProvider>
         </div>

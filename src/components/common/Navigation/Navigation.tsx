@@ -26,15 +26,12 @@ export const Navigation: FC = (props: IProps): JSX.Element => {
         {!isAuthorized ? (
           <div className={classes.navWrapper}>
             <Button variant='outlined'>
-              <Link to='/sign-in'>Sign in</Link>
-            </Button>
-            <Button variant='outlined'>
-              <Link to='/sign-up'>Sign up</Link>
+              <Link to='/sign-in'>Увійти</Link>
             </Button>
           </div>
         ) : (
           <Button variant='outlined' onClick={resetAuthorization}>
-            Log Out
+            Вийти
           </Button>
         )}
       </nav>

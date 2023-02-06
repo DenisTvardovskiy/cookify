@@ -1,5 +1,5 @@
-import { createUseStyles } from 'react-jss'
-import { theme } from '../../theme'
+import { createUseStyles } from 'react-jss';
+import { theme } from '../../theme';
 
 export default createUseStyles(() => ({
   authWrap: {
@@ -7,13 +7,27 @@ export default createUseStyles(() => ({
     height: '100vh',
     position: 'relative',
     display: 'flex',
+    flexWrap: 'wrap',
     justifyContent: 'center',
+  },
+
+  withForm: {
+    padding: [0, theme.padding.small],
+  },
+
+  navWrap: {
+    width: '100%',
+    height: 50,
+    display: 'flex',
     alignItems: 'center',
-    flexDirection: 'column',
+    justifyContent: 'flex-end',
   },
 
   formWrapper: {
-    marginTop: theme.margin.medium,
+    width: '100%',
+    height: "calc('100% - 50px')",
+    display: 'flex',
+    justifyContent: 'center',
 
     '& form': {
       display: 'flex',
@@ -21,4 +35,8 @@ export default createUseStyles(() => ({
       gap: theme.margin.small,
     },
   },
-}))
+
+  accountHint: {
+    fontSize: theme.font.sizes.desktop.small,
+  },
+}));
