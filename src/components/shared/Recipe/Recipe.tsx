@@ -15,7 +15,7 @@ export const Recipe: FC<IProps> = ({ item }: IProps): JSX.Element => {
   const navigate = useNavigate();
 
   return (
-    <div className={classes.item} onClick={() => navigate(`recipe/${item.id}`)}>
+    <div className={classes.item} onClick={() => navigate(`/recipe/${item.id}`)}>
       <div className={classes.imageWrap}>
         <ImageContainer hoverAnimation>
           {item.imageLink ? (
