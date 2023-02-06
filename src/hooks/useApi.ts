@@ -101,6 +101,13 @@ interface IApiIngredientInfoListConfig extends IApiConfig {
   };
 }
 
+interface IApiRecipeInfoRandomListConfig extends IApiConfig {
+  params?: {
+    PageSize: number;
+    CategoryIdEquals: string;
+  };
+}
+
 interface IApiRecipePaginatedListConfig extends IApiConfig {
   params?: {
     TitleContains: string,
@@ -164,6 +171,9 @@ export interface IUseApi {
   recipes: {
     one: (config: IApiRecipeInfoConfig) => Promise<IRecipe>;
     paginatedList: (config: IApiRecipePaginatedListConfig) => Promise<IPaginatedList<IRecipe>>;
+    random: (
+      config: IApiRecipeInfoRandomListConfig,
+    ) => Promise<IPaginatedList<IRecipe>>;
   };
 }
 
@@ -192,11 +202,11 @@ export const useApi: TUseApi = (): IUseApi => {
         return new Promise((resolve, reject) => {
           http
             .request<void>({
-              method: 'POST',
+              method: "POST",
               url: `${API_URL}/users/registration`,
               headers,
               data: { password, username, email, passwordConfirmation },
-              loader: !!loader ? loader : 'Processing sign up...',
+              loader: !!loader ? loader : "Processing sign up...",
             })
             .then(resolve)
             .catch(reject);
@@ -206,11 +216,11 @@ export const useApi: TUseApi = (): IUseApi => {
         return new Promise((resolve, reject) => {
           http
             .request<{ refreshToken: string; jsonWebToken: string }>({
-              method: 'POST',
+              method: "POST",
               url: `${API_URL}/users/authentication`,
               headers,
               data: { username, password },
-              loader: !!loader ? loader : 'Processing sign in...',
+              loader: !!loader ? loader : "Processing sign in...",
               debug,
             })
             .then(resolve)
@@ -419,6 +429,19 @@ export const useApi: TUseApi = (): IUseApi => {
               headers,
               loader: !!loader ? loader : false,
             })
+            .then(resolve)
+            .catch(reject);
+        });
+      },
+      random: ({ loader, params }) => {
+        return new Promise((resolve, reject) => {
+          http.request<IPaginatedList<IRecipe>>({
+            method: "GET",
+            url: `${API_URL}/recipes/short-info/random`,
+            params,
+            headers,
+            loader: !!loader ? loader : false,
+          })
             .then(resolve)
             .catch(reject);
         });

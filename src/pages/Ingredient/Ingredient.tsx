@@ -31,14 +31,14 @@ export const Ingredient: FC<IProps> = (props: IProps): JSX.Element => {
       <Container>
         <div className={classes.ingredientWrap}>
           <div>
-            <h2>{ingredient?.name}</h2>
+            <h2>{ingredient?.ukrainianName}</h2>
             <p>Опубліковано {date.toDateString()}</p>
           </div>
 
           {ingredient?.imageLink && (
             <div className={classes.imageWrap}>
               <ImageContainer>
-                <img src={ingredient?.imageLink} alt={ingredient?.name} />
+                <img src={ingredient?.imageLink} alt={ingredient?.ukrainianName} />
               </ImageContainer>
             </div>
           )}

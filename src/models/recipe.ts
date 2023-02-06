@@ -9,6 +9,7 @@ export interface IRecipe {
   instruction: string;
   ukrainianInstruction: string;
   imageLink: string;
+  pdfLink: string;
   likesCount: number;
   category: ICategory;
   ingredients: {
