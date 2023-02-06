@@ -6,5 +6,6 @@ export interface IIngredient {
   ukrainianName: string;
   description: string;
   ukrainianDescription: string;
+  ukrainianMeasure?: string;
   imageLink: string;
 }

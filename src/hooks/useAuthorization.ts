@@ -3,19 +3,21 @@ import { useStore } from "./useStore";
 import { RST_AUTHORIZATION, SET_AUTHORIZATION } from "../store/authorization/authorization.actions";
 import * as jose from "jose";
 import { useLoader } from "./useLoader";
+import { IUser } from "../models/user.";
 
 type TUseAuthorization = () => {
   isAuthorized: boolean;
   jsonWebToken: string;
   refreshToken: string;
-  setAuthorization: (token: string, type?: string) => void;
+  user: IUser;
+  setAuthorization: (token: string, user: IUser, type?: string) => void;
   resetAuthorization: () => void;
 };
 
 export const useAuthorization: TUseAuthorization = () => {
   const loader = useLoader();
   const dispatch = useDispatch();
-  const { jsonWebToken, refreshToken } = useStore((store) => store.authorization);
+  const { jsonWebToken, refreshToken, user } = useStore((store) => store.authorization);
   const isValid = (): boolean => {
     if (!jsonWebToken) {
       return false;
@@ -27,8 +29,8 @@ export const useAuthorization: TUseAuthorization = () => {
     return (!!payload && !!payload.exp && (payload.exp - now > 0));
   };
 
-  const setAuthorization = (token: string, refresh: string): void => {
-    dispatch({ type: SET_AUTHORIZATION, jsonWebToken: token, refreshToken: refresh });
+  const setAuthorization = (token: string, user: IUser, refresh: string): void => {
+    dispatch({ type: SET_AUTHORIZATION, jsonWebToken: token, refreshToken: refresh, user });
   };
 
   const resetAuthorization = (): void => {
@@ -48,6 +50,7 @@ export const useAuthorization: TUseAuthorization = () => {
   return {
     isAuthorized: isValid(),
     jsonWebToken,
+    user,
     refreshToken,
     setAuthorization,
     resetAuthorization,

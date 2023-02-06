@@ -4,6 +4,7 @@ import { useAuthorization } from "./useAuthorization";
 import { AxiosRequestHeaders } from "axios";
 import { ICategory, IIngredient, IRecipe } from "../models";
 import qs from "qs";
+import { IUser } from "../models/user.";
 
 const API_URL: string = "https://backend-api-sioprycdaq-ew.a.run.app/api";
 
@@ -127,6 +128,10 @@ interface IApiRecipeInfoConfig extends IApiConfig {
   recipeId: string;
 }
 
+interface IApiAccountInfoGetConfig extends IApiConfig {
+  jsonWebToken: string;
+}
+
 export interface IUseApi {
   authorization: {
     signUp: (config: IApiAuthorizationSignUpConfig) => Promise<void>;
@@ -136,6 +141,9 @@ export interface IUseApi {
     signOut: (config: IApiAuthorizationSignOutConfig) => Promise<void>;
   };
   account: {
+    info: {
+      get: (config: IApiAccountInfoGetConfig) => Promise<IUser>;
+    },
     avatar: {
       get: (config: IApiAccountAvatarGetConfig) => Promise<string>;
       update: (config: IApiAccountAvatarUpdateConfig) => Promise<string>;
@@ -241,6 +249,25 @@ export const useApi: TUseApi = (): IUseApi => {
       },
     },
     account: {
+      info: {
+        get: ({ jsonWebToken, loader }) => {
+          const _headers: any = {};
+          _headers["Authorization"] = `Bearer ${jsonWebToken}`;
+
+          _headers["Access-Control-Allow-Origin"] = "*";
+          _headers["Content-Type"] = "application/json";
+          return new Promise((resolve, reject) => {
+            http.request<IUser>({
+              method: "GET",
+              url: `${API_URL}/users/current`,
+              headers: _headers,
+              loader: !!loader ? loader : false,
+            })
+              .then(resolve)
+              .catch(reject);
+          });
+        },
+      },
       avatar: {
         get: ({ loader }) => {
           return new Promise((resolve, reject) => {

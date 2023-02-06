@@ -1,14 +1,16 @@
-import React, { FC } from 'react';
-import { IIngredient } from '../../../models';
-import { ImageContainer } from '../../common/ImageContainer';
+import React, { FC } from "react";
+import { IIngredient } from "../../../models";
+import { ImageContainer } from "../../common/ImageContainer";
 
-import useStyles from './styles';
+import useStyles from "./styles";
 import { useNavigate } from "react-router-dom";
 
 interface IProps {
   item: IIngredient;
+  measure?: string;
 }
-export const Ingredient: FC<IProps> = ({ item }: IProps): JSX.Element => {
+
+export const Ingredient: FC<IProps> = ({ item, measure }: IProps): JSX.Element => {
   const classes = useStyles();
   const navigate = useNavigate();
 
@@ -19,7 +21,7 @@ export const Ingredient: FC<IProps> = ({ item }: IProps): JSX.Element => {
           {item.imageLink ? (
             <img src={item.imageLink} alt={item.name} />
           ) : (
-            <img src='images/placeholder.png' alt={item.name} />
+            <img src="images/placeholder.png" alt={item.name} />
           )}
         </ImageContainer>
       </div>
@@ -27,9 +29,9 @@ export const Ingredient: FC<IProps> = ({ item }: IProps): JSX.Element => {
       <div className={classes.textContainer}>
         <h6>{item.name}</h6>
 
-        {/*<div className={classes.infoBlock}>*/}
-        {/*  <FavoriteBorderIcon className={classes.rateIcon} /> <p>{item.likesCount}</p>*/}
-        {/*</div>*/}
+        {measure && <div className={classes.infoBlock}>
+          <p>{measure}</p>
+        </div>}
       </div>
     </div>
   );
