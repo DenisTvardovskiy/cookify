@@ -73,6 +73,9 @@ export const SignIn: FC<IProps> = (props: IProps): JSX.Element => {
                 <Button variant='outlined' type='submit' disabled={!isValid}>
                   Увійти
                 </Button>
+                <p className={classes.accountHint}>
+                  Немаєте акаунт? <Link to={'/sign-up'}>Створити</Link>
+                </p>
               </form>
             </FormikProvider>
           </div>

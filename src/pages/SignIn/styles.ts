@@ -35,4 +35,8 @@ export default createUseStyles(() => ({
       gap: theme.margin.small,
     },
   },
+
+  accountHint: {
+    fontSize: theme.font.sizes.desktop.small,
+  },
 }));
