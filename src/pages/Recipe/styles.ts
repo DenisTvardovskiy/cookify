@@ -1,21 +1,21 @@
-import { createUseStyles } from "react-jss";
-import { theme } from "../../theme";
+import { createUseStyles } from 'react-jss';
+import { theme } from '../../theme';
 
 export default createUseStyles(() => ({
   recipeWrap: {
-    display: "flex",
-    textAlign: "center",
+    display: 'flex',
+    textAlign: 'center',
     gap: theme.padding.small,
-    flexDirection: "column",
-    alignItems: "center",
+    flexDirection: 'column',
+    alignItems: 'center',
     minHeight: `calc(100vh - ${theme.navigationHeight}px)`,
-    padding: [ theme.padding.large, theme.padding.xxLarge ],
+    padding: [theme.padding.large, theme.padding.xxLarge],
   },
 
   imageWrap: {
-    width: "100%",
+    width: '100%',
     height: 500,
-    position: "relative",
+    position: 'relative',
   },
 
   like: {
@@ -23,38 +23,36 @@ export default createUseStyles(() => ({
   },
 
   ingredientsList: {
-    display: "flex",
-    flexWrap: "wrap",
-    flexDirection: "column",
-    justifyContent: "center",
+    display: 'flex',
+    flexWrap: 'wrap',
+    justifyContent: 'center',
     gap: theme.margin.default,
-
   },
+
   ingredientsLink: {
-    display: "flex",
-    alignItems: "center",
+    display: 'flex',
+    alignItems: 'center',
     justifyContent: 'start',
     width: 'auto',
-    textTransform: "capitalize",
-    "& >  img ": {
+    textTransform: 'capitalize',
+    '& >  img ': {
       width: 32,
       height: 32,
       marginRight: 5,
     },
   },
 
-  description: {
-    display: "grid",
-    gridTemplateColumns: "50% 50%",
-    alignItems: "center",
-    gap: theme.margin.default,
+  actions: {
+    display: 'flex',
+    gap: theme.padding.small,
   },
+
   mainInfo: {
-    display: "flex",
-    alignItems: "center",
-    flexDirection: "row",
+    width: '100%',
+    display: 'flex',
+    flexDirection: 'column',
   },
   steps: {
-    textAlign: "start",
+    textAlign: 'start',
   },
 }));
