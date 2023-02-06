@@ -1,11 +1,10 @@
 import React, { FC } from 'react';
-import { Autocomplete, Button, InputAdornment, TextField } from '@mui/material';
-import { AccountCircle, Sort } from '@mui/icons-material';
+import { Avatar, Button } from '@mui/material';
 
 import { Container } from '../../shared/Container';
 import useStyles from './style';
 import { Logo } from '../../shared/Logo';
-import { useApi, useAuthorization } from '../../../hooks';
+import { useAuthorization } from '../../../hooks';
 import { Link } from 'react-router-dom';
 
 interface IProps {}
@@ -21,6 +20,8 @@ export const Navigation: FC = (props: IProps): JSX.Element => {
           <Link to='/'>
             <Logo />
           </Link>
+          <Link to='/'>Рецепти</Link>
+          <Link to='/ingredients'>Інгредієнти</Link>
         </div>
 
         {!isAuthorized ? (
@@ -30,9 +31,14 @@ export const Navigation: FC = (props: IProps): JSX.Element => {
             </Button>
           </div>
         ) : (
-          <Button variant='outlined' onClick={resetAuthorization}>
-            Вийти
-          </Button>
+          <div className={classes.accountWrap}>
+            <Button variant='outlined' onClick={resetAuthorization}>
+              Вийти
+            </Button>
+            <Link to='/profile'>
+              <Avatar className={classes.avatar} />
+            </Link>
+          </div>
         )}
       </nav>
     </Container>

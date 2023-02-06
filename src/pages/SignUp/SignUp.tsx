@@ -64,6 +64,7 @@ export const SignUp: FC<IProps> = (props: IProps): JSX.Element => {
                 helperText={errors.email}
               />
               <TextField
+                type='password'
                 error={!!errors.password}
                 name='password'
                 id='password'
@@ -74,6 +75,7 @@ export const SignUp: FC<IProps> = (props: IProps): JSX.Element => {
                 helperText={errors.password}
               />
               <TextField
+                type='password'
                 error={!!errors.passwordConfirmation}
                 name='passwordConfirmation'
                 id='passwordConfirmation'

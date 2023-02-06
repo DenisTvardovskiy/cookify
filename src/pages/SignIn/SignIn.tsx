@@ -8,7 +8,7 @@ import { useApi, useAuthorization } from '../../hooks';
 import { AuthLayout, ServerResponseLayout } from '../../layouts';
 
 import useStyles from './styles';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import classNames from 'classnames';
 
 interface IProps {}
@@ -23,13 +23,18 @@ export const SignIn: FC<IProps> = (props: IProps): JSX.Element => {
   const { isAuthorized, setAuthorization } = useAuthorization();
   const classes = useStyles();
 
+  const navigate = useNavigate();
+
   const formik = useFormik({
     initialValues: { username: '', password: '' },
     validationSchema,
     onSubmit: (values) =>
       api.authorization
         .signIn({ ...values })
-        .then(({ refreshToken, jsonWebToken }) => setAuthorization(jsonWebToken, refreshToken)),
+        .then(({ refreshToken, jsonWebToken }) => setAuthorization(jsonWebToken, refreshToken))
+        .then(() => {
+          navigate('/profile');
+        }),
   });
 
   const { values, handleChange, handleSubmit, isValid, errors } = formik;
@@ -61,6 +66,7 @@ export const SignIn: FC<IProps> = (props: IProps): JSX.Element => {
                   helperText={errors.username}
                 />
                 <TextField
+                  type='password'
                   error={!!errors.password}
                   name='password'
                   id='password'

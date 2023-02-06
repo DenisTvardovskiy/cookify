@@ -162,7 +162,9 @@ export const Recipes: FC<IProps> = (props: IProps): JSX.Element => {
             <Select value={category} label='Category' onChange={handleSelectCategory}>
               <MenuItem value=''>Жодна</MenuItem>
               {categories.map((cat) => (
-                <MenuItem value={cat.id}>{cat.ukrainianName}</MenuItem>
+                <MenuItem key={cat.id} value={cat.id}>
+                  {cat.ukrainianName}
+                </MenuItem>
               ))}
             </Select>
           </div>

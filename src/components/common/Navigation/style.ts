@@ -15,4 +15,15 @@ export default createUseStyles(() => ({
     display: 'flex',
     gap: theme.margin.small,
   },
+
+  accountWrap: {
+    display: 'flex',
+    alignItems: 'center',
+    gap: theme.margin.small,
+  },
+
+  avatar: {
+    width: 35,
+    height: 35,
+  },
 }));

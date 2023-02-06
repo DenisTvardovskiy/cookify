@@ -6,7 +6,6 @@ import * as Page from '../../../pages';
 interface IProps {}
 
 const PageProfileWithCheckAuthorization = withCheckAuthorization(Page.Profile);
-const PageMainWithCheckAuthorization = withCheckAuthorization(Page.Account);
 
 export const Router: FC<IProps> = (props: IProps): JSX.Element => {
   return (
@@ -14,7 +13,6 @@ export const Router: FC<IProps> = (props: IProps): JSX.Element => {
       <Routes>
         <Route path='/' element={<Page.Recipes />} />
         <Route path='/recipe/:id' element={<Page.Recipe />} />
-        <Route path='/home' element={<PageMainWithCheckAuthorization />} />
         <Route path='/ingredients' element={<Page.Ingredients />} />
         <Route path='/ingredient/:id' element={<Page.Ingredient />} />
         <Route path='/sign-in' element={<Page.SignIn />} />
