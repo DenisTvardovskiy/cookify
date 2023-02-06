@@ -13,6 +13,7 @@ export default createUseStyles(() => ({
   },
 
   formWrapper: {
+    width: "30%",
     marginTop: theme.margin.medium,
 
     '& form': {

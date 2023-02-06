@@ -71,11 +71,11 @@ export const theme = {
   },
 
   margin: {
-    xxSmall: 2,
-    xSmall: 5,
-    small: 10,
-    default: 20,
-    medium: 40,
+    xxSmall: '0.1em,',
+    xSmall: "0.3em",
+    small: "0.5em",
+    default: "1em",
+    medium: "2em",
   },
 
   navigationHeight: 80,
