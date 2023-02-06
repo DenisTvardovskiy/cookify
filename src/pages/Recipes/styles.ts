@@ -1,4 +1,4 @@
-import { createUseStyles } from 'react-jss'
+import { createUseStyles } from 'react-jss';
 
 export default createUseStyles(() => ({
   filterWrap: {
@@ -6,4 +6,8 @@ export default createUseStyles(() => ({
     alignItems: 'flex-end',
     justifyContent: 'space-between',
   },
-}))
+
+  searchWrap: {
+    display: 'flex',
+  },
+}));
