@@ -1,9 +1,9 @@
-import React, { FC } from "react";
-import { IIngredient } from "../../../models";
-import { ImageContainer } from "../../common/ImageContainer";
+import React, { FC } from 'react';
+import { IIngredient } from '../../../models';
+import { ImageContainer } from '../../common/ImageContainer';
 
-import useStyles from "./styles";
-import { useNavigate } from "react-router-dom";
+import useStyles from './styles';
+import { useNavigate } from 'react-router-dom';
 
 interface IProps {
   item: IIngredient;
@@ -15,13 +15,13 @@ export const Ingredient: FC<IProps> = ({ item, measure }: IProps): JSX.Element =
   const navigate = useNavigate();
 
   return (
-    <div className={classes.item} onClick={() => navigate(`ingredient/${item.id}`)}>
+    <div className={classes.item} onClick={() => navigate(`/ingredient/${item.id}`)}>
       <div className={classes.imageWrap}>
         <ImageContainer hoverAnimation>
           {item.imageLink ? (
             <img src={item.imageLink} alt={item.name} />
           ) : (
-            <img src="images/placeholder.png" alt={item.name} />
+            <img src='images/placeholder.png' alt={item.name} />
           )}
         </ImageContainer>
       </div>
@@ -29,9 +29,11 @@ export const Ingredient: FC<IProps> = ({ item, measure }: IProps): JSX.Element =
       <div className={classes.textContainer}>
         <h6>{item.name}</h6>
 
-        {measure && <div className={classes.infoBlock}>
-          <p>{measure}</p>
-        </div>}
+        {measure && (
+          <div className={classes.infoBlock}>
+            <p>{measure}</p>
+          </div>
+        )}
       </div>
     </div>
   );
