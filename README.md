@@ -25,6 +25,8 @@ Cookify is a website where user can discover and create his own recipes.
 2. Redux
 3. Typescript
 4. Lodash
+5. MUI
+6. JSS
 
 ### Prerequisites
 
