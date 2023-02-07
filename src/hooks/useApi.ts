@@ -170,6 +170,7 @@ export interface IUseApi {
   };
   ingredients: {
     one: (config: IApiIngredientOneConfig) => Promise<IIngredient>;
+    remove: (config: IApiIngredientOneConfig) => Promise<void>;
     info: (
       config: IApiIngredientInfoConfig,
     ) => Promise<{ id: string; name: string; ukrainianName: string; imageLink: string }>;
@@ -384,6 +385,18 @@ export const useApi: TUseApi = (): IUseApi => {
           http.request<IIngredient>({
             method: "GET",
             url: `${API_URL}/ingredients/${ingredientId}`,
+            headers,
+            loader: !!loader ? loader : false,
+          })
+            .then(resolve)
+            .catch(reject);
+        });
+      },
+      remove: ({ ingredientId, loader }) => {
+        return new Promise((resolve, reject) => {
+          http.request<void>({
+            method: "DELETE",
+            url: `${API_URL}/ingredients/${ingredientId}/users/current`,
             headers,
             loader: !!loader ? loader : false,
           })

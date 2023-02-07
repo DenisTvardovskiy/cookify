@@ -1,5 +1,6 @@
 export interface IIngredient {
   id: string;
+  ingredientId?: string;
   createdBy: string;
   createdAt: Date;
   name: string;
