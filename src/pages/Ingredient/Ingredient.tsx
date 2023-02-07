@@ -74,7 +74,7 @@ export const Ingredient: FC<IProps> = (props: IProps): JSX.Element => {
       {recipes.length > 0 && (
         <Container>
           <h5>Рецепти з цим інгридієнтом</h5>
-          <RecipesGrid items={recipes} />
+          <RecipesGrid items={recipes} noActions />
         </Container>
       )}
 
