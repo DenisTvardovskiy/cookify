@@ -77,6 +77,10 @@ interface IApiIngredientOneConfig extends IApiConfig {
   ingredientId: string;
 }
 
+interface IApiIngredientAddConfig extends IApiConfig {
+  ingredientId: string;
+}
+
 interface IApiIngredientInfoConfig extends IApiConfig {
   ingredientId: string;
 }
@@ -172,6 +176,7 @@ export interface IUseApi {
     };
   };
   ingredients: {
+    add: (config: IApiIngredientAddConfig) => Promise<void>;
     one: (config: IApiIngredientOneConfig) => Promise<IIngredient>;
     remove: (config: IApiIngredientOneConfig) => Promise<void>;
     info: (
@@ -383,6 +388,19 @@ export const useApi: TUseApi = (): IUseApi => {
       },
     },
     ingredients: {
+      add: ({ ingredientId, loader }) => {
+        return new Promise((resolve, reject) => {
+          http.request<void>({
+            method: "PUT",
+            url: `${API_URL}/ingredients/${ingredientId}/users/current`,
+            headers,
+            data: "1 уод",
+            loader: !!loader ? loader : false,
+          })
+            .then(resolve)
+            .catch(reject);
+        });
+      },
       one: ({ ingredientId, loader }) => {
         return new Promise((resolve, reject) => {
           http.request<IIngredient>({
