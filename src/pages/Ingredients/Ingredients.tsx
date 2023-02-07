@@ -8,6 +8,7 @@ import { IIngredient } from '../../models';
 import { IOption, SearchBar } from '../Recipes/SearchBar';
 import { debounce } from 'lodash';
 import { useLocation, useNavigate } from 'react-router-dom';
+import { IngredientsGrid } from '../../components/common/IngredientsGrid';
 
 interface IProps {}
 
@@ -131,17 +132,9 @@ export const Ingredients: FC<IProps> = (props: IProps): JSX.Element => {
           </div>
         </div>
       </Container>
-      {/*<Container>*/}
-      {/*  {items.length ? (*/}
-      {/*    <RecipesGrid>*/}
-      {/*      {items.map((item, index) => (*/}
-      {/*        <Ingredient key={index} item={item} />*/}
-      {/*      ))}*/}
-      {/*    </RecipesGrid>*/}
-      {/*  ) : (*/}
-      {/*    'NOTHING TO SHOW'*/}
-      {/*  )}*/}
-      {/*</Container>*/}
+      <Container>
+        <IngredientsGrid items={items} />
+      </Container>
 
       <Container>
         <Pagination
