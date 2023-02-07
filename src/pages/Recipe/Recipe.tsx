@@ -36,7 +36,7 @@ export const Recipe: FC<IProps> = (props: IProps): JSX.Element => {
       setItem(recipe);
       api.recipes
         .random({
-          params: { PageSize: 4, CategoryIdEquals: recipe.category.id },
+          params: { IsPublicEquals: true, PageSize: 4, CategoryIdEquals: recipe.category.id },
           loader: 'Завантаження рецептів...',
         })
         .then((data) => {
@@ -115,11 +115,7 @@ export const Recipe: FC<IProps> = (props: IProps): JSX.Element => {
           <Container>
             <h2>Схожі Рецепти</h2>
 
-            {/*<RecipesGrid>*/}
-            {/*  {similarRecipes.map((item, index) => (*/}
-            {/*    <RecipeItem item={item} key={index} />*/}
-            {/*  ))}*/}
-            {/*</RecipesGrid>*/}
+            <RecipesGrid items={similarRecipes}/>
           </Container>
         )}
         <Footer />

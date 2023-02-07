@@ -41,12 +41,6 @@ export const Recipe: FC<IProps> = ({ item, onLike, onUnLike, onFavorite, onUnFav
           <span className={classes.categoryListItem}>{item.category.ukrainianName}</span>
         </div>
 
-        {/*{item.time && (*/}
-        {/*  <div className={classes.infoBlock}>*/}
-        {/*    <Timelapse className={classes.timeIcon} /> <p>{item.time}</p>*/}
-        {/*  </div>*/}
-        {/*)}*/}
-
       </div>
       {user && <div className={classes.actions}>
         {onUnLike && onLike && <div className={classes.infoBlock}>

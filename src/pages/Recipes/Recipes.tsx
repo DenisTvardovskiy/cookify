@@ -51,6 +51,7 @@ export const Recipes: FC<IProps> = (props: IProps): JSX.Element => {
           ...params,
           UkrainianTitleContains: search,
           CategoryIdEquals: category,
+          IsPublicEquals: true,
           Pagination: {
             ...params.Pagination,
             Page: +query.get('page') || 1,
@@ -80,6 +81,7 @@ export const Recipes: FC<IProps> = (props: IProps): JSX.Element => {
           ...params,
           CategoryIdEquals: category,
           UkrainianTitleContains: criteria,
+          IsPublicEquals: true,
           Pagination: {
             ...params.Pagination,
             PageSize: 5,
@@ -150,7 +152,7 @@ export const Recipes: FC<IProps> = (props: IProps): JSX.Element => {
         <div className={classes.filterWrap}>
           <div>
             <h2>Рецепти</h2>
-            {total && <p>Було знайдено: {total}</p>}
+            {Boolean(total) && <p>Було знайдено: {total}</p>}
           </div>
           <div className={classes.searchWrap}>
             <SearchBar

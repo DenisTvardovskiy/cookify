@@ -11,6 +11,7 @@ export interface IRecipe {
   ukrainianInstruction: string;
   imageLink: string;
   pdfLink: string;
+  isPublic: boolean;
   likesCount: number;
   category: ICategory;
   ingredients: IRecipeIngredient[];

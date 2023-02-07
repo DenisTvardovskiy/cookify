@@ -11,6 +11,7 @@ interface IProps {
 export const IngredientsGrid: FC<IProps> = (props: IProps): JSX.Element => {
   const classes = useStyles();
 
+  console.log(props.items)
   return (
     <>
       {Boolean(props.items.length) ? (

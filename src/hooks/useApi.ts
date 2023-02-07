@@ -106,6 +106,7 @@ interface IApiRecipeInfoRandomListConfig extends IApiConfig {
   params?: {
     PageSize: number;
     CategoryIdEquals: string;
+    IsPublicEquals: boolean,
   };
 }
 
@@ -116,6 +117,7 @@ interface IApiRecipePaginatedListConfig extends IApiConfig {
     UkrainianTitleContains: string,
     UkrainianTitleEquals: string,
     CategoryIdEquals: string,
+    IsPublicEquals: true,
     Pagination: {
       Page: number,
       PageSize: number
