@@ -10,10 +10,10 @@ import { useStore } from "../../../hooks/useStore";
 
 interface IProps {
   items: IRecipe[];
-  noActions: boolean;
+  noActions?: boolean;
 }
 
-export const RecipesGrid: FC<IProps> = (props: IProps): JSX.Element => {
+export const RecipesGrid: FC<IProps> = ({ items, noActions = false }: IProps): JSX.Element => {
   const classes = useStyles();
   const api = useApi();
   const { user } = useAuthorization();
@@ -41,17 +41,17 @@ export const RecipesGrid: FC<IProps> = (props: IProps): JSX.Element => {
 
   return (
     <>
-      {Boolean(props.items.length) ? (
+      {Boolean(items.length) ? (
         <div className={classes.gridContainer}>
-          {props.items.map((item) => (
+          {items.map((item) => (
             <Recipe
               key={item.id}
               item={item}
-              onLike={!props.noActions && handleLike}
-              onFavorite={!props.noActions && handleFavorite}
-              onUnFavorite={!props.noActions && handleUnFavorite}
-              onUnLike={!props.noActions && handleUnLike}
-              user={!props.noActions && user}
+              onLike={!noActions && handleLike}
+              onFavorite={!noActions && handleFavorite}
+              onUnFavorite={!noActions && handleUnFavorite}
+              onUnLike={!noActions && handleUnLike}
+              user={!noActions && user}
             />
           ))}
         </div>
