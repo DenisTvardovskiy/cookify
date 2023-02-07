@@ -13,18 +13,19 @@ import {
   Recipe as RecipeItem,
 } from '../../components';
 import useStyles from './styles';
-import { Link, useNavigate, useParams } from 'react-router-dom';
-import { useApi } from '../../hooks';
-import { IRecipe } from '../../models';
+import { Link, useParams } from 'react-router-dom';
+import { useApi, useAuthorization } from '../../hooks';
+import { IIngredient, IRecipe } from '../../models';
 import { useGlobalElements } from '../../theme/globalElements';
+import { IRecipeIngredient } from '../../models/recipeIngredient';
 
 interface IProps {}
 
 export const Recipe: FC<IProps> = (props: IProps): JSX.Element => {
   const classes = useStyles();
-
+  const globalElements = useGlobalElements();
+  const { user } = useAuthorization();
   let { id } = useParams();
-  const navigate = useNavigate();
 
   const api = useApi();
   const [recipe, setItem] = useState<IRecipe>();
@@ -48,7 +49,11 @@ export const Recipe: FC<IProps> = (props: IProps): JSX.Element => {
 
   const date = new Date(recipe?.createdAt);
 
-  const globalElements = useGlobalElements();
+  const userHasIngredient = (item: IRecipeIngredient): Boolean => {
+    return !!user.availableIngredients.filter(
+      (userIngredient) => userIngredient.id === item.ingredientId,
+    ).length;
+  };
 
   return (
     !!recipe && (
@@ -93,7 +98,8 @@ export const Recipe: FC<IProps> = (props: IProps): JSX.Element => {
                       to={`/ingredient/${item?.ingredientId}`}
                     >
                       <img src={item.imageLink} alt={item.ukrainianName} />
-                      {item?.name}
+                      <p>{!userHasIngredient(item) && <strong>(Відсутній)</strong>}</p>
+                      <p>{item?.ukrainianName}</p>
                     </Link>
                   </div>
                 ))}

@@ -13,6 +13,8 @@ export const Navigation: FC = (props: IProps): JSX.Element => {
   const { isAuthorized, resetAuthorization } = useAuthorization();
   const classes = useStyles();
 
+  const { user } = useAuthorization();
+
   return (
     <Container whiteStyle>
       <nav className={classes.navigation}>
@@ -36,7 +38,7 @@ export const Navigation: FC = (props: IProps): JSX.Element => {
               Вийти
             </Button>
             <Link to='/profile'>
-              <Avatar className={classes.avatar} />
+              <Avatar className={classes.avatar} alt={user?.username} src={user?.avatarImageLink} />
             </Link>
           </div>
         )}
