@@ -1,19 +1,19 @@
-import React, { FC, SyntheticEvent, useEffect, useRef, useState } from 'react';
-import { Container, Footer, Navigation, SearchBar, IOption } from '../../components';
-import useStyles from './styles';
-import { Pagination } from '@mui/material';
-import { useApi } from '../../hooks';
-import { IIngredient } from '../../models';
-import { debounce } from 'lodash';
-import { useLocation, useNavigate } from 'react-router-dom';
-import { IngredientsGrid } from '../../components/common/IngredientsGrid';
+import React, { FC, SyntheticEvent, useEffect, useRef, useState } from "react";
+import { Container, Footer, Navigation, SearchBar, IOption } from "../../components";
+import useStyles from "./styles";
+import { Pagination } from "@mui/material";
+import { useApi } from "../../hooks";
+import { IIngredient } from "../../models";
+import { debounce } from "lodash";
+import { useLocation, useNavigate } from "react-router-dom";
+import { IngredientsGrid } from "../../components/common/IngredientsGrid";
 
 interface IProps {}
 
 function useQuery() {
   const { search } = useLocation();
 
-  return React.useMemo(() => new URLSearchParams(search), [search]);
+  return React.useMemo(() => new URLSearchParams(search), [ search ]);
 }
 
 export const Ingredients: FC<IProps> = (props: IProps): JSX.Element => {
@@ -21,12 +21,12 @@ export const Ingredients: FC<IProps> = (props: IProps): JSX.Element => {
   const api = useApi();
   const navigate = useNavigate();
   const query = useQuery();
-  const [items, setItems] = useState<IIngredient[]>([]);
-  const [total, setTotal] = useState<number | null>(null);
-  const [criteria, setCriteria] = useState<string>('');
-  const [search, setSearch] = useState<string | null>(null);
-  const [options, setOptions] = useState<IOption[]>([]);
-  const [params, setParams] = useState({
+  const [ items, setItems ] = useState<IIngredient[]>([]);
+  const [ total, setTotal ] = useState<number | null>(null);
+  const [ criteria, setCriteria ] = useState<string>("");
+  const [ search, setSearch ] = useState<string | null>(null);
+  const [ options, setOptions ] = useState<IOption[]>([]);
+  const [ params, setParams ] = useState({
     NameContains: null,
     NameEquals: null,
     UkrainianNameContains: null,
@@ -43,10 +43,10 @@ export const Ingredients: FC<IProps> = (props: IProps): JSX.Element => {
       .paginatedList({
         params: {
           ...params,
-          NameContains: search,
+          UkrainianNameContains: search,
           Pagination: {
             ...params.Pagination,
-            Page: +query.get('page') || 1,
+            Page: +query.get("page") || 1,
           },
         },
       })
@@ -64,7 +64,7 @@ export const Ingredients: FC<IProps> = (props: IProps): JSX.Element => {
         setTotal(totalCount);
         setItems(items);
       });
-  }, [params.Pagination.Page, search, +query.get('page')]);
+  }, [ params.Pagination.Page, search, +query.get("page") ]);
 
   useEffect(() => {
     api.ingredients
@@ -72,11 +72,11 @@ export const Ingredients: FC<IProps> = (props: IProps): JSX.Element => {
       .then(({ items, count, totalCount, offset, page }) => {
         setOptions(
           items.map((item) => {
-            return { label: item.name, value: item.name, category: '' };
+            return { label: item.ukrainianName, value: item.ukrainianName, category: "" };
           }),
         );
       });
-  }, [criteria]);
+  }, [ criteria ]);
 
   const handleChangeCriteria = (
     event: SyntheticEvent<Element, Event>,
@@ -93,18 +93,18 @@ export const Ingredients: FC<IProps> = (props: IProps): JSX.Element => {
           },
         };
       });
-      setSearch('');
+      setSearch("");
     } else {
       setSearch(newValue.label);
     }
-    navigate('/');
+    navigate("/ingredients");
   };
 
   const debouncedSearch = useRef(
     debounce(async (text: string) => {
       setSearch(text);
       setCriteria(text);
-      navigate('/');
+      navigate("/ingredients");
     }, 300),
   ).current;
 
@@ -125,7 +125,7 @@ export const Ingredients: FC<IProps> = (props: IProps): JSX.Element => {
               value={search}
               onChangeCriteria={handleChangeCriteria}
               onChangeInput={handleInputChange}
-              placeholder='Знайти інгредієнти'
+              placeholder="Знайти інгредієнти"
             />
             {total && <span>Total search results: {total}</span>}
           </div>
@@ -140,8 +140,8 @@ export const Ingredients: FC<IProps> = (props: IProps): JSX.Element => {
           <Pagination
             count={Math.ceil(total / params.Pagination.PageSize)}
             page={params.Pagination.Page}
-            onChange={(e, page) => navigate('?page=' + page)}
-            variant='outlined'
+            onChange={(e, page) => navigate("/ingredients?page=" + page)}
+            variant="outlined"
           />
         </Container>
       )}
