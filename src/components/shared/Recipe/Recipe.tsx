@@ -68,14 +68,14 @@ export const Recipe: FC<IProps> = ({ item, onLike, onUnLike, onFavorite, onUnFav
               onClick={(event: any) => {
                 event.stopPropagation();
                 event.preventDefault();
-                onFavorite(item.id);
+                onUnFavorite(item.id);
               }}
             />
             : <StarOutlineIcon
               onClick={(event: any) => {
                 event.stopPropagation();
                 event.preventDefault();
-                onUnFavorite(item.id);
+                onFavorite(item.id);
               }}
             />
           }

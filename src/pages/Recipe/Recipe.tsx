@@ -1,23 +1,20 @@
-import React, { FC, useEffect, useState } from 'react';
-import { Button } from '@mui/material';
-import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
-import FavoriteIcon from '@mui/icons-material/Favorite';
-import CloudDownloadIcon from '@mui/icons-material/CloudDownload';
+import React, { FC, useEffect, useState } from "react";
+import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
+import FavoriteIcon from "@mui/icons-material/Favorite";
+import CloudDownloadIcon from "@mui/icons-material/CloudDownload";
 
-import {
-  Container,
-  Footer,
-  RecipesGrid,
-  ImageContainer,
-  Navigation,
-  Recipe as RecipeItem,
-} from '../../components';
-import useStyles from './styles';
-import { Link, useParams } from 'react-router-dom';
-import { useApi, useAuthorization } from '../../hooks';
-import { IIngredient, IRecipe } from '../../models';
-import { useGlobalElements } from '../../theme/globalElements';
-import { IRecipeIngredient } from '../../models/recipeIngredient';
+import { Container, Footer, ImageContainer, Navigation, RecipesGrid } from "../../components";
+import useStyles from "./styles";
+import { Link, useParams } from "react-router-dom";
+import { useApi, useAuthorization } from "../../hooks";
+import { IRecipe } from "../../models";
+import { useGlobalElements } from "../../theme/globalElements";
+import { IRecipeIngredient } from "../../models/recipeIngredient";
+import { useDispatch } from "react-redux";
+import { useStore } from "../../hooks/useStore";
+import { SET_AUTHORIZATION } from "../../store/authorization/authorization.actions";
+import StarIcon from "@mui/icons-material/Star";
+import StarOutlineIcon from "@mui/icons-material/StarOutline";
 
 interface IProps {}
 
@@ -28,26 +25,46 @@ export const Recipe: FC<IProps> = (props: IProps): JSX.Element => {
   let { id } = useParams();
 
   const api = useApi();
-  const [recipe, setItem] = useState<IRecipe>();
-  const [similarRecipes, setSimilarRecipes] = useState<IRecipe[]>([]);
+  const [ recipe, setItem ] = useState<IRecipe>();
+  const [ similarRecipes, setSimilarRecipes ] = useState<IRecipe[]>([]);
+
+  const dispatch = useDispatch();
+  const { jsonWebToken, refreshToken } = useStore((store) => store.authorization);
+
+  const date = new Date(recipe?.createdAt);
 
   useEffect(() => {
-    api.recipes.one({ recipeId: id, loader: 'Loading recipe...' }).then((recipe) => {
+    api.recipes.one({ recipeId: id, loader: "Loading recipe..." }).then((recipe) => {
       setItem(recipe);
       api.recipes
         .random({
           params: { IsPublicEquals: true, PageSize: 4, CategoryIdEquals: recipe.category.id },
-          loader: 'Завантаження рецептів...',
+          loader: "Завантаження рецептів...",
         })
         .then((data) => {
           setSimilarRecipes(data.items);
         });
     });
-  }, [id]);
+  }, [ id ]);
 
-  const userLiked = false;
+  const refreshUser = () => {
+    api.account.info.get({ jsonWebToken }).then((user) => {
+      dispatch({ type: SET_AUTHORIZATION, jsonWebToken, refreshToken, user });
+    });
+  };
 
-  const date = new Date(recipe?.createdAt);
+  const handleLike = (id: string) => {
+    api.recipes.actions.like({ recipeId: id }).then(() => refreshUser());
+  };
+  const handleUnLike = (id: string) => {
+    api.recipes.actions.unLike({ recipeId: id }).then(() => refreshUser());
+  };
+  const handleFavorite = (id: string) => {
+    api.recipes.actions.favorite({ recipeId: id }).then(() => refreshUser());
+  };
+  const handleUnFavorite = (id: string) => {
+    api.recipes.actions.unFavorite({ recipeId: id }).then(() => refreshUser());
+  };
 
   const userHasIngredient = (item: IRecipeIngredient): Boolean => {
     return !!user.availableIngredients.filter(
@@ -67,15 +84,50 @@ export const Recipe: FC<IProps> = (props: IProps): JSX.Element => {
             </div>
             <p>Категорія: {recipe?.category?.ukrainianName}</p>
             <div className={classes.actions}>
-              <Button variant='outlined' onClick={() => console.log('LIKE!')}>
-                {userLiked ? <FavoriteIcon className={classes?.like} /> : <FavoriteBorderIcon />}{' '}
-                {recipe?.likesCount}
-              </Button>
+              {user && <div>
+                {<div>
+                  {(user.likedRecipes.filter((item) => item.id === recipe.id)).length > 0
+                    ? <FavoriteIcon
+                      onClick={(event) => {
+                        event.stopPropagation();
+                        event.preventDefault();
+                        handleUnLike(recipe.id);
+                      }}
+                    />
+                    : <FavoriteBorderIcon
+                      onClick={(event: any) => {
+                        event.stopPropagation();
+                        event.preventDefault();
+                        handleLike(recipe.id);
+                      }}
+                    />
+                  }
+                  <p>{recipe.likesCount}</p>
+                </div>}
+                {<div>
+                  {(user.favoriteRecipes.filter((item) => item.id === recipe.id)).length > 0
+                    ? <StarIcon
+                      onClick={(event: any) => {
+                        event.stopPropagation();
+                        event.preventDefault();
+                        handleUnFavorite(recipe.id);
+                      }}
+                    />
+                    : <StarOutlineIcon
+                      onClick={(event: any) => {
+                        event.stopPropagation();
+                        event.preventDefault();
+                        handleFavorite(recipe.id);
+                      }}
+                    />
+                  }
+                </div>}
+              </div>}
               {recipe.pdfLink && (
                 <Link
                   className={globalElements.primaryButton}
-                  target='_blank'
-                  to={recipe?.pdfLink || ''}
+                  target="_blank"
+                  to={recipe?.pdfLink || ""}
                 >
                   <CloudDownloadIcon className={classes?.like} /> Завантажити
                 </Link>
@@ -115,7 +167,7 @@ export const Recipe: FC<IProps> = (props: IProps): JSX.Element => {
           <Container>
             <h2>Схожі Рецепти</h2>
 
-            <RecipesGrid items={similarRecipes}/>
+            <RecipesGrid items={similarRecipes} />
           </Container>
         )}
         <Footer />
