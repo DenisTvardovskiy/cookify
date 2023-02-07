@@ -116,6 +116,7 @@ interface IApiRecipePaginatedListConfig extends IApiConfig {
     TitleEquals?: string,
     UkrainianTitleContains?: string,
     UkrainianTitleEquals?: string,
+    IngredientsIdsIntersects: string[];
     CategoryIdEquals?: string,
     IsPublicEquals?: boolean | null,
     Pagination?: {
