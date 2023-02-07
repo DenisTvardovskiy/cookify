@@ -9,5 +9,10 @@ export default createUseStyles(() => ({
 
   searchWrap: {
     display: 'flex',
+    alignItems: 'center',
+  },
+
+  filterSelect: {
+    width: 100,
   },
 }));

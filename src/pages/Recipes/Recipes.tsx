@@ -1,20 +1,20 @@
-import React, { FC, SyntheticEvent, useEffect, useRef, useState } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
-import { MenuItem, Pagination, Select, SelectChangeEvent } from "@mui/material";
-import { debounce } from "lodash";
+import React, { FC, SyntheticEvent, useEffect, useRef, useState } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
+import { MenuItem, Pagination, Select, SelectChangeEvent } from '@mui/material';
+import { debounce } from 'lodash';
 
-import { Container, Footer, IOption, Navigation, RecipesGrid, SearchBar } from "../../components";
-import { useApi, useAuthorization } from "../../hooks";
-import { IIngredient, IRecipe } from "../../models";
-import useStyles from "./styles";
-import { IngredientSelect } from "../../components/common/IngredientSelect/IngredientSelect";
+import { Container, Footer, IOption, Navigation, RecipesGrid, SearchBar } from '../../components';
+import { useApi, useAuthorization } from '../../hooks';
+import { IIngredient, IRecipe } from '../../models';
+import useStyles from './styles';
+import { IngredientSelect } from '../../components/common/IngredientSelect/IngredientSelect';
 
 interface IProps {}
 
 function useQuery() {
   const { search } = useLocation();
 
-  return React.useMemo(() => new URLSearchParams(search), [ search ]);
+  return React.useMemo(() => new URLSearchParams(search), [search]);
 }
 
 export const Recipes: FC<IProps> = (props: IProps): JSX.Element => {
@@ -24,16 +24,17 @@ export const Recipes: FC<IProps> = (props: IProps): JSX.Element => {
   const { user } = useAuthorization();
 
   const query = useQuery();
-  const [ items, setItems ] = useState<IRecipe[]>([]);
-  const [ ingredients, setIngredients ] = useState<IIngredient[]>([]);
-  const [ total, setTotal ] = useState<number | null>(null);
-  const [ criteria, setCriteria ] = useState<string>("");
-  const [ search, setSearch ] = useState<string | null>(null);
-  const [ category, setCategory ] = useState<string>("");
-  const [ categories, setCategories ] = useState<{ id: string; name: string; ukrainianName: string; imageLink: string }[]>(
-    []);
-  const [ options, setOptions ] = useState<IOption[]>([]);
-  const [ params, setParams ] = useState({
+  const [items, setItems] = useState<IRecipe[]>([]);
+  const [ingredients, setIngredients] = useState<IIngredient[]>([]);
+  const [total, setTotal] = useState<number | null>(null);
+  const [criteria, setCriteria] = useState<string>('');
+  const [search, setSearch] = useState<string | null>(null);
+  const [category, setCategory] = useState<string>('');
+  const [categories, setCategories] = useState<
+    { id: string; name: string; ukrainianName: string; imageLink: string }[]
+  >([]);
+  const [options, setOptions] = useState<IOption[]>([]);
+  const [params, setParams] = useState({
     TitleContains: null,
     TitleEquals: null,
     UkrainianTitleContains: null,
@@ -53,12 +54,14 @@ export const Recipes: FC<IProps> = (props: IProps): JSX.Element => {
         params: {
           ...params,
           UkrainianTitleContains: search,
-          IngredientsIdsIntersects: ingredients.map((i)=> {return i.id}),
+          IngredientsIdsIntersects: ingredients.map((i) => {
+            return i.id;
+          }),
           CategoryIdEquals: category,
           IsPublicEquals: true,
           Pagination: {
             ...params.Pagination,
-            Page: +query.get("page") || 1,
+            Page: +query.get('page') || 1,
           },
         },
       })
@@ -76,7 +79,7 @@ export const Recipes: FC<IProps> = (props: IProps): JSX.Element => {
         setTotal(totalCount);
         setItems(items);
       });
-  }, [ params.Pagination.Page, search, +query.get("page"), category, ingredients ]);
+  }, [params.Pagination.Page, search, +query.get('page'), category, ingredients]);
 
   useEffect(() => {
     api.recipes
@@ -103,10 +106,10 @@ export const Recipes: FC<IProps> = (props: IProps): JSX.Element => {
           }),
         );
       });
-  }, [ criteria ]);
+  }, [criteria]);
 
   useEffect(() => {
-    api.recipe.categories.list({ loader: "Завантаження категорій..." }).then((data) => {
+    api.recipe.categories.list({ loader: 'Завантаження категорій...' }).then((data) => {
       setCategories(data);
     });
   }, []);
@@ -126,18 +129,18 @@ export const Recipes: FC<IProps> = (props: IProps): JSX.Element => {
           },
         };
       });
-      setSearch("");
+      setSearch('');
     } else {
       setSearch(newValue.label);
     }
-    navigate("/");
+    navigate('/');
   };
 
   const debouncedSearch = useRef(
     debounce(async (text: string) => {
       setSearch(text);
       setCriteria(text);
-      navigate("/");
+      navigate('/');
     }, 300),
   ).current;
 
@@ -165,10 +168,15 @@ export const Recipes: FC<IProps> = (props: IProps): JSX.Element => {
               value={search}
               onChangeCriteria={handleChangeCriteria}
               onChangeInput={handleInputChange}
-              placeholder="Знайти рецепт"
+              placeholder='Знайти рецепт'
             />
-            <Select value={category} label="Category" onChange={handleSelectCategory}>
-              <MenuItem value="">Жодна</MenuItem>
+            <Select
+              className={classes.filterSelect}
+              value={category}
+              label='Категорія'
+              onChange={handleSelectCategory}
+            >
+              <MenuItem value='Жодна'>Жодна</MenuItem>
               {categories.map((cat) => (
                 <MenuItem key={cat.id} value={cat.id}>
                   {cat.ukrainianName}
@@ -187,8 +195,8 @@ export const Recipes: FC<IProps> = (props: IProps): JSX.Element => {
           <Pagination
             count={Math.ceil(total / params.Pagination.PageSize)}
             page={params.Pagination.Page}
-            onChange={(e, page) => navigate("?page=" + page)}
-            variant="outlined"
+            onChange={(e, page) => navigate('?page=' + page)}
+            variant='outlined'
           />
         </Container>
       )}
