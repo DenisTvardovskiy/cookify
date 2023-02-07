@@ -135,6 +135,14 @@ interface IApiRecipeInfoConfig extends IApiConfig {
   recipeId: string;
 }
 
+interface IApiRecipeCreateConfig extends IApiConfig {
+  UkrainianTitle: string;
+  UkrainianInstruction: string;
+  CategoryId: string;
+  IsPublic: boolean;
+  image: File;
+}
+
 interface IApiRecipeActionConfig extends IApiConfig {
   recipeId: string;
 }
@@ -190,6 +198,7 @@ export interface IUseApi {
     ) => Promise<{ id: string; name: string; ukrainianName: string; imageLink: string }[]>;
   };
   recipes: {
+    create: (config: IApiRecipeCreateConfig) => Promise<string>
     one: (config: IApiRecipeInfoConfig) => Promise<IRecipe>;
     paginatedList: (config: IApiRecipePaginatedListConfig) => Promise<IPaginatedList<IRecipe>>;
     random: (
@@ -472,6 +481,26 @@ export const useApi: TUseApi = (): IUseApi => {
       },
     },
     recipes: {
+      create: ({ loader, UkrainianTitle, UkrainianInstruction, image, CategoryId, IsPublic }) => {
+        const formData = new FormData();
+        formData.append("image", image);
+        formData.append("UkrainianTitle", UkrainianTitle);
+        formData.append("UkrainianInstruction", UkrainianInstruction);
+        formData.append("CategoryId", CategoryId);
+        formData.append("IsPublic", String(IsPublic));
+
+        return new Promise((resolve, reject) => {
+          http.request<string>({
+            method: "POST",
+            url: `${API_URL}/recipes`,
+            headers: { ...headers, "Content-Type": "multipart/form-data" },
+            data: formData,
+            loader: !!loader ? loader : false,
+          })
+            .then(resolve)
+            .catch(reject);
+        });
+      },
       actions: {
         like: ({ recipeId, loader }) => {
           return new Promise((resolve, reject) => {

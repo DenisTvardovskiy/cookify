@@ -7,6 +7,7 @@ interface IProps {}
 
 const PageProfileWithCheckAuthorization = withCheckAuthorization(Page.Profile);
 const PageStorageWithCheckAuthorization = withCheckAuthorization(Page.Storage);
+const CreateRecipeWithCheckAuthorization = withCheckAuthorization(Page.CreateRecipe);
 
 export const Router: FC<IProps> = (props: IProps): JSX.Element => {
   return (
@@ -20,6 +21,7 @@ export const Router: FC<IProps> = (props: IProps): JSX.Element => {
         <Route path="/sign-up" element={<Page.SignUp />} />
         <Route path="/profile" element={<PageProfileWithCheckAuthorization />} />
         <Route path="/storage" element={<PageStorageWithCheckAuthorization />} />
+        <Route path="/create-recipe" element={<CreateRecipeWithCheckAuthorization />} />
         <Route path="*" element={<Page.NotFound />} />
       </Routes>
     </HashRouter>
