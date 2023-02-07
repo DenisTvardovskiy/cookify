@@ -167,7 +167,7 @@ export const Recipe: FC<IProps> = (props: IProps): JSX.Element => {
           <Container>
             <h2>Схожі Рецепти</h2>
 
-            <RecipesGrid items={similarRecipes} />
+            <RecipesGrid items={similarRecipes} noActions/>
           </Container>
         )}
         <Footer />

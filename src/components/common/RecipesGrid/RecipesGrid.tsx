@@ -1,15 +1,16 @@
-import React, { FC } from 'react';
-import useStyles from './styles';
-import { IRecipe } from '../../../models';
-import { Recipe } from '../../shared/Recipe';
-import { EmptyListMessage } from '../../shared/EmptyListMessage';
-import { useApi, useAuthorization } from '../../../hooks';
-import { SET_AUTHORIZATION } from '../../../store/authorization/authorization.actions';
-import { useDispatch } from 'react-redux';
-import { useStore } from '../../../hooks/useStore';
+import React, { FC } from "react";
+import useStyles from "./styles";
+import { IRecipe } from "../../../models";
+import { Recipe } from "../../shared/Recipe";
+import { EmptyListMessage } from "../../shared/EmptyListMessage";
+import { useApi, useAuthorization } from "../../../hooks";
+import { SET_AUTHORIZATION } from "../../../store/authorization/authorization.actions";
+import { useDispatch } from "react-redux";
+import { useStore } from "../../../hooks/useStore";
 
 interface IProps {
   items: IRecipe[];
+  noActions: boolean;
 }
 
 export const RecipesGrid: FC<IProps> = (props: IProps): JSX.Element => {
@@ -46,11 +47,11 @@ export const RecipesGrid: FC<IProps> = (props: IProps): JSX.Element => {
             <Recipe
               key={item.id}
               item={item}
-              onLike={handleLike}
-              onFavorite={handleFavorite}
-              onUnFavorite={handleUnFavorite}
-              onUnLike={handleUnLike}
-              user={user}
+              onLike={!props.noActions && handleLike}
+              onFavorite={!props.noActions && handleFavorite}
+              onUnFavorite={!props.noActions && handleUnFavorite}
+              onUnLike={!props.noActions && handleUnLike}
+              user={!props.noActions && user}
             />
           ))}
         </div>
