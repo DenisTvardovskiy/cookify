@@ -1,10 +1,17 @@
-import React, { FC, useEffect, useState } from "react";
+import React, { FC, useEffect, useState } from 'react';
 
-import { Container, Footer, ImageContainer, Navigation, Recipe } from "../../components";
-import useStyles from "./styles";
-import { useParams } from "react-router-dom";
-import { useApi } from "../../hooks";
-import { IIngredient, IRecipe } from "../../models";
+import {
+  Container,
+  Footer,
+  ImageContainer,
+  Navigation,
+  Recipe,
+  RecipesGrid,
+} from '../../components';
+import useStyles from './styles';
+import { useParams } from 'react-router-dom';
+import { useApi } from '../../hooks';
+import { IIngredient, IRecipe } from '../../models';
 
 interface IProps {}
 
@@ -12,9 +19,9 @@ export const Ingredient: FC<IProps> = (props: IProps): JSX.Element => {
   const classes = useStyles();
   const { id } = useParams();
   const api = useApi();
-  const [ ingredient, setItem ] = useState<IIngredient>();
-  const [ recipes, setRecipes ] = useState<IRecipe[]>([]);
-  const [ params, setParams ] = useState({
+  const [ingredient, setItem] = useState<IIngredient>();
+  const [recipes, setRecipes] = useState<IRecipe[]>([]);
+  const [params, setParams] = useState({
     NameContains: null,
     NameEquals: null,
     UkrainianNameContains: null,
@@ -30,12 +37,13 @@ export const Ingredient: FC<IProps> = (props: IProps): JSX.Element => {
 
   useEffect(() => {
     api.ingredients
-      .one({ ingredientId: id, loader: "Loading ingredient..." })
+      .one({ ingredientId: id, loader: 'Loading ingredient...' })
       .then((ingredient) => {
-        api.recipes.paginatedList({
-          params: { ...params, IngredientsIdsIntersects: [ ingredient.id ] },
-          loader: "Loading recipes...",
-        })
+        api.recipes
+          .paginatedList({
+            params: { ...params, IngredientsIdsIntersects: [ingredient.id] },
+            loader: 'Loading recipes...',
+          })
           .then((data) => setRecipes(data.items));
         setItem(ingredient);
       });
@@ -62,12 +70,14 @@ export const Ingredient: FC<IProps> = (props: IProps): JSX.Element => {
           )}
           <p>{ingredient?.ukrainianDescription}</p>
         </div>
-
-        {recipes.length > 0 && <div>
-          <h5>Рецепти з цим інгридієнтом</h5>
-          {recipes.map((recipe) => <Recipe key={recipe.id} item={recipe} />)}
-        </div>}
       </Container>
+      {recipes.length > 0 && (
+        <Container>
+          <h5>Рецепти з цим інгридієнтом</h5>
+          <RecipesGrid items={recipes} />
+        </Container>
+      )}
+
       <Footer />
     </>
   );
