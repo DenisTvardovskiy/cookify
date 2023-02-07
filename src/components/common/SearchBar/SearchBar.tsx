@@ -1,7 +1,7 @@
-import React, { FC, HTMLAttributes, SyntheticEvent } from "react";
-import { Autocomplete, AutocompleteRenderInputParams, TextField } from "@mui/material";
+import React, { FC, HTMLAttributes, SyntheticEvent } from 'react';
+import { Autocomplete, AutocompleteRenderInputParams, TextField } from '@mui/material';
 
-import SearchOption from "./searchOption";
+import SearchOption from './searchOption';
 
 interface IProps {
   criteria: string;
@@ -9,6 +9,7 @@ interface IProps {
   onChangeInput: (event: SyntheticEvent, newInputValue: string) => void;
   options: IOption[];
   value: string;
+  placeholder: string;
 }
 
 export interface IOption {
@@ -23,22 +24,14 @@ export const SearchBar: FC<IProps> = ({
   onChangeInput,
   options,
   value,
+  placeholder,
 }: IProps): JSX.Element => {
-
   const searchInput = (params: AutocompleteRenderInputParams) => (
-    <TextField
-      {...params}
-      data-testid={"searchInput"}
-      placeholder={"Search recipe"}
-      fullWidth
-    />
+    <TextField {...params} data-testid={'searchInput'} placeholder={placeholder} fullWidth />
   );
 
-  const renderOption = (
-    props: HTMLAttributes<HTMLElement>,
-    option: any,
-  ) => (
-    <li {...props} data-testid={"search-option"}>
+  const renderOption = (props: HTMLAttributes<HTMLElement>, option: any) => (
+    <li {...props} data-testid={'search-option'}>
       <SearchOption option={option} criteria={criteria} />
     </li>
   );
@@ -46,8 +39,8 @@ export const SearchBar: FC<IProps> = ({
   return (
     <Autocomplete
       disablePortal
-      id="combo-box-demo"
-      data-testid={"search-bar"}
+      id='combo-box-demo'
+      data-testid={'search-bar'}
       options={options ?? []}
       value={value}
       onChange={onChangeCriteria}

@@ -1,11 +1,9 @@
 import React, { FC, SyntheticEvent, useEffect, useRef, useState } from 'react';
-import { Container, Footer, RecipesGrid, Ingredient, Navigation } from '../../components';
+import { Container, Footer, Navigation, SearchBar, IOption } from '../../components';
 import useStyles from './styles';
-import { Sort } from '@mui/icons-material';
-import { Button, Pagination } from '@mui/material';
+import { Pagination } from '@mui/material';
 import { useApi } from '../../hooks';
 import { IIngredient } from '../../models';
-import { IOption, SearchBar } from '../Recipes/SearchBar';
 import { debounce } from 'lodash';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { IngredientsGrid } from '../../components/common/IngredientsGrid';
@@ -119,7 +117,7 @@ export const Ingredients: FC<IProps> = (props: IProps): JSX.Element => {
       <Navigation />
       <Container>
         <div className={classes.filterWrap}>
-          <h2>Ingredients</h2>
+          <h2>Інгредієнти</h2>
           <div>
             <SearchBar
               criteria={criteria}
@@ -127,6 +125,7 @@ export const Ingredients: FC<IProps> = (props: IProps): JSX.Element => {
               value={search}
               onChangeCriteria={handleChangeCriteria}
               onChangeInput={handleInputChange}
+              placeholder='Знайти інгредієнти'
             />
             {total && <span>Total search results: {total}</span>}
           </div>
@@ -136,14 +135,16 @@ export const Ingredients: FC<IProps> = (props: IProps): JSX.Element => {
         <IngredientsGrid items={items} />
       </Container>
 
-      <Container>
-        <Pagination
-          count={Math.ceil(total / params.Pagination.PageSize)}
-          page={params.Pagination.Page}
-          onChange={(e, page) => navigate('?page=' + page)}
-          variant='outlined'
-        />
-      </Container>
+      {Boolean(items.length) && (
+        <Container>
+          <Pagination
+            count={Math.ceil(total / params.Pagination.PageSize)}
+            page={params.Pagination.Page}
+            onChange={(e, page) => navigate('?page=' + page)}
+            variant='outlined'
+          />
+        </Container>
+      )}
       <Footer />
     </>
   );

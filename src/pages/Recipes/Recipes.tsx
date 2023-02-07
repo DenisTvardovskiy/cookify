@@ -1,12 +1,12 @@
 import React, { FC, SyntheticEvent, useEffect, useRef, useState } from 'react';
-import { Container, Footer, RecipesGrid, Navigation } from '../../components';
-import useStyles from './styles';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { MenuItem, Pagination, Select, SelectChangeEvent } from '@mui/material';
+import { debounce } from 'lodash';
+
+import { Container, Footer, RecipesGrid, Navigation, SearchBar, IOption } from '../../components';
 import { useApi, useAuthorization } from '../../hooks';
 import { IRecipe } from '../../models';
-import { debounce } from 'lodash';
-import { IOption, SearchBar } from './SearchBar';
-import { useLocation, useNavigate } from 'react-router-dom';
+import useStyles from './styles';
 
 interface IProps {}
 
@@ -159,6 +159,7 @@ export const Recipes: FC<IProps> = (props: IProps): JSX.Element => {
               value={search}
               onChangeCriteria={handleChangeCriteria}
               onChangeInput={handleInputChange}
+              placeholder='Знайти рецепт'
             />
             <Select value={category} label='Category' onChange={handleSelectCategory}>
               <MenuItem value=''>Жодна</MenuItem>

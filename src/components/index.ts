@@ -6,6 +6,7 @@ import { ImageContainer } from './common/ImageContainer';
 import { Root } from './common/Root';
 import { Router } from './common/Router';
 import { AuthorizedMessage } from './common/AuthorizedMessage';
+import { SearchBar, IOption } from './common/SearchBar';
 
 import { Logo } from './shared/Logo';
 import { Recipe } from './shared/Recipe';
@@ -13,7 +14,7 @@ import { ILoaderContext, Loader, LoaderContext } from './shared/Loader';
 import { Ingredient } from './shared/Ingredient';
 import { EmptyListMessage } from './shared/EmptyListMessage';
 
-export type { ILoaderContext };
+export type { ILoaderContext, IOption };
 
 export {
   Container,
@@ -29,5 +30,6 @@ export {
   LoaderContext,
   AuthorizedMessage,
   Root,
+  SearchBar,
   Router,
 };
