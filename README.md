@@ -52,12 +52,12 @@ This is an example of how to list things you need to use the software and how to
 
 - [x] User can see ingredients for meal
 - [x] User can see recipe for selected meal
-- [ ] User can create his own ingredients
-- [ ] User can filter his own ingredients
-- [ ] User can see recipes according to available ingredients
+- [x] User can create his own ingredients
+- [x] User can filter his own ingredients
+- [x] User can see recipes according to available ingredients
 
 ## Additional tasks
-- [ ] User can create his own recipes
+- [x] User can create his own recipes
 - [ ] User can create his own recipes/ingredients group
 - [ ] User can filter products by difficulty
 - [ ] User can see the closest shops for each ingredient
