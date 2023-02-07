@@ -19,15 +19,15 @@ export const Ingredient: FC<IProps> = ({ item, measure }: IProps): JSX.Element =
       <div className={classes.imageWrap}>
         <ImageContainer hoverAnimation>
           {item.imageLink ? (
-            <img src={item.imageLink} alt={item.name} />
+            <img src={item.imageLink} alt={item.ukrainianName} />
           ) : (
-            <img src='images/placeholder.png' alt={item.name} />
+            <img src='images/placeholder.png' alt={item.ukrainianName} />
           )}
         </ImageContainer>
       </div>
 
       <div className={classes.textContainer}>
-        <h6>{item.name}</h6>
+        <h6>{item.ukrainianName}</h6>
 
         {measure && (
           <div className={classes.infoBlock}>

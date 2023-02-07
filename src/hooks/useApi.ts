@@ -112,13 +112,14 @@ interface IApiRecipeInfoRandomListConfig extends IApiConfig {
 
 interface IApiRecipePaginatedListConfig extends IApiConfig {
   params?: {
-    TitleContains: string,
-    TitleEquals: string,
-    UkrainianTitleContains: string,
-    UkrainianTitleEquals: string,
-    CategoryIdEquals: string,
-    IsPublicEquals: boolean | null,
-    Pagination: {
+    TitleContains?: string,
+    TitleEquals?: string,
+    UkrainianTitleContains?: string,
+    UkrainianTitleEquals?: string,
+    IngredientsIdsIntersects?: string[];
+    CategoryIdEquals?: string,
+    IsPublicEquals?: boolean | null,
+    Pagination?: {
       Page: number,
       PageSize: number
       Offset: number
@@ -515,7 +516,7 @@ export const useApi: TUseApi = (): IUseApi => {
             .catch(reject);
         });
       },
-      paginatedList: ({ loader, params }) => {
+      paginatedList: ({ params, loader }) => {
         return new Promise((resolve, reject) => {
           http.request<IPaginatedList<IRecipe>>(
             {
@@ -525,7 +526,7 @@ export const useApi: TUseApi = (): IUseApi => {
               paramsSerializer: {
                 serialize: p => qs.stringify(
                   Object.fromEntries(Object.entries(p).filter(([ k, v ]) => v)),
-                  { allowDots: true },
+                  { allowDots: true, arrayFormat: "repeat" },
                 ),
               },
               headers,
