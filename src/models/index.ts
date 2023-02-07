@@ -1,3 +1,5 @@
 import { ICategory } from "./category";
+import { IIngredient } from "./ingerident";
+import { IRecipe } from "./recipe";
 
-export type { ICategory };
+export type { ICategory, IIngredient, IRecipe };

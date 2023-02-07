@@ -3,34 +3,44 @@ import { useStore } from "./useStore";
 import { RST_AUTHORIZATION, SET_AUTHORIZATION } from "../store/authorization/authorization.actions";
 import * as jose from "jose";
 import { useLoader } from "./useLoader";
+import { IUser } from "../models/user.";
+import { useApi } from "./useApi";
 
 type TUseAuthorization = () => {
   isAuthorized: boolean;
-  accessToken: string;
-  tokenType: string;
-  setAuthorization: (token: string, type?: string) => void;
+  jsonWebToken: string;
+  refreshToken: string;
+  user: IUser;
+  setAuthorization: (token: string, user: IUser, type?: string) => void;
   resetAuthorization: () => void;
+  // refreshUser: ()=> void;
 };
 
 export const useAuthorization: TUseAuthorization = () => {
   const loader = useLoader();
   const dispatch = useDispatch();
-  const { accessToken, tokenType } = useStore((store) => store.authorization);
-
+  // const api = useApi();
+  const { jsonWebToken, refreshToken, user } = useStore((store) => store.authorization);
   const isValid = (): boolean => {
-    if (!accessToken) {
+    if (!jsonWebToken) {
       return false;
     }
 
-    const payload = jose.decodeJwt(accessToken);
+    const payload = jose.decodeJwt(jsonWebToken);
     const now = Math.round(Date.now() / 1000);
 
     return (!!payload && !!payload.exp && (payload.exp - now > 0));
   };
 
-  const setAuthorization = (token: string, type: string = "Bearer"): void => {
-    dispatch({ type: SET_AUTHORIZATION, accessToken: token, tokenType: type });
+  const setAuthorization = (token: string, user: IUser, refresh: string): void => {
+    dispatch({ type: SET_AUTHORIZATION, jsonWebToken: token, refreshToken: refresh, user });
   };
+
+  // const refreshUser = () => {
+  //   api.account.info.get({ jsonWebToken }).then((user) => {
+  //     // dispatch({ type: SET_AUTHORIZATION, jsonWebToken, refreshToken, user });
+  //   });
+  // };
 
   const resetAuthorization = (): void => {
     const logout = loader.create("Processing logout...");
@@ -48,9 +58,11 @@ export const useAuthorization: TUseAuthorization = () => {
 
   return {
     isAuthorized: isValid(),
-    accessToken,
-    tokenType,
+    jsonWebToken,
+    user,
+    refreshToken,
     setAuthorization,
     resetAuthorization,
+    // refreshUser
   };
 };

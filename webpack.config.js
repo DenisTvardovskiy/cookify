@@ -1,39 +1,38 @@
-const path = require('path')
-const HtmlWebpackPlugin = require('html-webpack-plugin')
+const path = require("path");
+const HtmlWebpackPlugin = require("html-webpack-plugin");
+const CopyWebpackPlugin = require('copy-webpack-plugin');
 module.exports = {
-  entry: './src/index.tsx',
+  entry: path.join(__dirname, '/src/index.tsx'),
   output: {
-    path: path.join(__dirname, '/dist'),
-    filename: 'bundle.js',
+    path: path.join(__dirname, "dist"),
+    filename: "bundle.js",
+    publicPath: '/'
   },
   devServer: {
     port: 8080,
-    historyApiFallback: true,
+    static: path.join(__dirname, "public"),
+    hot: true,
   },
   module: {
     rules: [
       {
-        test: /\.jsx?$/,
-        exclude: /node_modules/,
-        loader: 'babel-loader',
-      },
-      {
         test: /\.css$/,
-        use: ['style-loader', 'css-loader'],
+        use: [ "style-loader", "css-loader" ],
       },
       {
         test: /\.tsx?$/,
+        use: "ts-loader",
         exclude: /node_modules/,
-        loader: 'ts-loader',
       },
     ],
   },
   resolve: {
-    extensions: ['.tsx', '.ts', '.js'],
+    extensions: [ ".tsx", ".ts", ".js" ],
   },
   plugins: [
     new HtmlWebpackPlugin({
-      template: path.join(__dirname, 'public/index.html'),
+      template: path.join(__dirname, "public/index.html"),
     }),
+    new CopyWebpackPlugin([{ from: 'public' }])
   ],
-}
+};

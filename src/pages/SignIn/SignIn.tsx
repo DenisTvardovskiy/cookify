@@ -1,45 +1,99 @@
-import React, { FC } from 'react'
-import { FormikProvider, useFormik } from 'formik'
-import * as Yup from 'yup'
+import React, { FC } from "react";
+import { FormikProvider, useFormik } from "formik";
+import { Button, TextField } from "@mui/material";
+import * as Yup from "yup";
 
-import { useApi } from '../../hooks'
-import { AuthLayout } from '../../layouts'
+import { AuthorizedMessage, ImageContainer, Logo } from "../../components";
+import { useApi, useAuthorization } from "../../hooks";
+import { AuthLayout, ServerResponseLayout } from "../../layouts";
+
+import useStyles from "./styles";
+import { Link, useNavigate } from "react-router-dom";
+import classNames from "classnames";
 
 interface IProps {}
 
 const validationSchema = Yup.object().shape({
-  username: Yup.string().required('Username is required!'),
-  password: Yup.string().required('Password is required!'),
-})
+  username: Yup.string().required("Username is required!"),
+  password: Yup.string().required("Password is required!"),
+});
 
 export const SignIn: FC<IProps> = (props: IProps): JSX.Element => {
-  const api = useApi()
+  const api = useApi();
+  const { isAuthorized, setAuthorization } = useAuthorization();
+  const classes = useStyles();
+
+  const navigate = useNavigate();
 
   const formik = useFormik({
-    initialValues: { username: '', password: '' },
+    initialValues: { username: "", password: "" },
     validationSchema,
-    onSubmit: (values) => api.authorization.signIn({ ...values }).then(() => console.log('log in')),
-  })
+    onSubmit: (values) =>
+      api.authorization
+        .signIn({ ...values })
+        .then(({ refreshToken, jsonWebToken }) => {
+          api.account.info.get({ jsonWebToken, loader: "Getting user info..." })
+            .then((user) => setAuthorization(jsonWebToken, user, refreshToken));
+        })
+        .then(() => {
+          navigate("/profile");
+        }),
+  });
 
-  const { values, handleChange, handleSubmit, isValid, errors } = formik
+  const { values, handleChange, handleSubmit, isValid, errors } = formik;
 
-  return (
+  return !isAuthorized ? (
     <AuthLayout>
-      <FormikProvider value={formik}>
-        <form onSubmit={handleSubmit}>
+      <div className={classes.authWrap}>
+        <ImageContainer>
+          <img src="images/auth1.jpg" alt="Cookify" />
+        </ImageContainer>
+      </div>
+      <div className={classNames(classes.authWrap, classes.withForm)}>
+        <div className={classes.navWrap}>
+          <Link to="/">Назад</Link>
+        </div>
+        <div className={classes.formWrapper}>
           <div>
-            <input type='text' name='username' value={values.username} onChange={handleChange} />
-            {!!errors.username && <span>{errors.username}</span>}
+            <FormikProvider value={formik}>
+              <form noValidate onSubmit={handleSubmit}>
+                <Logo vertical />
+                <TextField
+                  error={!!errors.username}
+                  name="username"
+                  id="username"
+                  required
+                  placeholder="Ім'я користувача"
+                  value={values.username}
+                  onChange={handleChange}
+                  helperText={errors.username}
+                />
+                <TextField
+                  type="password"
+                  error={!!errors.password}
+                  name="password"
+                  id="password"
+                  required
+                  placeholder="Пароль"
+                  value={values.password}
+                  onChange={handleChange}
+                  helperText={errors.password}
+                />
+                <Button variant="outlined" type="submit" disabled={!isValid}>
+                  Увійти
+                </Button>
+                <p className={classes.accountHint}>
+                  Немаєте акаунт? <Link to={"/sign-up"}>Створити</Link>
+                </p>
+              </form>
+            </FormikProvider>
           </div>
-          <div>
-            <input type='text' name='password' value={values.password} onChange={handleChange} />
-            {!!errors.password && <span>{errors.password}</span>}
-          </div>
-          <button type='submit' disabled={!isValid}>
-            log in
-          </button>
-        </form>
-      </FormikProvider>
+        </div>
+      </div>
     </AuthLayout>
-  )
-}
+  ) : (
+    <ServerResponseLayout>
+      <AuthorizedMessage />
+    </ServerResponseLayout>
+  );
+};
