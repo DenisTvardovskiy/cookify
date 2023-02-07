@@ -1,37 +1,41 @@
-import React, { FC, SyntheticEvent, useEffect, useRef, useState } from 'react';
-import { Container, Footer, GridContainer, Navigation, Recipe } from '../../components';
-import useStyles from './styles';
-import { Sort } from '@mui/icons-material';
-import { Button, MenuItem, Pagination, Select, SelectChangeEvent } from '@mui/material';
-import { useApi } from '../../hooks';
-import { IRecipe } from '../../models';
-import { debounce } from 'lodash';
-import { IOption, SearchBar } from './SearchBar';
-import { useLocation, useNavigate } from 'react-router-dom';
+import React, { FC, SyntheticEvent, useEffect, useRef, useState } from "react";
+import { Container, Footer, GridContainer, Navigation, Recipe } from "../../components";
+import useStyles from "./styles";
+import { MenuItem, Pagination, Select, SelectChangeEvent } from "@mui/material";
+import { useApi, useAuthorization } from "../../hooks";
+import { IRecipe } from "../../models";
+import { debounce } from "lodash";
+import { IOption, SearchBar } from "./SearchBar";
+import { useLocation, useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { useStore } from "../../hooks/useStore";
+import { SET_AUTHORIZATION } from "../../store/authorization/authorization.actions";
 
 interface IProps {}
 
 function useQuery() {
   const { search } = useLocation();
 
-  return React.useMemo(() => new URLSearchParams(search), [search]);
+  return React.useMemo(() => new URLSearchParams(search), [ search ]);
 }
 
 export const Recipes: FC<IProps> = (props: IProps): JSX.Element => {
   const classes = useStyles();
   const api = useApi();
   const navigate = useNavigate();
+  const { user } = useAuthorization();
+  const dispatch = useDispatch();
+  const { jsonWebToken, refreshToken } = useStore((store) => store.authorization);
   const query = useQuery();
-  const [items, setItems] = useState<IRecipe[]>([]);
-  const [total, setTotal] = useState<number | null>(null);
-  const [criteria, setCriteria] = useState<string>('');
-  const [search, setSearch] = useState<string | null>(null);
-  const [category, setCategory] = useState<string>('');
-  const [categories, setCategories] = useState<
-    { id: string; name: string; ukrainianName: string; imageLink: string }[]
-  >([]);
-  const [options, setOptions] = useState<IOption[]>([]);
-  const [params, setParams] = useState({
+  const [ items, setItems ] = useState<IRecipe[]>([]);
+  const [ total, setTotal ] = useState<number | null>(null);
+  const [ criteria, setCriteria ] = useState<string>("");
+  const [ search, setSearch ] = useState<string | null>(null);
+  const [ category, setCategory ] = useState<string>("");
+  const [ categories, setCategories ] = useState<{ id: string; name: string; ukrainianName: string; imageLink: string }[]>(
+    []);
+  const [ options, setOptions ] = useState<IOption[]>([]);
+  const [ params, setParams ] = useState({
     TitleContains: null,
     TitleEquals: null,
     UkrainianTitleContains: null,
@@ -52,7 +56,7 @@ export const Recipes: FC<IProps> = (props: IProps): JSX.Element => {
           CategoryIdEquals: category,
           Pagination: {
             ...params.Pagination,
-            Page: +query.get('page') || 1,
+            Page: +query.get("page") || 1,
           },
         },
       })
@@ -70,7 +74,7 @@ export const Recipes: FC<IProps> = (props: IProps): JSX.Element => {
         setTotal(totalCount);
         setItems(items);
       });
-  }, [params.Pagination.Page, search, +query.get('page'), category]);
+  }, [ params.Pagination.Page, search, +query.get("page"), category ]);
 
   useEffect(() => {
     api.recipes
@@ -96,10 +100,10 @@ export const Recipes: FC<IProps> = (props: IProps): JSX.Element => {
           }),
         );
       });
-  }, [criteria]);
+  }, [ criteria ]);
 
   useEffect(() => {
-    api.recipe.categories.list({ loader: 'Завантаження категорій...' }).then((data) => {
+    api.recipe.categories.list({ loader: "Завантаження категорій..." }).then((data) => {
       setCategories(data);
     });
   }, []);
@@ -119,18 +123,18 @@ export const Recipes: FC<IProps> = (props: IProps): JSX.Element => {
           },
         };
       });
-      setSearch('');
+      setSearch("");
     } else {
       setSearch(newValue.label);
     }
-    navigate('/');
+    navigate("/");
   };
 
   const debouncedSearch = useRef(
     debounce(async (text: string) => {
       setSearch(text);
       setCriteria(text);
-      navigate('/');
+      navigate("/");
     }, 300),
   ).current;
 
@@ -140,6 +144,25 @@ export const Recipes: FC<IProps> = (props: IProps): JSX.Element => {
 
   const handleSelectCategory = (event: SelectChangeEvent) => {
     setCategory(event.target.value as string);
+  };
+
+  const refreshUser = () => {
+    api.account.info.get({ jsonWebToken }).then((user) => {
+      dispatch({ type: SET_AUTHORIZATION, jsonWebToken, refreshToken, user });
+    });
+  };
+
+  const handleLike = (id: string) => {
+    api.recipes.actions.like({ recipeId: id }).then(() => refreshUser());
+  };
+  const handleUnLike = (id: string) => {
+    api.recipes.actions.unLike({ recipeId: id }).then(() => refreshUser());
+  };
+  const handleFavorite = (id: string) => {
+    api.recipes.actions.favorite({ recipeId: id }).then(() => refreshUser());
+  };
+  const handleUnFavorite = (id: string) => {
+    api.recipes.actions.unFavorite({ recipeId: id }).then(() => refreshUser());
   };
 
   return (
@@ -159,8 +182,8 @@ export const Recipes: FC<IProps> = (props: IProps): JSX.Element => {
               onChangeCriteria={handleChangeCriteria}
               onChangeInput={handleInputChange}
             />
-            <Select value={category} label='Category' onChange={handleSelectCategory}>
-              <MenuItem value=''>Жодна</MenuItem>
+            <Select value={category} label="Category" onChange={handleSelectCategory}>
+              <MenuItem value="">Жодна</MenuItem>
               {categories.map((cat) => (
                 <MenuItem key={cat.id} value={cat.id}>
                   {cat.ukrainianName}
@@ -173,7 +196,15 @@ export const Recipes: FC<IProps> = (props: IProps): JSX.Element => {
       <Container>
         <GridContainer>
           {items.map((item) => (
-            <Recipe key={item.id} item={item} />
+            <Recipe
+              key={item.id}
+              item={item}
+              onLike={handleLike}
+              onFavorite={handleFavorite}
+              onUnFavorite={handleUnFavorite}
+              onUnLike={handleUnLike}
+              user={user}
+            />
           ))}
         </GridContainer>
       </Container>
@@ -181,8 +212,8 @@ export const Recipes: FC<IProps> = (props: IProps): JSX.Element => {
         <Pagination
           count={Math.ceil(total / params.Pagination.PageSize)}
           page={params.Pagination.Page}
-          onChange={(e, page) => navigate('?page=' + page)}
-          variant='outlined'
+          onChange={(e, page) => navigate("?page=" + page)}
+          variant="outlined"
         />
       </Container>
       <Footer />

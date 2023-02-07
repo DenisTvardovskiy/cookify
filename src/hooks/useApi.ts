@@ -128,6 +128,10 @@ interface IApiRecipeInfoConfig extends IApiConfig {
   recipeId: string;
 }
 
+interface IApiRecipeActionConfig extends IApiConfig {
+  recipeId: string;
+}
+
 interface IApiAccountInfoGetConfig extends IApiConfig {
   jsonWebToken: string;
 }
@@ -182,6 +186,12 @@ export interface IUseApi {
     random: (
       config: IApiRecipeInfoRandomListConfig,
     ) => Promise<IPaginatedList<IRecipe>>;
+    actions: {
+      like: (config: IApiRecipeActionConfig) => Promise<void>;
+      unLike: (config: IApiRecipeActionConfig) => Promise<void>;
+      favorite: (config: IApiRecipeActionConfig) => Promise<void>
+      unFavorite: (config: IApiRecipeActionConfig) => Promise<void>
+    }
   };
 }
 
@@ -428,6 +438,56 @@ export const useApi: TUseApi = (): IUseApi => {
       },
     },
     recipes: {
+      actions: {
+        like: ({ recipeId, loader }) => {
+          return new Promise((resolve, reject) => {
+            http.request<void>({
+              method: "POST",
+              url: `${API_URL}/recipes/${recipeId}/users/current/like`,
+              headers,
+              loader: !!loader ? loader : false,
+            })
+              .then(resolve)
+              .catch(reject);
+          });
+        },
+        unLike: ({ recipeId, loader }) => {
+          return new Promise((resolve, reject) => {
+            http.request<void>({
+              method: "DELETE",
+              url: `${API_URL}/recipes/${recipeId}/users/current/like`,
+              headers,
+              loader: !!loader ? loader : false,
+            })
+              .then(resolve)
+              .catch(reject);
+          });
+        },
+        favorite: ({ recipeId, loader }) => {
+          return new Promise((resolve, reject) => {
+            http.request<void>({
+              method: "POST",
+              url: `${API_URL}/recipes/${recipeId}/users/current/favorite`,
+              headers,
+              loader: !!loader ? loader : false,
+            })
+              .then(resolve)
+              .catch(reject);
+          });
+        },
+        unFavorite: ({ recipeId, loader }) => {
+          return new Promise((resolve, reject) => {
+            http.request<void>({
+              method: "DELETE",
+              url: `${API_URL}/recipes/${recipeId}/users/current/favorite`,
+              headers,
+              loader: !!loader ? loader : false,
+            })
+              .then(resolve)
+              .catch(reject);
+          });
+        },
+      },
       one: ({ recipeId, loader }) => {
         return new Promise((resolve, reject) => {
           http.request<IRecipe>({

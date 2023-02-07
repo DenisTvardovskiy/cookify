@@ -4,6 +4,7 @@ import { RST_AUTHORIZATION, SET_AUTHORIZATION } from "../store/authorization/aut
 import * as jose from "jose";
 import { useLoader } from "./useLoader";
 import { IUser } from "../models/user.";
+import { useApi } from "./useApi";
 
 type TUseAuthorization = () => {
   isAuthorized: boolean;
@@ -12,11 +13,13 @@ type TUseAuthorization = () => {
   user: IUser;
   setAuthorization: (token: string, user: IUser, type?: string) => void;
   resetAuthorization: () => void;
+  // refreshUser: ()=> void;
 };
 
 export const useAuthorization: TUseAuthorization = () => {
   const loader = useLoader();
   const dispatch = useDispatch();
+  // const api = useApi();
   const { jsonWebToken, refreshToken, user } = useStore((store) => store.authorization);
   const isValid = (): boolean => {
     if (!jsonWebToken) {
@@ -32,6 +35,12 @@ export const useAuthorization: TUseAuthorization = () => {
   const setAuthorization = (token: string, user: IUser, refresh: string): void => {
     dispatch({ type: SET_AUTHORIZATION, jsonWebToken: token, refreshToken: refresh, user });
   };
+
+  // const refreshUser = () => {
+  //   api.account.info.get({ jsonWebToken }).then((user) => {
+  //     // dispatch({ type: SET_AUTHORIZATION, jsonWebToken, refreshToken, user });
+  //   });
+  // };
 
   const resetAuthorization = (): void => {
     const logout = loader.create("Processing logout...");
@@ -54,5 +63,6 @@ export const useAuthorization: TUseAuthorization = () => {
     refreshToken,
     setAuthorization,
     resetAuthorization,
+    // refreshUser
   };
 };
