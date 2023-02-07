@@ -1,4 +1,5 @@
-import { ICategory } from "./category";
+import { ICategory } from './category';
+import { IRecipeIngredient } from './recipeIngredient';
 
 export interface IRecipe {
   id: string;
@@ -12,12 +13,5 @@ export interface IRecipe {
   pdfLink: string;
   likesCount: number;
   category: ICategory;
-  ingredients: {
-    ingredientId: string;
-    name: string;
-    ukrainianName: string;
-    imageLink: string;
-    measure: string;
-    ukrainianMeasure: string;
-  }[];
+  ingredients: IRecipeIngredient[];
 }

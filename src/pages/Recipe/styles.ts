@@ -9,7 +9,7 @@ export default createUseStyles(() => ({
     flexDirection: 'column',
     alignItems: 'center',
     minHeight: `calc(100vh - ${theme.navigationHeight}px)`,
-    padding: [theme.padding.large, theme.padding.xxLarge],
+    padding: [theme.padding.large, 0],
   },
 
   imageWrap: {
@@ -24,8 +24,8 @@ export default createUseStyles(() => ({
 
   ingredientsList: {
     display: 'flex',
-    flexWrap: 'wrap',
     justifyContent: 'center',
+    flexWrap: 'wrap',
     gap: theme.margin.default,
   },
 
@@ -35,6 +35,7 @@ export default createUseStyles(() => ({
     justifyContent: 'start',
     width: 'auto',
     textTransform: 'capitalize',
+    textDecoration: 'underline',
     '& >  img ': {
       width: 32,
       height: 32,
