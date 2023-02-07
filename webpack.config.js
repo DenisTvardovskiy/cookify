@@ -1,10 +1,12 @@
 const path = require("path");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
+const CopyWebpackPlugin = require('copy-webpack-plugin');
 module.exports = {
-  entry: "./src/index.tsx",
+  entry: path.join(__dirname, '/src/index.tsx'),
   output: {
     path: path.join(__dirname, "dist"),
     filename: "bundle.js",
+    publicPath: '/'
   },
   devServer: {
     port: 8080,
@@ -31,5 +33,6 @@ module.exports = {
     new HtmlWebpackPlugin({
       template: path.join(__dirname, "public/index.html"),
     }),
+    new CopyWebpackPlugin([{ from: 'public' }])
   ],
 };
