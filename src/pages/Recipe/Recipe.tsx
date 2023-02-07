@@ -7,7 +7,7 @@ import CloudDownloadIcon from '@mui/icons-material/CloudDownload';
 import {
   Container,
   Footer,
-  GridContainer,
+  RecipesGrid,
   ImageContainer,
   Navigation,
   Recipe as RecipeItem,
@@ -115,11 +115,11 @@ export const Recipe: FC<IProps> = (props: IProps): JSX.Element => {
           <Container>
             <h2>Схожі Рецепти</h2>
 
-            <GridContainer>
-              {similarRecipes.map((item, index) => (
-                <RecipeItem item={item} key={index} />
-              ))}
-            </GridContainer>
+            {/*<RecipesGrid>*/}
+            {/*  {similarRecipes.map((item, index) => (*/}
+            {/*    <RecipeItem item={item} key={index} />*/}
+            {/*  ))}*/}
+            {/*</RecipesGrid>*/}
           </Container>
         )}
         <Footer />

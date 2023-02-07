@@ -3,7 +3,7 @@ import { Button } from '@mui/material';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 
-import { Container, Footer, GridContainer, ImageContainer, Navigation } from '../../components';
+import { Container, Footer, RecipesGrid, ImageContainer, Navigation } from '../../components';
 import useStyles from './styles';
 import { Link, useParams } from 'react-router-dom';
 import { useApi } from '../../hooks';
@@ -13,13 +13,13 @@ interface IProps {}
 
 export const Ingredient: FC<IProps> = (props: IProps): JSX.Element => {
   const classes = useStyles();
-  const {id} = useParams()
+  const { id } = useParams();
   const api = useApi();
   const [ingredient, setItem] = useState<IIngredient>();
 
   useEffect(() => {
     api.ingredients
-      .one({ ingredientId: id, loader: "Loading ingredient..." })
+      .one({ ingredientId: id, loader: 'Loading ingredient...' })
       .then((ingredient) => setItem(ingredient));
   }, []);
 

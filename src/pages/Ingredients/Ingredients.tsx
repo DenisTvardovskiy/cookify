@@ -1,5 +1,5 @@
 import React, { FC, SyntheticEvent, useEffect, useRef, useState } from 'react';
-import { Container, Footer, GridContainer, Ingredient, Navigation } from '../../components';
+import { Container, Footer, RecipesGrid, Ingredient, Navigation } from '../../components';
 import useStyles from './styles';
 import { Sort } from '@mui/icons-material';
 import { Button, Pagination } from '@mui/material';
@@ -127,18 +127,21 @@ export const Ingredients: FC<IProps> = (props: IProps): JSX.Element => {
               onChangeCriteria={handleChangeCriteria}
               onChangeInput={handleInputChange}
             />
-            <span>Total search results: {total}</span>
+            {total && <span>Total search results: {total}</span>}
           </div>
-          <div></div>
         </div>
       </Container>
-      <Container>
-        <GridContainer>
-          {items.map((item, index) => (
-            <Ingredient key={index} item={item} />
-          ))}
-        </GridContainer>
-      </Container>
+      {/*<Container>*/}
+      {/*  {items.length ? (*/}
+      {/*    <RecipesGrid>*/}
+      {/*      {items.map((item, index) => (*/}
+      {/*        <Ingredient key={index} item={item} />*/}
+      {/*      ))}*/}
+      {/*    </RecipesGrid>*/}
+      {/*  ) : (*/}
+      {/*    'NOTHING TO SHOW'*/}
+      {/*  )}*/}
+      {/*</Container>*/}
 
       <Container>
         <Pagination
