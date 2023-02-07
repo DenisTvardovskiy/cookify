@@ -1,15 +1,13 @@
-import React, { FC } from "react";
-import { Container, Footer, Ingredient, Navigation } from "../../components";
-import { useApi, useAuthorization } from "../../hooks";
-import { SET_AUTHORIZATION } from "../../store/authorization/authorization.actions";
-import { useStore } from "../../hooks/useStore";
-import RefreshIcon from "@mui/icons-material/Refresh";
-import { useDispatch } from "react-redux";
-import { Button } from "@mui/material";
+import React, { FC } from 'react';
+import { Container, Footer, Ingredient, Navigation } from '../../components';
+import { useApi, useAuthorization } from '../../hooks';
+import { SET_AUTHORIZATION } from '../../store/authorization/authorization.actions';
+import { useStore } from '../../hooks/useStore';
+import RefreshIcon from '@mui/icons-material/Refresh';
+import { useDispatch } from 'react-redux';
+import { Button } from '@mui/material';
 
-interface IProps {
-
-}
+interface IProps {}
 
 export const Storage: FC<IProps> = (props): JSX.Element => {
   const { user } = useAuthorization();
@@ -17,7 +15,7 @@ export const Storage: FC<IProps> = (props): JSX.Element => {
   const dispatch = useDispatch();
   const { jsonWebToken, refreshToken } = useStore((store) => store.authorization);
   const refreshUser = () => {
-    api.account.info.get({ jsonWebToken, loader: "Refreshing user info..." }).then((user) => {
+    api.account.info.get({ jsonWebToken, loader: 'Refreshing user info...' }).then((user) => {
       dispatch({ type: SET_AUTHORIZATION, jsonWebToken, refreshToken, user });
     });
   };
@@ -34,10 +32,14 @@ export const Storage: FC<IProps> = (props): JSX.Element => {
           <h5>Available Ingredients</h5>
           <div>
             <span>Total: {user.availableIngredients.length}</span>
-            <span role="button" onClick={() => refreshUser()}><RefreshIcon /> Refresh</span>
+            <span role='button' onClick={() => refreshUser()}>
+              <RefreshIcon /> Refresh
+            </span>
           </div>
           <div>
-            <Button variant="outlined" onClick={}>Add Ingredient</Button>
+            <Button variant='outlined' onClick={() => 'add!'}>
+              Add Ingredient
+            </Button>
           </div>
           <div>
             {user.availableIngredients.map((ingredient) => (
@@ -45,10 +47,7 @@ export const Storage: FC<IProps> = (props): JSX.Element => {
                 <Button onClick={() => handleRemoveIngredient(ingredient.ingredientId)}>
                   Remove
                 </Button>
-                <Ingredient
-                  item={ingredient}
-                  measure={ingredient.ukrainianMeasure}
-                />
+                <Ingredient item={ingredient} measure={ingredient.ukrainianMeasure} />
               </div>
             ))}
           </div>
