@@ -1,13 +1,13 @@
-import React, { FC, useState } from "react";
-import { IIngredient } from "../../../models";
-import { ImageContainer } from "../../common/ImageContainer";
-import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
-import CheckCircleIcon from "@mui/icons-material/CheckCircle";
+import React, { FC, useState } from 'react';
+import { IIngredient } from '../../../models';
+import { ImageContainer } from '../../common/ImageContainer';
+import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
+import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 
-import useStyles from "./styles";
-import { useNavigate } from "react-router-dom";
-import { Button } from "@mui/material";
-import { useApi, useAuthorization } from "../../../hooks";
+import useStyles from './styles';
+import { useNavigate } from 'react-router-dom';
+import { Button } from '@mui/material';
+import { useApi, useAuthorization } from '../../../hooks';
 
 interface IProps {
   item: IIngredient;
@@ -15,26 +15,18 @@ interface IProps {
   withAdd?: boolean;
 }
 
-export const Ingredient: FC<IProps> = ({ item, measure }: IProps): JSX.Element => {
+export const Ingredient: FC<IProps> = ({ item, measure, withAdd }: IProps): JSX.Element => {
   const classes = useStyles();
   const navigate = useNavigate();
   const api = useApi();
 
-  const [ addedIngredient, setAddedIngredient ] = useState(false);
-
-  const { user } = useAuthorization();
-
-  const userHasIngredient = (item: IIngredient): Boolean => {
-    return !!user.availableIngredients.filter(
-      (userIngredient) => userIngredient.id === item.ingredientId,
-    ).length;
-  };
+  const [addedIngredient, setAddedIngredient] = useState(false);
 
   const addIngredient = () => {
     setAddedIngredient(true);
 
     api.ingredients
-      .add({ ingredientId: item.id || item.ingredientId, loader: "Додавання інгрідієнта" })
+      .add({ ingredientId: item.id || item.ingredientId, loader: 'Додавання інгрідієнта' })
       .then();
   };
 
@@ -46,7 +38,7 @@ export const Ingredient: FC<IProps> = ({ item, measure }: IProps): JSX.Element =
             {item.imageLink ? (
               <img src={item.imageLink} alt={item.ukrainianName} />
             ) : (
-              <img src="images/placeholder.png" alt={item.ukrainianName} />
+              <img src='images/placeholder.png' alt={item.ukrainianName} />
             )}
           </ImageContainer>
         </div>
@@ -61,15 +53,16 @@ export const Ingredient: FC<IProps> = ({ item, measure }: IProps): JSX.Element =
           )}
         </div>
       </div>
-      {!userHasIngredient(item) && !addedIngredient ? (
-        <Button variant="outlined" onClick={() => addIngredient()}>
-          <AddCircleOutlineIcon />
-        </Button>
-      ) : (
-        <Button variant="outlined" disabled>
-          <CheckCircleIcon />
-        </Button>
-      )}
+      {withAdd &&
+        (!addedIngredient ? (
+          <Button variant='outlined' onClick={() => addIngredient()}>
+            <AddCircleOutlineIcon />
+          </Button>
+        ) : (
+          <Button variant='outlined' disabled>
+            <CheckCircleIcon />
+          </Button>
+        ))}
     </div>
   );
 };

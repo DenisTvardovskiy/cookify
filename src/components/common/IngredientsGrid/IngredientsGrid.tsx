@@ -6,18 +6,19 @@ import { Ingredient } from '../../shared/Ingredient';
 
 interface IProps {
   items: IIngredient[];
+  withAdd?: boolean;
 }
 
 export const IngredientsGrid: FC<IProps> = (props: IProps): JSX.Element => {
   const classes = useStyles();
 
-  console.log(props.items)
+  console.log(props.items);
   return (
     <>
       {Boolean(props.items.length) ? (
         <div className={classes.gridContainer}>
           {props.items.map((item, index) => (
-            <Ingredient key={index} item={item} />
+            <Ingredient key={index} item={item} withAdd={props.withAdd} />
           ))}
         </div>
       ) : (

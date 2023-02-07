@@ -1,43 +1,37 @@
-import React, { FC } from "react";
-import { Container, Footer, Ingredient, Navigation, Recipe } from "../../components";
-import { useAuthorization } from "../../hooks";
+import React, { FC, useState } from 'react';
+import { Container, Footer, ImageContainer, Navigation, RecipesGrid } from '../../components';
+import { useApi, useAuthorization } from '../../hooks';
+import { IngredientsGrid } from '../../components/common/IngredientsGrid';
+import useStyles from './styles';
 
 interface IProps {}
 
 export const Profile: FC<IProps> = (props: IProps): JSX.Element => {
+  const classes = useStyles();
   const { user } = useAuthorization();
+
   return (
     <>
       <Navigation />
       <Container>
-        <div>
-          <img src={user.avatarImageLink} alt="user" />
-          <div>
-            <div>
-              <p>Username</p>
-              <p>{user.username}</p>
-            </div>
-            <div>
-              <p>Email</p>
-              <p>{user.email}</p>
-            </div>
-          </div>
+        <div className={classes.avatar}>
+          <ImageContainer>
+            <img src={user.avatarImageLink} alt='user' />
+          </ImageContainer>
         </div>
+
         <div>
-          <h5>AvailableIngredients</h5>
-          {user.availableIngredients.map((ingredient) => <Ingredient
-            item={ingredient}
-            measure={ingredient.ukrainianMeasure}
-          />)}
+          <p>{user.username}</p>
+          <p>{user.email}</p>
         </div>
-        <div>
-          <h5>Favorite Recipes</h5>
-          {user.favoriteRecipes.map((recipe) => <Recipe item={recipe} />)}
-        </div>
-        <div>
-          <h5>Liked Recipes</h5>
-          {user.likedRecipes.map((recipe) => <Recipe item={recipe} />)}
-        </div>
+        <h5>Доступні інгредієнти</h5>
+        <IngredientsGrid items={user.availableIngredients} />
+
+        <h5>Улюблені рецепти</h5>
+        <RecipesGrid items={user.favoriteRecipes} noActions />
+
+        <h5>Вам подобаються рецепти:</h5>
+        <RecipesGrid items={user.likedRecipes} noActions />
       </Container>
       <Footer />
     </>
